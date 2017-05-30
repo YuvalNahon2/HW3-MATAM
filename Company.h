@@ -9,13 +9,10 @@
 #include "Email.h"
 #include "set.h"
 #include "EscapeRoom.h"
-typedef struct CompanyS{
-    TechnionFaculty faculy;
-    Email email;
-    Set EscapeRooms;
-    int earned_money;
-}Company;
+typedef struct CompanyS *Company;
 #endif //HW3_COMPANY_H
 
-MtmErrorCode companyAddRoom(int id,int price,int open_hour,int close_hour,int difficulty);
-MtmErrorCode companyDestroyRoom(TechnionFaculty faculty,int id);
+MtmErrorCode companyAddRoom(Company company,int id,int price,
+                            int open_hour,int close_hour,int difficulty);
+MtmErrorCode companyDestroyRoom(Company company,TechnionFaculty faculty,int id);
+

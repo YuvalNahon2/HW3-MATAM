@@ -3,3 +3,10 @@
 //
 
 #include "EscapeTechnion.h"
+struct EscapeTechnionS{
+    Set Companies;
+    Set Costumers;
+    Set Emails;
+    List Orders;
+    int current_day;
+};

@@ -11,11 +11,6 @@ typedef struct OrderTimeS{
     int day;
     int hour;
 }OrderTime;
-typedef struct OrderS{
-    OrderTime orderTime;
-    Costumer *costumer;
-    EscapeRoom *requested_room;
-    int num_of_people;
-}Order;
+typedef struct OrderS *Order;
 #endif //HW3_ORDER_H
 

@@ -9,10 +9,5 @@
 #include "EscapeRoom.h"
 #include "Order.h"
 #include "Email.h"
-typedef struct CostumerS{
-    Email email;
-    TechnionFaculty faculty;
-    int skill_level;
-    EscapeRoom current_room;
-}Costumer;
+typedef struct CostumerS* Costumer;
 #endif //HW3_COSTUMER_H

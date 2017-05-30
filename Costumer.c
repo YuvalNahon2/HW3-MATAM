@@ -1,5 +1,8 @@
-//
-// Created by Yuval on 5/30/2017.
-//
 
 #include "Costumer.h"
+struct CostumerS{
+    Email email;
+    TechnionFaculty faculty;
+    int skill_level;
+    EscapeRoom current_room;
+};
