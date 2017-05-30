@@ -4,13 +4,17 @@
 
 #ifndef HW3_SYSTEM_H
 #define HW3_SYSTEM_H
-typedef enum userTypeE{COMPANY,COSTUMER} userType;
-typedef struct EmailS{
-    char *address;
-    userType user_type;
-}Email;
 
-
+#include "mtm_ex3.h"
+#include "set.h"
+#include "list.h"
+typedef struct SystemS{
+    Set Companies;
+    Set Costumers;
+    Set Emails;
+    List Orders;
+    int current_day;
+}System;
 
 
 
