@@ -16,3 +16,6 @@ typedef struct CompanyS{
     int earned_money;
 }Company;
 #endif //HW3_COMPANY_H
+
+MtmErrorCode companyAddRoom(int id,int price,int open_hour,int close_hour,int difficulty);
+MtmErrorCode companyDestroyRoom(TechnionFaculty faculty,int id);
