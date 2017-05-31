@@ -13,7 +13,8 @@ typedef struct OrderTimeS{
 }OrderTime;
 typedef struct OrderS *Order;
 #endif //HW3_ORDER_H
+MtmErrorCode orderCreate(Order order,int order_day, int order_hour,
+                         EscapeRoom escapeRoom, Costumer costumer,
+                         int num_of_people);
 
-MtmErrorCode orderCreate(int order_day, int order_hour, EscapeRoom escapeRoom, Costumer costumer, int num_of_people);
-
-MtmErrorCode orderDestroy(int day, );
+MtmErrorCode orderDestroy(Order order);

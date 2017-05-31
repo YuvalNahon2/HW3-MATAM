@@ -5,7 +5,7 @@
 #include "Company.h"
 struct CompanyS{
     TechnionFaculty faculy;
-    Email email;
+    Email *email;
     Set EscapeRooms;
     int earned_money;
 };

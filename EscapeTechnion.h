@@ -1,7 +1,3 @@
-//
-// Created by Yuval on 5/30/2017.
-//
-
 #ifndef HW3_ESCAPETECHNION_H
 #define HW3_ESCAPETECHNION_H
 
@@ -10,31 +6,37 @@
 #include "Email.h"
 #include "list.h"
 typedef struct EscapeRoomS *EscapeTechnion;
-MtmErrorCode systemAddCompany(EscapeTechnion system,Email email,TechnionFaculty faculty);
 
-MtmErrorCode systemDestroyCompany(EscapeTechnion system,Email email);
+MtmErrorCode escapeTechnionCreate(EscapeTechnion escapeTechnion);
 
-MtmErrorCode systemAddRoom(EscapeTechnion system,Email email,int id,int price,
+MtmErrorCode escapeTechnionDestroy(EscapeTechnion escapeTechnion);
+
+MtmErrorCode escapeTechnionAddCompany(EscapeTechnion escapeTechnion,Email email,TechnionFaculty faculty);
+
+MtmErrorCode escapeTechnionDestroyCompany(EscapeTechnion escapeTechnion,Email email);
+
+MtmErrorCode escapeTechnionAddRoom(EscapeTechnion escapeTechnion,Email email,int id,int price,
                            int num_people,int open_hour,
                            int close_hour,int difficulty);
-MtmErrorCode systemDeleteRoom(TechnionFaculty faculty,int id);
 
-MtmErrorCode systemAddCostumer(EscapeTechnion system,Email email,
+MtmErrorCode escapeTechnionDeleteRoom(EscapeTechnion escapeTechnion,TechnionFaculty faculty,int id);
+
+MtmErrorCode escapeTechnionAddCostumer(EscapeTechnion escapeTechnion,Email email,
                                TechnionFaculty faculty,int skill_level);
 
-MtmErrorCode systemDeleteCostumer(EscapeTechnion system,Email email);
+MtmErrorCode escapeTechnionDeleteCostumer(EscapeTechnion escapeTechnion,Email email);
 
-MtmErrorCode systemDestroyCostumer(EscapeTechnion system,Email email);
+MtmErrorCode escapeTechnionDestroyCostumer(EscapeTechnion escapeTechnion,Email email);
 
-MtmErrorCode systemCreateOrder(EscapeTechnion system,Email email,
+MtmErrorCode escapeTechnionCreateOrder(EscapeTechnion escapeTechnion,Email costumer_email,
                                TechnionFaculty room_faculty,int room_id,int day,
                                int hour,int num_people);
 
-MtmErrorCode systemOrderRecommended(EscapeTechnion system,Email costumer_email,
+MtmErrorCode escapeTechnionOrderRecommended(EscapeTechnion escapeTechnion,Email costumer_email,
                                     int num_people);
-MtmErrorCode systemEndDay(EscapeTechnion system);
+MtmErrorCode escapeTechnionEndDay(EscapeTechnion escapeTechnion);
 
-MtmErrorCode systemPrintWinningFaculties(EscapeTechnion system);
+MtmErrorCode escapeTechnionPrintWinningFaculties(EscapeTechnion escapeTechnion);
 
 
 #endif //HW3_ESCAPETECHNION_H
