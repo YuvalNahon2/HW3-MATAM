@@ -12,7 +12,13 @@
 typedef struct CompanyS *Company;
 #endif //HW3_COMPANY_H
 
+MtmErrorCode companyCreate (Email email, int faculty);
+
+MtmErrorCode companyDestroy(Email email);
+
 MtmErrorCode companyAddRoom(Company company,int id,int price,
                             int open_hour,int close_hour,int difficulty);
 MtmErrorCode companyDestroyRoom(Company company,TechnionFaculty faculty,int id);
+
+
 

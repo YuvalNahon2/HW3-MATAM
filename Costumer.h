@@ -11,3 +11,11 @@
 #include "Email.h"
 typedef struct CostumerS* Costumer;
 #endif //HW3_COSTUMER_H
+
+MtmErrorCode costumerOrderCreate(Email email, int faculty, int id, int time, int num_of_people);
+
+MtmErrorCode costumerOrderDestroy(Costumer costumer, );
+
+MtmErrorCode costumerCreate(Email email, int faculty, int skill_level);
+
+MtmErrorCode costumerDestroy(Email email);

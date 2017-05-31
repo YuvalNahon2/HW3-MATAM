@@ -33,6 +33,7 @@ MtmErrorCode systemCreateOrder(EscapeTechnion system,Email email,
 MtmErrorCode systemOrderRecommended(EscapeTechnion system,Email costumer_email,
                                     int num_people);
 MtmErrorCode systemEndDay(EscapeTechnion system);
+
 MtmErrorCode systemPrintWinningFaculties(EscapeTechnion system);
 
 
