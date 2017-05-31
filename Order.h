@@ -5,7 +5,7 @@
 #include "EscapeRoom.h"
 typedef struct OrderS *Order;
 #endif //HW3_ORDER_H
-MtmErrorCode orderCreate(Order *order,int order_day, int order_hour,
+Order orderCreate(int order_day, int order_hour,
                          EscapeRoom *escapeRoom, Costumer *costumer,
                          int num_of_people);
 
