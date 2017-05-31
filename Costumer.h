@@ -16,6 +16,5 @@ MtmErrorCode costumerCreate(Costumer costumer,Email email, int faculty, int skil
 
 MtmErrorCode costumerDestroy(Costumer costumer);
 
-MtmErrorCode costumerOrderCreate(Email email, int faculty, int id, int time, int num_of_people);
+MtmErrorCode costumerOrderCreate(Costumer costumer, int faculty, int id, int time, int num_of_people);
 
-MtmErrorCode costumerOrderDestroy(Costumer costumer, );

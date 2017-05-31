@@ -20,11 +20,12 @@ MtmErrorCode companyAddRoom(Company company,int id,int price,
                             int open_hour,int close_hour,int difficulty);
 MtmErrorCode companyDestroyRoom(Company company,int id);
 /**
- * a function that searches the company's rooms for a suitable room
+ * a function that searches the company's rooms for a suitable room and creates
+ * reservation
  * @returns MTM_NO_ROOMS_AVAILABLE-no suitable room found
  *          MTM_SUCCESS-a room was found
  */
-MtmErrorCode companySearchRoom(Company company,Costumer costumer,
+MtmErrorCode companyCreateOrder(Company company,Costumer costumer,
                                TechnionFaculty faculty,int room_id,int day,
                                int hour,int num_people);
 
