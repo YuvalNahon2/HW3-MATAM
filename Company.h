@@ -12,7 +12,7 @@
 typedef struct CompanyS *Company;
 #endif //HW3_COMPANY_H
 
-MtmErrorCode companyCreate (Company company,Email *email, int faculty,int *day);
+MtmErrorCode companyCreate (Company company,Email *email, TechnionFaculty faculty,int *day);
 
 MtmErrorCode companyDestroy(Company company);
 
@@ -29,7 +29,7 @@ MtmErrorCode companyCreateOrder(Company company,Costumer costumer,
                                TechnionFaculty faculty,int room_id,int day,
                                int hour,int num_people);
 
-MtmErrorCode companyGetRecommendedRoom(Company company,Costumer costumer,int num_people);
+MtmErrorCode companyGetRecommendedRoom(EscapeRoom *result,Company company,Costumer costumer,int num_people);
 
 //deletes todays orders and changes the money earned by the company
 MtmErrorCode companyEndDay(Company company,int day,List todayOrders);
