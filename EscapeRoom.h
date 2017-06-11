@@ -53,7 +53,10 @@ RoomErrorCode escapeRoomDestroy(EscapeRoom escapeRoom);
  * @param num_people - the number of people to make the order for.
  * @param discount - if the person deserves a discount.
  * @return
- *
+ *ROOM_INVALID_ARGUMENT - if the order's hour is invalid (not 0-23).
+ * ROOM_NOT_AVAILABLE - if the room is not operating in the order's hour.
+ * ROOM_CLIENT_IN_ROOM - the client already made an order to that hour and day.
+ * ROOM_SUCCESS - the order was created.
  *
  */
 RoomErrorCode escapeRoomOrder(EscapeRoom escapeRoom,Costumer costumer,
