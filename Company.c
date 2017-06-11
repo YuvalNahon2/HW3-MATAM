@@ -32,12 +32,7 @@ static CompanyErrorCode roomErrorToCompanyError(RoomErrorCode room_error){
             return COMPANY_UNKNOWN;
     }
 }
-/**
- * a function that creates a new Company.
- * @param email - the email of the company.
- * @param faculty - the faculty the company belongs to.
- * @return the created Company.in case of memory problem NULL will be returned.
- */
+
 Company companyCreate(Email email,TechnionFaculty faculty){
     Company company;
     company=malloc(sizeof(*company));
@@ -51,8 +46,8 @@ Company companyCreate(Email email,TechnionFaculty faculty){
 }
 
 void companyDestroy(Company company){
-    SET_FOREACH(EscapeRoom,room_iterator,company->EscapeRooms){
-        if (es)
+    if(companyOrdersExist(company)){
+        return;
     }
     setDestroy(company->EscapeRooms);
     free(company);
@@ -164,6 +159,15 @@ CompanyErrorCode companyDeleteRoomByID(Company company,int id){
         }
     }
     return COMPANY_INVALID_ARGUMENT;
+}
+
+bool companyOrdersExist(Company company) {
+    SET_FOREACH(EscapeRoom,room_iterator,company->EscapeRooms){
+        if(escapeRoomOrdersExist(room_iterator)==true){
+            return true;
+        }
+    }
+    return false;
 }
 /*
  * the escapeRoom set functions:these are used to

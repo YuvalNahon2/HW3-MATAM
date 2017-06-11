@@ -12,6 +12,7 @@ typedef enum CompanyErrorCodeE{
     COMPANY_NULL_PARAMETER,
     COMPANY_SUCCESS,
     COMPANY_OUT_OF_MEMORY,
+    COMPANY_HAS_RESERVATION,
     COMPANY_ROOM_ALREADY_EXIST,
     COMPANY_ROOM_DOESNT_EXIST,
     COMPANY_CLIENT_IN_ROOM,
@@ -31,6 +32,8 @@ Company companyCreate(Email email,TechnionFaculty faculty);
 /**
  * a function that destroys a company.
  * @param company - the company to destroy.
+ * in case the company has orders left for any of the rooms the company will not
+ * be deleted.
  */
 void companyDestroy(Company company);
 
@@ -125,7 +128,14 @@ TechnionFaculty companyGetFaculty(Company company);
  * @return the company's email address.
  */
 char* companyGetEmailAddress(Company company);
-
+/**
+ * checks if any of the company's rooms hsa orders.
+ * @param company - the company.
+ * @return
+ * true-the company has a room that has orders.
+ * false-the company doesnt have a room with orders.
+ */
+bool companyOrdersExist(Company company);
 //the Room set functions:
 int companyCompareRooms(SetElement escapeRoom1,SetElement escapeRoom2);
 

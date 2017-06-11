@@ -35,3 +35,7 @@ int costumerGetSkillLevel(Costumer costumer){
 TechnionFaculty costumerGetFaculty(Costumer costumer){
     return costumer->faculty;
 }
+
+char* costumerGetEmailAddress(Costumer costumer){
+    return costumer->email.address;
+}

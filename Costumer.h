@@ -33,4 +33,11 @@ int costumerGetSkillLevel(Costumer costumer);
  * @return the costumer's faculty
  */
 TechnionFaculty costumerGetFaculty(Costumer costumer);
+
+/**
+ *
+ * @param costumer - a costumer.
+ * @return the costumer's email address.
+ */
+char* costumerGetEmailAddress(Costumer costumer);
 #endif //HW3_COSTUMER_H

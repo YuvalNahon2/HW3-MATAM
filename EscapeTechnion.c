@@ -58,7 +58,7 @@ static bool emailExists(EscapeTechnion escape_technion,char *email){
         }
     }
     SET_FOREACH(Costumer , costumer_iterator , escape_technion->costumers){
-        if(strcmp(companyGetEmailAddress(costumer_iterator),email)==0){
+        if(strcmp(costumerGetEmailAddress(costumer_iterator),email)==0){
             return true;
         }
     }
@@ -100,6 +100,9 @@ MtmErrorCode escapeTechnionDestroyCompany(EscapeTechnion escape_technion,
     if(company_to_delete==NULL){
         return MTM_COMPANY_EMAIL_DOES_NOT_EXIST;
     }
-
+    if(companyOrdersExist(company_to_delete)) {
+        return MTM_RESERVATION_EXISTS;
+    }
     setRemove(escape_technion->companies,company_to_delete);
+    return MTM_SUCCESS;
 }
