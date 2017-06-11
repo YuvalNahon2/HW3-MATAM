@@ -114,5 +114,18 @@ MtmErrorCode escapeTechnionAddRoom(EscapeTechnion escape_technion,char *email_ad
     Email company_email;
     company_email.address=email_address;
     company_email.user_type=COMPANY;
-    result=companyCreate()
+    Company company;
+    SET_FOREACH(Company,company_finder,escape_technion->companies){
+        if (company_email.address==companyGetEmailAddress(company_finder)){
+            company=company_finder;
+            break;
+        }
+    }
+    SET_FOREACH(Company,company_itreator,escape_technion->companies){
+        if(companyGetFaculty(company_itreator)==companyGetFaculty(company)){
+            if(companyCheckRoomExists(id)){
+                return MTM_ID_ALREADY_EXIST;
+            }
+        }
+    }
 }
