@@ -57,17 +57,44 @@ RoomErrorCode escapeRoomDestroy(EscapeRoom escapeRoom);
  * ROOM_NOT_AVAILABLE - if the room is not operating in the order's hour.
  * ROOM_CLIENT_IN_ROOM - the client already made an order to that hour and day.
  * ROOM_SUCCESS - the order was created.
- *
  */
 RoomErrorCode escapeRoomOrder(EscapeRoom escapeRoom,Costumer costumer,
                              int day,int hour,int num_people,bool discount);
+
+/**
+ *
+ * @param escapeRoom - the escapeRoom.
+ * @param costumer_level - the costumer skill level.
+ * @param num_people - the number of people the costumer wants to make the order
+ * for.
+ * @return
+ * returns the recommend score of the room according to the one supplied.
+ */
 int escapeRoomRecommendScore(EscapeRoom escapeRoom,int costumer_level,int num_people);
-//we need to create a copy of the orders and then free the orders in the room.
-// also calculates the earnings of the room
+
+/**
+ * ends a day in the room by removing the orders of today and charging the
+ * costumers.
+ * @param escapeRoom - the escapeRoom to end the day in.
+ * @param money_earned - a parameter used to return the amount of money the room
+ * made today
+ * @param today - the current day in the system.
+ * @return
+ * a list of orders that were for today.
+ */
 List escapeRoomEndDay(EscapeRoom escapeRoom,int *money_earned,int today);
 
-//id geter
+/**
+ *
+ * @param escapeRoom - an escapeRoom.
+ * @return the room's id
+ */
 int escapeRoomGetId(EscapeRoom escapeRoom);
+/**
+ *
+ * @param escapeRoom - an escapeRoom.
+ * @return the price of the escapeRoom.
+ */
 int escapeRoomGetPrice(EscapeRoom escapeRoom);
 
 #endif //HW3_ESCAPEROOM_H
