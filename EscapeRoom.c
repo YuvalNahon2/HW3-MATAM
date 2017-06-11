@@ -14,19 +14,38 @@ struct EscapeRoomS{
     int close_hour;
     int dificulty;
 };
-
-
+//these functions are used to pass to the listCreate function to create a list
+// of orders
+/**
+ * creates a copy of an order
+ * @param order - the order to copy
+ * @return the copy of the order (as a ListElement).
+ */
 static ListElement escapeRoomOrderCopy(ListElement order){
     return (ListElement)orderCopy((Order)order);
 }
+/**
+ * destroys an order
+ * @param order - the order to destroy.
+ */
 static void escapeRoomOrderDestroy(ListElement order){
     orderDestroy((Order)order);
 }
+/**
+ * creates a new EscapeRoom.
+ * @param id - the id of the new room
+ * @param price - the full price of the room
+ * @param num_people - the number of people recommended.
+ * @param open_hour - the open hour. a number between 0-23
+ * @param close_hour - the close hour.
+ * @param diff
+ * @return
+ */
 EscapeRoom escapeRoomCreate ( int id,
     int price, int num_people, int open_hour,
     int close_hour, int diff){
-    if(close_hour>23 || open_hour<0 || price<0 ||
-            num_people<1 || diff<1 || diff > 10){
+    if(close_hour>24 || close_hour<1 || open_hour<0 ||open_hour >23 ||
+            price<0 || num_people<1 || diff<1 || diff > 10){
         return NULL;
     }
     EscapeRoom escapeRoom;
