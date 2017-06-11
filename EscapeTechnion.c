@@ -106,3 +106,13 @@ MtmErrorCode escapeTechnionDestroyCompany(EscapeTechnion escape_technion,
     setRemove(escape_technion->companies,company_to_delete);
     return MTM_SUCCESS;
 }
+
+MtmErrorCode escapeTechnionAddRoom(EscapeTechnion escape_technion,char *email_address,int id,int price,
+                                   int num_people,int open_hour,
+                                   int close_hour,int difficulty){
+    CompanyErrorCode result;
+    Email company_email;
+    company_email.address=email_address;
+    company_email.user_type=COMPANY;
+    result=companyCreate()
+}

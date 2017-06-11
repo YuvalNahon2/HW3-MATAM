@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <assert.h>
 #include "Order.h"
 #include "EscapeTechnion.h"
 struct OrderS{
@@ -11,6 +12,9 @@ struct OrderS{
 
 Order orderCreate(int order_day, int order_hour, EscapeRoom *escapeRoom,
                   Costumer *costumer, int num_of_people,bool discount) {
+    if(escapeRoom==NULL || costumer==NULL){
+        return NULL;
+    }
     Order order;
     order=malloc(sizeof(*order));
     if(order==NULL)
@@ -30,6 +34,9 @@ Order orderCreate(int order_day, int order_hour, EscapeRoom *escapeRoom,
 }
 
 Order orderCopy(Order order){
+    if(order==NULL){
+        return NULL;
+    }
     Order newOrder;
     newOrder=malloc(sizeof(*newOrder));
     if(newOrder==NULL)
@@ -47,14 +54,24 @@ void orderDestroy(Order order)
     free(order);
 }
 Costumer orderGetCostumer(Order order){
+    if(order==NULL){
+        return NULL;
+    }
     return *order->costumer;
 }
 OrderTime orderGetOrderTime(Order order){
+    if(order==NULL){
+        return NULL;
+    }
     return order->orderTime;
 }
 int orderGetPrice(Order order){
+    if(order==NULL){
+        return -1;
+    }
     return order->price;
 }
 bool orderCheckOrderToday(ListElement order,void* today){
-        return ((Order)order)->orderTime.order_day==*(int*)today;
+    assert(order!=NULL);
+    return ((Order)order)->orderTime.order_day==*(int*)today;
 }

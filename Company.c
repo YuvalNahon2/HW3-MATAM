@@ -83,7 +83,7 @@ CompanyErrorCode companyDeleteRoom(Company company,int id){
     return COMPANY_INVALID_ARGUMENT;
 }
 CompanyErrorCode companyCreateOrder(Company company,Costumer costumer,int room_id,int day,
-                                int hour,int num_people)
+                                int hour,int num_people,int today)
 {
     if(company==NULL || costumer==NULL)
         return COMPANY_NULL_PARAMETER;
@@ -169,6 +169,8 @@ bool companyOrdersExist(Company company) {
     }
     return false;
 }
+
+
 /*
  * the escapeRoom set functions:these are used to
  */

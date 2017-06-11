@@ -19,6 +19,7 @@ typedef struct OrderTimeS{
  * @param discount - if the costumer deserves a discount.
  * @return
  * the new order if everything went right.
+ * NULL if the arguments (escapeRoom or costumer) are NULL pointers.
  */
 Order orderCreate(int order_day, int order_hour, EscapeRoom *escapeRoom,
                   Costumer *costumer, int num_of_people,bool discount);
@@ -26,6 +27,7 @@ Order orderCreate(int order_day, int order_hour, EscapeRoom *escapeRoom,
  * creates a copy of the order.
  * @param order - the order to create a copy of.
  * @return the order's copy.
+ * if the order given is NULL pointer the function will return NULL.
  */
 Order orderCopy(Order order);
 
@@ -38,6 +40,7 @@ void orderDestroy(Order order);
  *
  * @param order - an order.
  * @return the order's costumer.
+ * if the order given is NULL pointer the function will return NULL.
  */
 Costumer orderGetCostumer(Order order);
 
@@ -45,6 +48,7 @@ Costumer orderGetCostumer(Order order);
  *
  * @param order - an order.
  * @return the order's orderTime.
+ * if the order given is NULL pointer the fuunction will return NULL.
  */
 OrderTime orderGetOrderTime(Order order);
 
@@ -52,6 +56,7 @@ OrderTime orderGetOrderTime(Order order);
  *
  * @param order - an order.
  * @return the order's price.
+ *if the order given is NULL pointer the fuunction will return -1.
  */
 int orderGetPrice(Order order);
 

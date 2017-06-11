@@ -75,6 +75,7 @@ CompanyErrorCode companyDeleteRoom(Company company,int id);
  * @param day - the requested day.
  * @param hour - the requested hour.
  * @param num_people - the number of people.
+ * @param today - the current system day.
  * @return
  * COMPANY_NULL_PARAMETER - in case company or costumer are null.
  * COMPANY_ROOM_DOESNT_EXIST - in case there is no room with the given id in the company.
@@ -85,7 +86,8 @@ CompanyErrorCode companyDeleteRoom(Company company,int id);
  * COMPANY_SUCCESS - an order was created for a room successfully.
  */
 CompanyErrorCode companyCreateOrder(Company company,Costumer costumer,
-                                int room_id,int day, int hour,int num_people);
+                                    int room_id,int day, int hour,
+                                    int num_people,int today);
 
 /**
  * returns the most recommended room in the company for a costumer.
@@ -128,6 +130,7 @@ TechnionFaculty companyGetFaculty(Company company);
  * @return the company's email address.
  */
 char* companyGetEmailAddress(Company company);
+
 /**
  * checks if any of the company's rooms hsa orders.
  * @param company - the company.
@@ -136,6 +139,8 @@ char* companyGetEmailAddress(Company company);
  * false-the company doesnt have a room with orders.
  */
 bool companyOrdersExist(Company company);
+
+
 //the Room set functions:
 int companyCompareRooms(SetElement escapeRoom1,SetElement escapeRoom2);
 

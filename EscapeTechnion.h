@@ -49,7 +49,7 @@ MtmErrorCode escapeTechnionDestroyCompany(EscapeTechnion escape_technion,
                                           char *email_address);
 
 
-MtmErrorCode escapeTechnionAddRoom(EscapeTechnion escape_technion,Email email,int id,int price,
+MtmErrorCode escapeTechnionAddRoom(EscapeTechnion escape_technion,char *email_address,int id,int price,
                            int num_people,int open_hour,
                            int close_hour,int difficulty);
 
