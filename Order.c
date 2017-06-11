@@ -8,6 +8,7 @@ struct OrderS{
     int num_of_people;
     int price;
 };
+
 Order orderCreate(int order_day, int order_hour, EscapeRoom *escapeRoom,
                   Costumer *costumer, int num_of_people,bool discount) {
     Order order;

@@ -98,4 +98,12 @@ int escapeRoomGetId(EscapeRoom escapeRoom);
  */
 int escapeRoomGetPrice(EscapeRoom escapeRoom);
 
+/**
+ * checks if the room has orders.
+ * @param escape_room - the EscapeRoom.
+ * @return
+ * true-there are orders.
+ * false-there are no orders.
+ */
+bool escapeRoomOrdersExist(EscapeRoom escape_room);
 #endif //HW3_ESCAPEROOM_H

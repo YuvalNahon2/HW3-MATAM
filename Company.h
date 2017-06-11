@@ -119,6 +119,12 @@ int companyGetMoney(Company company);
  */
 TechnionFaculty companyGetFaculty(Company company);
 
+/**
+ *
+ * @param company - a company.
+ * @return the company's email address.
+ */
+char* companyGetEmailAddress(Company company);
 
 //the Room set functions:
 int companyCompareRooms(SetElement escapeRoom1,SetElement escapeRoom2);

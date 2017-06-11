@@ -145,3 +145,10 @@ int escapeRoomGetId(EscapeRoom escapeRoom){
 int escapeRoomGetPrice(EscapeRoom escapeRoom){
     return escapeRoom->price;
 }
+
+bool escapeRoomOrdersExist(EscapeRoom escape_room){
+    if(listGetSize(escape_room->Orders)>0){
+        return true;
+    }
+    return false;
+}

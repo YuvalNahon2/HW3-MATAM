@@ -6,39 +6,72 @@
 #include "Email.h"
 #include "list.h"
 typedef struct EscapeTechnionS *EscapeTechnion;
+/**
+ * creates a new EscapeTechnion.
+ * @param escape_technion - parameter used to return the new EscapeTechnion.
+ * @return
+ * MTM_OUT_OF_MEMORY - if any memory allocation has failed.
+ * MTM_SUCCESS - if everything went right and a new new EscapeTechnion was
+ * created.
+ */
+MtmErrorCode escapeTechnionCreate(EscapeTechnion escape_technion);
 
-MtmErrorCode escapeTechnionCreate(EscapeTechnion escapeTechnion);
+/**
+ * destroys an EscapeTechnion.
+ * @param escape_technion - the EscapeTechnion to destroy.
+ */
+void escapeTechnionDestroy(EscapeTechnion escape_technion);
 
-MtmErrorCode escapeTechnionDestroy(EscapeTechnion escapeTechnion);
+/**
+ * adds a new company to escape_technion.
+ * @param escape_technion - an EscapeTechnion to add the company to.
+ * @param email - the company's Email.
+ * @param faculty - the faculty the company belongs to.
+ * @return
+ * MTM_INVALID_PARAMETER - an invalid email address or NULL escape_technion was
+ * sent.
+ * MTM_EMAIL_ALREADY_EXISTS - the email address already exists in the
+ * escape_technion's emails set.
+ * MTM_OUT_OF_MEMORY - in case a memory allocation failed.
+ * MTM_SUCCESS - a new company was added to the system.
+ */
+MtmErrorCode escapeTechnionAddCompany(EscapeTechnion escape_technion,
+                                      char *email,TechnionFaculty faculty);
 
-MtmErrorCode escapeTechnionAddCompany(EscapeTechnion escapeTechnion,Email email,TechnionFaculty faculty);
+/**
+ * destroys a company based on its email address.
+ * @param escape_technion - the EscapeTechnion the company belongs to.
+ * @param email - the email address of the company.
+ * @return
+ *
+ */
+MtmErrorCode escapeTechnionDestroyCompany(EscapeTechnion escape_technion,
+                                          char *email_address);
 
-MtmErrorCode escapeTechnionDestroyCompany(EscapeTechnion escapeTechnion,Email email);
 
-
-MtmErrorCode escapeTechnionAddRoom(EscapeTechnion escapeTechnion,Email email,int id,int price,
+MtmErrorCode escapeTechnionAddRoom(EscapeTechnion escape_technion,Email email,int id,int price,
                            int num_people,int open_hour,
                            int close_hour,int difficulty);
 
-MtmErrorCode escapeTechnionDeleteRoom(EscapeTechnion escapeTechnion,TechnionFaculty faculty,int id);
+MtmErrorCode escapeTechnionDeleteRoom(EscapeTechnion escape_technion,TechnionFaculty faculty,int id);
 
 
-MtmErrorCode escapeTechnionAddCostumer(EscapeTechnion escapeTechnion,Email email,
+MtmErrorCode escapeTechnionAddCostumer(EscapeTechnion escape_technion,Email email,
                                TechnionFaculty faculty,int skill_level);
 
-MtmErrorCode escapeTechnionDestroyCostumer(EscapeTechnion escapeTechnion,Email email);
+MtmErrorCode escapeTechnionDestroyCostumer(EscapeTechnion escape_technion,Email email);
 
 
-MtmErrorCode escapeTechnionCreateOrder(EscapeTechnion escapeTechnion,Email costumer_email,
+MtmErrorCode escapeTechnionCreateOrder(EscapeTechnion escape_technion,Email costumer_email,
                                TechnionFaculty room_faculty,int room_id,int day,
                                int hour,int num_people);
 
-MtmErrorCode escapeTechnionOrderRecommended(EscapeTechnion escapeTechnion,Email costumer_email,
+MtmErrorCode escapeTechnionOrderRecommended(EscapeTechnion escape_technion,Email costumer_email,
                                             int num_people);
 
 
-MtmErrorCode escapeTechnionEndDay(EscapeTechnion escapeTechnion);
+MtmErrorCode escapeTechnionEndDay(EscapeTechnion escape_technion);
 
-MtmErrorCode escapeTechnionPrintWinningFaculties(EscapeTechnion escapeTechnion);
+MtmErrorCode escapeTechnionPrintWinningFaculties(EscapeTechnion escape_technion);
 
 #endif //HW3_ESCAPETECHNION_H
