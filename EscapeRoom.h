@@ -69,6 +69,7 @@ RoomErrorCode escapeRoomOrder(EscapeRoom escapeRoom,Costumer costumer,
  * for.
  * @return
  * returns the recommend score of the room according to the one supplied.
+ * if any of the parameters are illegal the function will return -1.
  */
 int escapeRoomRecommendScore(EscapeRoom escapeRoom,int costumer_level,int num_people);
 

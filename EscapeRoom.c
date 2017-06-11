@@ -82,7 +82,7 @@ EscapeRoom escapeRoomCopy(EscapeRoom src){
     room_copy->Orders=listCopy(room_copy->Orders);
     return room_copy;
 }
-//change this return CLIENT_IN_ROOM andROOM_NOT_AVAILABLE
+
 static RoomErrorCode checkRoomAvailable(EscapeRoom escapeRoom,Costumer costumer,
                                int day,int hour){
     assert(escapeRoom!=NULL && costumer!=NULL);
@@ -95,7 +95,7 @@ static RoomErrorCode checkRoomAvailable(EscapeRoom escapeRoom,Costumer costumer,
     LIST_FOREACH(Order,iterator,escapeRoom->Orders){
         OrderTime order_time=orderGetOrderTime(iterator);
         if(order_time.order_day==day && order_time.order_hour==hour){
-            return ROOM_NOT_AVAILABLE;
+            return ROOM_CLIENT_IN_ROOM;
         }
     }
     return ROOM_SUCCESS;
@@ -119,9 +119,13 @@ RoomErrorCode escapeRoomOrder(EscapeRoom escapeRoom,Costumer costumer,
 }
 
 int escapeRoomRecommendScore(EscapeRoom escapeRoom,int costumer_level,int num_people){
+    if(escapeRoom==NULL || costumer_level<1 || costumer_level>10 || num_people<1){
+        return -1;
+    }
     return POW2((escapeRoom->num_people-num_people))+
            POW2((escapeRoom->dificulty-costumer_level));
 }
+
 List escapeRoomEndDay(EscapeRoom escapeRoom,int *money_earned,int today){
     List todays_orders;
     todays_orders=listFilter(escapeRoom->Orders,orderCheckOrderToday,&today);
