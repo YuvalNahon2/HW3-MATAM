@@ -4,35 +4,35 @@
 #include <stdio.h>
 #include "mtm_ex3.h"
 #include "EscapeTechnion.h"
-void getCommands(FILE *inputFile, FILE *outputFile);
+void getCommands(FILE *input_file, FILE *output_file);
 
-void subCommandCompany(FILE *inputFile, FILE *outputFile);
+void subCommandCompany(FILE *input_file, FILE *output_file);
 
-void subCommandRoom(FILE *inputFile, FILE *outputFile);
+void subCommandRoom(FILE *input_file, FILE *output_file);
 
-void subCommandCostumer(FILE *inputFile, FILE *outputFile);
+void subCommandCostumer(FILE *input_file, FILE *output_file);
 
-void subCommandSystem(FILE *inputFile, FILE *outputFile);
+void subCommandSystem(FILE *input_file, FILE *output_file);
 
 int main(int argc, char **argv){
-    FILE *inputFile=stdin;
-    FILE *outputFile=stdout;
-    if((argc-1)%2){
+    FILE *input_file=stdin;
+    FILE *output_file=stdout;
+    if(argc!=1 && argc!=3 && argc!=5){
         mtmPrintErrorMessage(stderr,MTM_INVALID_COMMAND_LINE_PARAMETERS);
         return 0;
     }
     for(int k=1;k<argc-1;k+=2) {
         if (strcmp(argv[k], "-i")) {
-            inputFile=fopen(argv[k+1],"r");
-            if (inputFile==NULL) {
+            input_file=fopen(argv[k+1],"r");
+            if (input_file==NULL) {
                 mtmPrintErrorMessage(stderr, MTM_CANNOT_OPEN_FILE);
                 return 0;
             }
             continue;
         }
         if (strcmp(argv[k], "-o")) {
-            outputFile=fopen(argv[k+1],"w");
-            if (outputFile==NULL) {
+            output_file=fopen(argv[k+1],"w");
+            if (output_file==NULL) {
                 mtmPrintErrorMessage(stderr, MTM_CANNOT_OPEN_FILE);
                 return 0;
             }
@@ -41,43 +41,46 @@ int main(int argc, char **argv){
         mtmPrintErrorMessage(stderr,MTM_INVALID_COMMAND_LINE_PARAMETERS);
         return 0;
     }
-    EscapeTechnion system=malloc(sizeof(*system));
-    getCommands(inputFile,outputFile);
+    EscapeTechnion system;
+    escapeTechnionCreate(system);
+    if(system==NULL)
+        mtmPrintErrorMessage(stderr,MTM_OUT_OF_MEMORY);
+    getCommands(input_file,output_file);
 
 }
 
-void getCommands(FILE *inputFile, FILE *outputFile) {
+void getCommands(FILE *input_file, FILE *output_file) {
     char command_buffer[8];
-    while(fscanf(inputFile,"%s",command_buffer)!=EOF){
+    while(fscanf(input_file,"%s",command_buffer)!=EOF){
         if(*command_buffer=='#')
             continue;
         if(strcmp(command_buffer,"company")){
-            subCommandCompany(inputFile,outputFile);
+            subCommandCompany(input_file,output_file);
         }
         if(strcmp(command_buffer,"room")){
-            subCommandRoom(inputFile,outputFile);
+            subCommandRoom(input_file,output_file);
         }
         if(strcmp(command_buffer,"escaper")){
-            subCommandCostumer(inputFile,outputFile);
+            subCommandCostumer(input_file,output_file);
         }
         if(strcmp(command_buffer,"report")){
-            subCommandSystem(inputFile,outputFile);
+            subCommandSystem(input_file,output_file);
         }
     }
 }
 
-void subCommandSystem(FILE *inputFile, FILE *outputFile) {
+void subCommandSystem(FILE *input_file, FILE *output_file) {
 
 }
 
-void subCommandCostumer(FILE *inputFile, FILE *outputFile) {
+void subCommandCostumer(FILE *input_file, FILE *output_file) {
 
 }
 
-void subCommandRoom(FILE *inputFile, FILE *outputFile) {
+void subCommandRoom(FILE *input_file, FILE *output_file) {
 
 }
 
-void subCommandCompany(FILE *inputFile, FILE *outputFile) {
+void subCommandCompany(FILE *input_file, FILE *output_file) {
 
 }
