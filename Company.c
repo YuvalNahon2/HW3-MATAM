@@ -45,6 +45,9 @@ static CompanyErrorCode roomErrorToCompanyError(RoomErrorCode room_error){
 }
 
 Company companyCreate(Email email,TechnionFaculty faculty){
+    if(faculty<0 || faculty>=UNKNOWN){
+        return NULL;
+    }
     Company company;
     company=malloc(sizeof(*company));
     if(company==NULL){

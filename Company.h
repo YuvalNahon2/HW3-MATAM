@@ -24,7 +24,8 @@ typedef struct CompanyS *Company;
  * a function that creates a new Company.
  * @param email - the email of the company.
  * @param faculty - the faculty the company belongs to.
- * @return the created Company.in case of memory problem NULL will be returned.
+ * @return the created Company.in case of memory problem or an invalid faculty
+ * NULL will be returned.
  */
 Company companyCreate(Email email,TechnionFaculty faculty);
 

@@ -50,11 +50,33 @@ MtmErrorCode escapeTechnionAddCompany(EscapeTechnion escape_technion,
 MtmErrorCode escapeTechnionDestroyCompany(EscapeTechnion escape_technion,
                                           char *email_address);
 
-
+/**
+ * adds a new room to a company.s
+ * @param escape_technion - the EscapeTechnion.
+ * @param email_address - the email address of the company.
+ * @param id - the new room's id.
+ * @param price - the new room's price.
+ * @param num_people - the recommended number of people in the new room.
+ * @param open_hour - the open hour of the new room(0-23).
+ * @param close_hour - the close hour of the new room(1-24).
+ * @param difficulty - the difficulty of the new room.
+ * @return
+ * MTM_COMPANY_EMAIL_DOES_NOT_EXIST - there is no matching company with the id.
+ * MTM_ID_ALREADY_EXIST - there is a room with the same id and the same faculty.
+ * MTM_SUCCESS - a new room was created.
+ */
 MtmErrorCode escapeTechnionAddRoom(EscapeTechnion escape_technion,char *email_address,int id,int price,
                            int num_people,int open_hour,
                            int close_hour,int difficulty);
 
+/**
+ * deletes a room from a company.
+ * @param escape_technion - the EscapeTechnion.
+ * @param faculty - the faculty of the company that holds the room.
+ * @param id - the room's id.
+ * @return
+ * MTM_INVALID_PARAMETER -
+ */
 MtmErrorCode escapeTechnionDeleteRoom(EscapeTechnion escape_technion,TechnionFaculty faculty,int id);
 
 

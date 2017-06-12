@@ -98,7 +98,10 @@ static bool emailExists(EscapeTechnion escape_technion, char *email) {
 MtmErrorCode escapeTechnionAddCompany(EscapeTechnion escape_technion,
                                       char *email,
                                       TechnionFaculty faculty) {
-    if (escape_technion == NULL || checkEmailAddress(email) == false) {
+    if (escape_technion == NULL || email==NULL) {
+        return MTM_NULL_PARAMETER;
+    }
+    if(checkEmailAddress(email) == false || faculty>=UNKNOWN || faculty<0){
         return MTM_INVALID_PARAMETER;
     }
     if (emailExists(escape_technion, email) == true) {
@@ -122,6 +125,9 @@ MtmErrorCode escapeTechnionAddCompany(EscapeTechnion escape_technion,
 
 MtmErrorCode escapeTechnionDestroyCompany(EscapeTechnion escape_technion,
                                           char *email_address) {
+    if(escape_technion==NULL || email_address==NULL){
+
+    }
     Company company_to_delete = NULL;
     SET_FOREACH(Company, company_iterator, escape_technion->companies) {
         if (strcmp(companyGetEmailAddress(company_iterator),
@@ -139,19 +145,8 @@ MtmErrorCode escapeTechnionDestroyCompany(EscapeTechnion escape_technion,
     setRemove(escape_technion->companies, company_to_delete);
     return MTM_SUCCESS;
 }
-/**
- * adds a new room to a company.
- * @param escape_technion - the EscapeTechnion the company belongs to.
- * @param email_address - the company's email address.
- * @param id - the new room's id
- * @param price - the new room's price
- * @param num_people - the recommended number of people of the new room.
- * @param open_hour - the new room's open hour(0-23).
- * @param close_hour - the new room's close hour(1-24).
- * @param difficulty - the new room's difficulty.
- * @return
- *
- */
+
+
 MtmErrorCode escapeTechnionAddRoom(EscapeTechnion escape_technion,
                                    char *email_address, int id, int price,
                                    int num_people, int open_hour,
