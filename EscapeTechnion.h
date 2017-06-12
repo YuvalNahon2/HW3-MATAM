@@ -111,7 +111,7 @@ MtmErrorCode escapeTechnionDestroyCostumer(EscapeTechnion escape_technion,
 
 MtmErrorCode escapeTechnionCreateOrder(EscapeTechnion escape_technion,char *costumer_email,
                                TechnionFaculty room_faculty,int room_id,int day,
-                               int hour,int num_people);
+                               int hour,int num_people,int today);
 
 MtmErrorCode escapeTechnionOrderRecommended(EscapeTechnion escape_technion,Email costumer_email,
                                             int num_people);

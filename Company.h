@@ -143,4 +143,6 @@ bool companyCheckRoomExist(Company company);
 
 void companyDeleteCostumerOrders(Company company,Costumer costumer);
 
+bool companyHasRoom(Company company,int id);
+
 #endif //HW3_COMPANY_H

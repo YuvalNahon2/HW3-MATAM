@@ -252,15 +252,33 @@ MtmErrorCode escapeTechnionDestroyCostumer(EscapeTechnion escape_technion,
 
 MtmErrorCode escapeTechnionCreateOrder(EscapeTechnion escape_technion,char *costumer_email,
                                        TechnionFaculty room_faculty,int room_id,int day,
-                                       int hour,int num_people){
+                                       int hour,int num_people,int today){
     if(escape_technion==NULL){
         return MTM_NULL_PARAMETER;
     }
     if(!checkEmailAddress(costumer_email)){
         return MTM_INVALID_PARAMETER;
     }
-    SET_FOREACH()
 
-    
+    Costumer costumer=NULL;
+    EscapeRoom escape_room=NULL;
+    SET_FOREACH(Costumer,costumer_iterator,escape_technion->costumers){
+        if(strcmp(costumerGetEmailAddress(costumer_iterator),costumer_email)==0){
+            costumer=costumer_iterator;
+        }
+    }
+    if(costumer==NULL){
+        return MTM_CLIENT_EMAIL_DOES_NOT_EXIST;
+    }
+    Company company_to_order;
+    SET_FOREACH(Company,company_iterator,escape_technion->companies){
+        if(companyGetFaculty(company_iterator)==room_faculty){
+            if(companyHasRoom(company_iterator,room_id)){
+                =companyCreateOrder(company_iterator,costumer,room_id,day,hour,num_people,today);
+            }
+        }
+    }
+
+
     companyCreateOrder()
 }

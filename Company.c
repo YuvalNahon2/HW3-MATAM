@@ -187,4 +187,12 @@ SET_FOREACH(EscapeRoom,room_iterator,company->EscapeRooms){
     escapeRoomRemoveCostumerOrders(room_iterator,costumer);
 }
 }
+bool companyHasRoom(Company company,int id){
+    SET_FOREACH(EscapeRoom,room_iterator,company->EscapeRooms){
+        if(escapeRoomGetId(room_iterator)==id){
+            return true;
+        }
+    }
+    return false;
+}
 
