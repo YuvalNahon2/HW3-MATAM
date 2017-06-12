@@ -43,7 +43,8 @@ MtmErrorCode escapeTechnionAddCompany(EscapeTechnion escape_technion,
  * @param escape_technion - the EscapeTechnion the company belongs to.
  * @param email - the email address of the company.
  * @return
- *
+ * MTM_COMPANY_EMAIL_DOES_NOT_EXIST-there is no company with the given email.
+ * 
  */
 MtmErrorCode escapeTechnionDestroyCompany(EscapeTechnion escape_technion,
                                           char *email_address);

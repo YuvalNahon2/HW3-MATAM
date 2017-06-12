@@ -152,8 +152,14 @@ char* companyGetEmailAddress(Company company){
 CompanyErrorCode companyDeleteRoomByID(Company company,int id){
     if(company==NULL)
         return COMPANY_NULL_PARAMETER;
+    if(id<0){
+        return COMPANY_INVALID_ARGUMENT;
+    }
     SET_FOREACH(EscapeRoom,room_iterator,company->EscapeRooms){
         if(escapeRoomGetId(room_iterator)==id){
+            if(escapeRoomOrdersExist(room_iterator)){
+                return COMPANY_ROOM_ORDERS_EXIST;
+            }
             companyDestroyRoom(room_iterator);
             return COMPANY_SUCCESS;
         }
@@ -169,7 +175,12 @@ bool companyOrdersExist(Company company) {
     }
     return false;
 }
-
+bool companyCheckRoomExist(Company company){
+    if(setGetSize(company->EscapeRooms)>0){
+        return true;
+    }
+    return false;
+}
 
 /*
  * the escapeRoom set functions:these are used to
