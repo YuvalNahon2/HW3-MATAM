@@ -147,10 +147,5 @@ bool companyOrdersExist(Company company);
 
 bool companyCheckRoomExist(Company company);
 
-//the Room set functions:
-int companyCompareRooms(SetElement escapeRoom1,SetElement escapeRoom2);
 
-SetElement companyCopyRoom(SetElement escapeRoom);
-
-void companyDestroyRoom(SetElement escapeRoom);
 #endif //HW3_COMPANY_H

@@ -7,6 +7,17 @@ struct CompanyS{
     Set EscapeRooms;
     int earned_money;
 };
+static int companyCompareRooms(SetElement escapeRoom1,SetElement escapeRoom2){
+    return escapeRoomGetId(escapeRoom1)-escapeRoomGetId(escapeRoom2);
+}
+static SetElement companyCopyRoom(SetElement escapeRoom){
+    EscapeRoom copy=NULL;
+    copy=escapeRoomCopy((EscapeRoom)escapeRoom);
+    return (SetElement)copy;
+}
+static void companyDestroyRoom(SetElement escapeRoom){
+    escapeRoomDestroy((EscapeRoom)escapeRoom);
+}
 /**
  * a function that converts an EscapeRoom error to a Company error
  * @param room_error - the RoomErrorCode we change to a CompanyErrorCode.
@@ -185,14 +196,4 @@ bool companyCheckRoomExist(Company company){
 /*
  * the escapeRoom set functions:these are used to
  */
-int companyCompareRooms(SetElement escapeRoom1,SetElement escapeRoom2){
-    return escapeRoomGetId(escapeRoom1)-escapeRoomGetId(escapeRoom2);
-}
-SetElement companyCopyRoom(SetElement escapeRoom){
-    EscapeRoom copy=NULL;
-    copy=escapeRoomCopy((EscapeRoom)escapeRoom);
-    return (SetElement)copy;
-}
-static void companyDestroyRoom(SetElement escapeRoom){
-    escapeRoomDestroy((EscapeRoom)escapeRoom);
-}
+
