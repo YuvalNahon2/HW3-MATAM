@@ -75,13 +75,17 @@ MtmErrorCode escapeTechnionAddRoom(EscapeTechnion escape_technion,char *email_ad
  * @param faculty - the faculty of the company that holds the room.
  * @param id - the room's id.
  * @return
- * MTM_INVALID_PARAMETER -
+ * MTM_INVALID_PARAMETER - invalid parameters were inserted(faculty and id).
+ * MTM_RESERVATION_EXISTS - if the room has orders.
+ * MTM_SUCCESS - the room was deleted.
+ * MTM_ID_DOES_NOT_EXIST - the room doesnt exist.
  */
 MtmErrorCode escapeTechnionDeleteRoom(EscapeTechnion escape_technion,TechnionFaculty faculty,int id);
 
 
-MtmErrorCode escapeTechnionAddCostumer(EscapeTechnion escape_technion,Email email,
-                               TechnionFaculty faculty,int skill_level);
+MtmErrorCode escapeTechnionAddCostumer(EscapeTechnion escape_technion,
+                                       char *email_address,
+                                       TechnionFaculty faculty,int skill_level);
 
 MtmErrorCode escapeTechnionDestroyCostumer(EscapeTechnion escape_technion,Email email);
 

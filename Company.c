@@ -71,7 +71,7 @@ CompanyErrorCode companyAddRoom(Company company,int id,int price,
     if(company==NULL){
         return COMPANY_NULL_PARAMETER;
     }
-    if(close_hour>23 || open_hour<0 || price<0 ||
+    if(close_hour>23 || open_hour<0 || price<0 || price%4!=0 ||
        num_people<1 || difficulty<1 || difficulty > 10){
         return COMPANY_INVALID_ARGUMENT;
     }
@@ -153,10 +153,8 @@ char* companyGetEmailAddress(Company company){
     return company->email.address;
 }
 CompanyErrorCode companyDeleteRoom(Company company,int id){
-    if(company==NULL)
+    if(company==NULL) {
         return COMPANY_NULL_PARAMETER;
-    if(id<0){
-        return COMPANY_INVALID_ARGUMENT;
     }
     SET_FOREACH(EscapeRoom,room_iterator,company->EscapeRooms){
         if(escapeRoomGetId(room_iterator)==id){
@@ -167,7 +165,7 @@ CompanyErrorCode companyDeleteRoom(Company company,int id){
             return COMPANY_SUCCESS;
         }
     }
-    return COMPANY_INVALID_ARGUMENT;
+    return COMPANY_ROOM_DOESNT_EXIST;
 }
 
 bool companyOrdersExist(Company company) {

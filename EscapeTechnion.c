@@ -126,7 +126,7 @@ MtmErrorCode escapeTechnionAddCompany(EscapeTechnion escape_technion,
 MtmErrorCode escapeTechnionDestroyCompany(EscapeTechnion escape_technion,
                                           char *email_address) {
     if(escape_technion==NULL || email_address==NULL){
-
+        return MTM_NULL_PARAMETER;
     }
     Company company_to_delete = NULL;
     SET_FOREACH(Company, company_iterator, escape_technion->companies) {
@@ -151,6 +151,9 @@ MtmErrorCode escapeTechnionAddRoom(EscapeTechnion escape_technion,
                                    char *email_address, int id, int price,
                                    int num_people, int open_hour,
                                    int close_hour, int difficulty) {
+    if (escape_technion==NULL || email_address==NULL){
+        return MTM_NULL_PARAMETER;
+    }
     CompanyErrorCode result;
     Email company_email;
     company_email.address = email_address;
@@ -174,26 +177,35 @@ MtmErrorCode escapeTechnionAddRoom(EscapeTechnion escape_technion,
             }
         }
     }
-    companyAddRoom(company, id, price, open_hour, close_hour, num_people,
-                   difficulty);
-    return MTM_SUCCESS;
+    return errorConverter(companyAddRoom(company, id, price, open_hour,
+                                         close_hour, num_people, difficulty));
 }
 
 MtmErrorCode escapeTechnionDeleteRoom(EscapeTechnion escape_technion,
                                       TechnionFaculty faculty, int id) {
-    if(escape_technion==NULL || faculty>UNKNOWN || faculty <0 || id<0){
-        return MTM_INVALID_PARAMETER;
+    if(escape_technion==NULL){
+        return MTM_NULL_PARAMETER;
     }
     SET_FOREACH(Company, company_iterator, escape_technion->companies) {
         if (companyGetFaculty(company_iterator) == faculty) {
             CompanyErrorCode company_result =
                     companyDeleteRoom(company_iterator, id);
             MtmErrorCode result = errorConverter(company_result);
-            if(result!=MTM_INVALID_PARAMETER){
+            if(result!=MTM_ID_DOES_NOT_EXIST){
                 return result;
             }
         }
     }
     return MTM_ID_DOES_NOT_EXIST;
+}
+
+MtmErrorCode escapeTechnionAddCostumer(EscapeTechnion escape_technion,
+                                       char *email_address,
+                                       TechnionFaculty faculty,int skill_level){
+    if(escape_technion==NULL || email_address==NULL){
+        return MTM_NULL_PARAMETER;
+    }
+    if(!checkEmailAddress(email_address))
+
 }
 

@@ -36,7 +36,7 @@ EscapeRoom escapeRoomCreate ( int id,
     int price, int num_people, int open_hour,
     int close_hour, int diff){
     if(close_hour>24 || close_hour<1 || open_hour<0 ||open_hour >23 ||
-            close_hour <=open_hour || price<0 ||
+            close_hour <=open_hour || price<0 || price%4!=0 ||
             num_people<1 || diff<1 || diff > 10){
         return NULL;
     }
