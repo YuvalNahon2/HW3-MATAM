@@ -193,6 +193,6 @@ SetElement companyCopyRoom(SetElement escapeRoom){
     copy=escapeRoomCopy((EscapeRoom)escapeRoom);
     return (SetElement)copy;
 }
-void companyDestroyRoom(SetElement escapeRoom){
+static void companyDestroyRoom(SetElement escapeRoom){
     escapeRoomDestroy((EscapeRoom)escapeRoom);
 }
