@@ -109,7 +109,7 @@ MtmErrorCode escapeTechnionDestroyCostumer(EscapeTechnion escape_technion,
                                            char *email_address);
 
 
-MtmErrorCode escapeTechnionCreateOrder(EscapeTechnion escape_technion,Email costumer_email,
+MtmErrorCode escapeTechnionCreateOrder(EscapeTechnion escape_technion,char *costumer_email,
                                TechnionFaculty room_faculty,int room_id,int day,
                                int hour,int num_people);
 

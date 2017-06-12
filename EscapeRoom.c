@@ -154,9 +154,8 @@ bool escapeRoomOrdersExist(EscapeRoom escape_room){
     return false;
 }
 static bool listFilterCostumerOrders(ListElement order,
-                                     ListFilterKey costumer_email){
-    if(strcmp(costumerGetEmailAddress(orderGetCostumer((Order)order)),
-            (char *)costumer_email)==0){
+                                     ListFilterKey costumer){
+    if(orderGetCostumer((Order)order)==costumer){
                 return false;
     }
     return true;
@@ -164,8 +163,7 @@ static bool listFilterCostumerOrders(ListElement order,
 }
 void escapeRoomRemoveCostumerOrders(EscapeRoom escape_room,Costumer costumer){
     List temp=escape_room->Orders;
-    listFilter(escape_room->Orders,listFilterCostumerOrders,
-               costumerGetEmailAddress(costumer));
+    listFilter(escape_room->Orders,listFilterCostumerOrders, costumer);
     listDestroy(temp);
 
 }

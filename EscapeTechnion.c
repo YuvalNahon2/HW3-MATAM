@@ -244,6 +244,23 @@ MtmErrorCode escapeTechnionDestroyCostumer(EscapeTechnion escape_technion,
             }
         }
     }
-    return MTM_CLIENT_EMAIL_DOES_NOT_EXIST;
+    if(costumer_exists==false) {
+        return MTM_CLIENT_EMAIL_DOES_NOT_EXIST;
+    }
+    return MTM_SUCCESS;
 }
 
+MtmErrorCode escapeTechnionCreateOrder(EscapeTechnion escape_technion,char *costumer_email,
+                                       TechnionFaculty room_faculty,int room_id,int day,
+                                       int hour,int num_people){
+    if(escape_technion==NULL){
+        return MTM_NULL_PARAMETER;
+    }
+    if(!checkEmailAddress(costumer_email)){
+        return MTM_INVALID_PARAMETER;
+    }
+    SET_FOREACH()
+
+    
+    companyCreateOrder()
+}
