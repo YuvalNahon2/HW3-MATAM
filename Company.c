@@ -82,17 +82,6 @@ CompanyErrorCode companyAddRoom(Company company,int id,int price,
     }
     return COMPANY_SUCCESS;
 }
-CompanyErrorCode companyDeleteRoom(Company company,int id){
-    if(company==NULL)
-        return COMPANY_NULL_PARAMETER;
-    SET_FOREACH(EscapeRoom,room_iterator,company->EscapeRooms){
-        if(escapeRoomGetId(room_iterator)==id){
-            companyDestroyRoom(room_iterator);
-            return COMPANY_SUCCESS;
-        }
-    }
-    return COMPANY_INVALID_ARGUMENT;
-}
 CompanyErrorCode companyCreateOrder(Company company,Costumer costumer,int room_id,int day,
                                 int hour,int num_people,int today)
 {
@@ -160,7 +149,7 @@ TechnionFaculty companyGetFaculty(Company company)
 char* companyGetEmailAddress(Company company){
     return company->email.address;
 }
-CompanyErrorCode companyDeleteRoomByID(Company company,int id){
+CompanyErrorCode companyDeleteRoom(Company company,int id){
     if(company==NULL)
         return COMPANY_NULL_PARAMETER;
     if(id<0){

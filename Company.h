@@ -56,16 +56,12 @@ CompanyErrorCode companyAddRoom(Company company,int id,int price,
                                 int open_hour,int close_hour,int num_people,int difficulty);
 
 /**
- *removes a room from the company.
- * @param company - the company the room will be removed from.
- * @param id - the id of the requested room.
+ *
+ * @param company
+ * @param id
  * @return
- * COMPANY_NULL_PARAMETER - if the company is NULL.
- * COMPANY_INVALID_ARGUMENT - if there is no room with the specified id.
- * COMPANY_SUCCESS - the room was removed successfully.
  */
 CompanyErrorCode companyDeleteRoom(Company company,int id);
-
 /**
  * a function for creating an Order to a specific room in the company
  * @param company - the company to make an order in.
@@ -130,9 +126,6 @@ TechnionFaculty companyGetFaculty(Company company);
  */
 char* companyGetEmailAddress(Company company);
 
-
-
-CompanyErrorCode companyDeleteRoomByID(Company company,int id);
 
 
 

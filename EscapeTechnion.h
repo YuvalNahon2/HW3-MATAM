@@ -44,7 +44,8 @@ MtmErrorCode escapeTechnionAddCompany(EscapeTechnion escape_technion,
  * @param email - the email address of the company.
  * @return
  * MTM_COMPANY_EMAIL_DOES_NOT_EXIST-there is no company with the given email.
- * MTM_RESERVATION_EXISTS-
+ * MTM_RESERVATION_EXISTS- the selected room has orders in it.
+ * MTM_SUCCESS - the company was destroyed.
  */
 MtmErrorCode escapeTechnionDestroyCompany(EscapeTechnion escape_technion,
                                           char *email_address);

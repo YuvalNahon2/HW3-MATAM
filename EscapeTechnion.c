@@ -139,12 +139,23 @@ MtmErrorCode escapeTechnionDestroyCompany(EscapeTechnion escape_technion,
     setRemove(escape_technion->companies, company_to_delete);
     return MTM_SUCCESS;
 }
-
-MtmErrorCode
-escapeTechnionAddRoom(EscapeTechnion escape_technion, char *email_address,
-                      int id, int price,
-                      int num_people, int open_hour,
-                      int close_hour, int difficulty) {
+/**
+ * adds a new room to a company.
+ * @param escape_technion - the EscapeTechnion the company belongs to.
+ * @param email_address - the company's email address.
+ * @param id - the new room's id
+ * @param price - the new room's price
+ * @param num_people - the recommended number of people of the new room.
+ * @param open_hour - the new room's open hour(0-23).
+ * @param close_hour - the new room's close hour(1-24).
+ * @param difficulty - the new room's difficulty.
+ * @return
+ *
+ */
+MtmErrorCode escapeTechnionAddRoom(EscapeTechnion escape_technion,
+                                   char *email_address, int id, int price,
+                                   int num_people, int open_hour,
+                                   int close_hour, int difficulty) {
     CompanyErrorCode result;
     Email company_email;
     company_email.address = email_address;
@@ -181,7 +192,7 @@ MtmErrorCode escapeTechnionDeleteRoom(EscapeTechnion escape_technion,
     SET_FOREACH(Company, company_iterator, escape_technion->companies) {
         if (companyGetFaculty(company_iterator) == faculty) {
             CompanyErrorCode company_result =
-                    companyDeleteRoomByID(company_iterator, id);
+                    companyDeleteRoom(company_iterator, id);
             MtmErrorCode result = errorConverter(company_result);
             if(result!=MTM_INVALID_PARAMETER){
                 return result;
