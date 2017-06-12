@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include <assert.h>
 #include "list.h"
 #include "Order.h"
@@ -151,4 +152,20 @@ bool escapeRoomOrdersExist(EscapeRoom escape_room){
         return true;
     }
     return false;
+}
+static bool listFilterCostumerOrders(ListElement order,
+                                     ListFilterKey costumer_email){
+    if(strcmp(costumerGetEmailAddress(orderGetCostumer((Order)order)),
+            (char *)costumer_email)==0){
+                return false;
+    }
+    return true;
+
+}
+void escapeRoomRemoveCostumerOrders(EscapeRoom escape_room,Costumer costumer){
+    List temp=escape_room->Orders;
+    listFilter(escape_room->Orders,listFilterCostumerOrders,
+               costumerGetEmailAddress(costumer));
+    listDestroy(temp);
+
 }

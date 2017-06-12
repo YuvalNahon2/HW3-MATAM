@@ -106,4 +106,5 @@ int escapeRoomGetPrice(EscapeRoom escapeRoom);
  * false-there are no orders.
  */
 bool escapeRoomOrdersExist(EscapeRoom escape_room);
+void escapeRoomRemoveCostumerOrders(EscapeRoom escape_room,Costumer costumer);
 #endif //HW3_ESCAPEROOM_H

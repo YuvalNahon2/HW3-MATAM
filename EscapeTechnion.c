@@ -205,7 +205,45 @@ MtmErrorCode escapeTechnionAddCostumer(EscapeTechnion escape_technion,
     if(escape_technion==NULL || email_address==NULL){
         return MTM_NULL_PARAMETER;
     }
-    if(!checkEmailAddress(email_address))
+    if(!checkEmailAddress(email_address)){
+        return MTM_INVALID_PARAMETER;
+    }
+    Email email;
+    email.address=email_address;
+    email.user_type=COSTUMER;
+    Costumer costumer=costumerCreate(email,faculty,skill_level);
+    if(costumer==NULL){
+        return MTM_OUT_OF_MEMORY;
+    }
+    SetResult result=setAdd(escape_technion->costumers,costumer);
+    assert(result!=SET_NULL_ARGUMENT);
+    if(result==SET_OUT_OF_MEMORY){
+        return MTM_OUT_OF_MEMORY;
+    }
+    if(result==SET_ITEM_ALREADY_EXISTS){
+        return MTM_EMAIL_ALREADY_EXISTS;
+    }
+    costumerDestroy(costumer);
+    return MTM_SUCCESS;
+}
 
+MtmErrorCode escapeTechnionDestroyCostumer(EscapeTechnion escape_technion,
+                                           char *email_address){
+    bool costumer_exists=false;
+    if(escape_technion==NULL || email_address==NULL){
+        return MTM_NULL_PARAMETER;
+    }
+    if(!checkEmailAddress(email_address)){
+        return MTM_INVALID_PARAMETER;
+    }
+    SET_FOREACH(Costumer,costumer_iterator,escape_technion->costumers){
+        if(strcmp(costumerGetEmailAddress(costumer_iterator),email_address)==0){
+            costumer_exists=true;
+            SET_FOREACH(Company,company_iterator,escape_technion->companies){
+                companyDeleteCostumerOrders(company_iterator,costumer_iterator);
+            }
+        }
+    }
+    return MTM_CLIENT_EMAIL_DOES_NOT_EXIST;
 }
 

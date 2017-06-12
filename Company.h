@@ -141,5 +141,6 @@ bool companyOrdersExist(Company company);
 
 bool companyCheckRoomExist(Company company);
 
+void companyDeleteCostumerOrders(Company company,Costumer costumer);
 
 #endif //HW3_COMPANY_H

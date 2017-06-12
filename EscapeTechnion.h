@@ -82,12 +82,31 @@ MtmErrorCode escapeTechnionAddRoom(EscapeTechnion escape_technion,char *email_ad
  */
 MtmErrorCode escapeTechnionDeleteRoom(EscapeTechnion escape_technion,TechnionFaculty faculty,int id);
 
-
+/**
+ * creates a new costumer.
+ * @param escape_technion - the EscapeTechnion.
+ * @param email_address - the costumer email address.
+ * @param faculty - the costumer's faculty.
+ * @param skill_level - the costumer's skill level (1-10).
+ * @return
+ * MTM_NULL_PARAMETER - escape_technion or email_address is null pointer.
+ * MTM_INVALID_PARAMETER - the email address is not legal.
+ * MTM_OUT_OF_MEMORY - a malloc failure.
+ * MTM_EMAIL_ALREADY_EXISTS - the email address already exists in the system.
+ * MTM_SUCCESS - a new costumer was created.
+ */
 MtmErrorCode escapeTechnionAddCostumer(EscapeTechnion escape_technion,
                                        char *email_address,
                                        TechnionFaculty faculty,int skill_level);
 
-MtmErrorCode escapeTechnionDestroyCostumer(EscapeTechnion escape_technion,Email email);
+/**
+ *
+ * @param escape_technion - the EscapeTechnion.
+ * @param email
+ * @return
+ */
+MtmErrorCode escapeTechnionDestroyCostumer(EscapeTechnion escape_technion,
+                                           char *email_address);
 
 
 MtmErrorCode escapeTechnionCreateOrder(EscapeTechnion escape_technion,Email costumer_email,

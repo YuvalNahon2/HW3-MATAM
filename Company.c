@@ -182,8 +182,9 @@ bool companyCheckRoomExist(Company company){
     }
     return false;
 }
-
-/*
- * the escapeRoom set functions:these are used to
- */
+void companyDeleteCostumerOrders(Company company,Costumer costumer) {
+SET_FOREACH(EscapeRoom,room_iterator,company->EscapeRooms){
+    escapeRoomRemoveCostumerOrders(room_iterator,costumer);
+}
+}
 
