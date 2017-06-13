@@ -39,6 +39,9 @@ static bool testEscapeRoomOrder(){
     ASSERT_TEST(escapeRoomOrder(escape_room1,yuval,4,9,5,false)==ROOM_CLIENT_IN_ROOM);
     EscapeRoom escape_room3=escapeRoomCopy(escape_room1);
     ASSERT_TEST(escapeRoomOrder(escape_room3,eyal,4,9,5,true)==ROOM_CLIENT_IN_ROOM);
+    escapeRoomDestroy(escape_room1);
+    escapeRoomDestroy(escape_room2);
+    escapeRoomDestroy(escape_room3);
     return true;
 }
 static bool testEscapeRoomCreate()
@@ -190,26 +193,43 @@ static bool testEscapeRoomCreate()
     EscapeRoom  escape_room18=escapeRoomCreate(id18,price18,num_people18,open_hour18, close_hour18, diff18);
 
 
-    ASSERT_TEST(escapeRoomCreate(69, 60, 10, 5, 13, 10)!=NULL);
-    ASSERT_TEST(escapeRoomCreate(70, -20, 10, 5, 13, 10)==NULL);
-    ASSERT_TEST(escapeRoomCreate(70, 60, 10, 5, 13, 10)!=NULL);
-    ASSERT_TEST(escapeRoomCreate(69, 65, 10, 5, 13, 10)==NULL);
-    ASSERT_TEST(escapeRoomCreate(10, 60, 0, 5, 13, 10)==NULL);
-    ASSERT_TEST(escapeRoomCreate(11, 60, -10, 5, 13, 10)==NULL);
-    ASSERT_TEST(escapeRoomCreate(11, 60, -10, 5, 13, 10)==NULL);
-    ASSERT_TEST(escapeRoomCreate(12, 60, 10, 0, 13, 10)!=NULL);
-    ASSERT_TEST(escapeRoomCreate(13, 60, 10, 24, 13, 10)==NULL);
-    ASSERT_TEST(escapeRoomCreate(14, 60, 10, -12, 13, 10)==NULL);
-    ASSERT_TEST(escapeRoomCreate(15, 60, 10, 5, 0, 10)==NULL);
-    ASSERT_TEST(escapeRoomCreate(16, 60, 10, 5, 3, 10)==NULL);
-    ASSERT_TEST(escapeRoomCreate(17, 60, 10, 5, 24, 10)!=NULL);
-    ASSERT_TEST(escapeRoomCreate(18, 60, 10, 5, -13, 10)==NULL);
-    ASSERT_TEST(escapeRoomCreate(19, 60, 10, 5, 13, 10)!=NULL);
-    ASSERT_TEST(escapeRoomCreate(20, 60, 10, 5, 13, 0)==NULL);
-    ASSERT_TEST(escapeRoomCreate(21, 60, 10, 5, 13, 11)==NULL);
-    ASSERT_TEST(escapeRoomCreate(22, 60, 10, 5, 13, -12)==NULL);
+    ASSERT_TEST(escape_room1!=NULL);
+    ASSERT_TEST(escape_room2==NULL);
+    ASSERT_TEST(escape_room3!=NULL);
+    ASSERT_TEST(escape_room4==NULL);
+    ASSERT_TEST(escape_room5==NULL);
+    ASSERT_TEST(escape_room6==NULL);
+    ASSERT_TEST(escape_room7==NULL);
+    ASSERT_TEST(escape_room8!=NULL);
+    ASSERT_TEST(escape_room9==NULL);
+    ASSERT_TEST(escape_room10==NULL);
+    ASSERT_TEST(escape_room11==NULL);
+    ASSERT_TEST(escape_room12==NULL);
+    ASSERT_TEST(escape_room13!=NULL);
+    ASSERT_TEST(escape_room14==NULL);
+    ASSERT_TEST(escape_room15!=NULL);
+    ASSERT_TEST(escape_room16==NULL);
+    ASSERT_TEST(escape_room17==NULL);
+    ASSERT_TEST(escape_room18==NULL);
 
-
+    escapeRoomDestroy(escape_room1);
+    escapeRoomDestroy(escape_room2);
+    escapeRoomDestroy(escape_room3);
+    escapeRoomDestroy(escape_room4);
+    escapeRoomDestroy(escape_room5);
+    escapeRoomDestroy(escape_room6);
+    escapeRoomDestroy(escape_room7);
+    escapeRoomDestroy(escape_room8);
+    escapeRoomDestroy(escape_room9);
+    escapeRoomDestroy(escape_room10);
+    escapeRoomDestroy(escape_room11);
+    escapeRoomDestroy(escape_room12);
+    escapeRoomDestroy(escape_room13);
+    escapeRoomDestroy(escape_room14);
+    escapeRoomDestroy(escape_room15);
+    escapeRoomDestroy(escape_room16);
+    escapeRoomDestroy(escape_room17);
+    escapeRoomDestroy(escape_room18);
 
     return true;
 
@@ -241,6 +261,8 @@ static bool testEscapeRoomDestroy()
 
     ASSERT_TEST(escapeRoomDestroy(escape_room1)==ROOM_ORDERS_EXIST);
     ASSERT_TEST(escapeRoomDestroy(escape_room2)==ROOM_SUCCESS);
+    escapeRoomRemoveCostumerOrders(escape_room1,yuval);
+    escapeRoomDestroy(escape_room2);
     return true;
 
 
@@ -265,8 +287,16 @@ static bool testEscapeRoomCopy()
     int close_hour2=13;
     int diff2=10;
     EscapeRoom  escape_room2=escapeRoomCreate(id2,price2,num_people2,open_hour2, close_hour2, diff2);
-    ASSERT_TEST(escapeRoomCopy(escape_room1)!=NULL);
-    ASSERT_TEST(escapeRoomCopy(escape_room2)==NULL);
+
+    EscapeRoom copy1=escapeRoomCopy(escape_room1);
+    EscapeRoom copy2=escapeRoomCopy(escape_room2);
+    ASSERT_TEST(copy1!=NULL);
+    ASSERT_TEST(copy2==NULL);
+    escapeRoomDestroy(copy2);
+    escapeRoomDestroy(copy1);
+    escapeRoomDestroy(escape_room1);
+    escapeRoomDestroy(escape_room2);
+
     return true;
 }
 
@@ -303,6 +333,9 @@ static bool testEscapeRoomRecommendScore()
     ASSERT_TEST(escapeRoomRecommendScore(escape_room1,costumer_level4,num_people1)==-1);
     ASSERT_TEST(escapeRoomRecommendScore(escape_room1,costumer_level1,num_people2)==-1);
     ASSERT_TEST(escapeRoomRecommendScore(escape_room1,costumer_level1,num_people3)==-1);
+
+    escapeRoomDestroy(escape_room1);
+    escapeRoomDestroy(escape_room2);
 
     return true;
 }
@@ -394,17 +427,32 @@ static bool testEscapeRoomEndDay()
     ASSERT_TEST(money_earned_room32==0);
     ASSERT_TEST(money_earned_room33==100);
 
+    escapeRoomRemoveCostumerOrders(escape_room1,omri);
+    escapeRoomRemoveCostumerOrders(escape_room2,omri);
+    escapeRoomRemoveCostumerOrders(escape_room3,omri);
+    escapeRoomRemoveCostumerOrders(escape_room1,yuval);
+    escapeRoomRemoveCostumerOrders(escape_room2,yuval);
+    escapeRoomRemoveCostumerOrders(escape_room3,yuval);
 
+    listDestroy(todays_orders_room11);
+    listDestroy(todays_orders_room12);
+    listDestroy(todays_orders_room13);
+    listDestroy(todays_orders_room21);
+    listDestroy(todays_orders_room22);
+    listDestroy(todays_orders_room23);
+    listDestroy(todays_orders_room31);
+    listDestroy(todays_orders_room32);
+    listDestroy(todays_orders_room33);
+
+    costumerDestroy(yuval);
+    costumerDestroy(omri);
+
+    escapeRoomDestroy(escape_room1);
+    escapeRoomDestroy(escape_room2);
+    escapeRoomDestroy(escape_room3);
 
 
     return true;
-
-
-
-
-
-
-
 
 }
 
@@ -428,6 +476,8 @@ static bool testEscapeRoomGetId()
     EscapeRoom  escape_room2=escapeRoomCreate(id2,price2,num_people2,open_hour2, close_hour2, diff2);
 
     ASSERT_TEST(escapeRoomGetId(escape_room1)==69);
+    escapeRoomDestroy(escape_room1);
+    escapeRoomDestroy(escape_room2);
 
     return true;
 
