@@ -28,7 +28,7 @@ Order orderCreate(int order_day, int order_hour, EscapeRoom *escapeRoom,
         order->price = (num_of_people*escapeRoomGetPrice(*escapeRoom) * 3) / 4;
     }
     else {
-        order->price = escapeRoomGetPrice(*escapeRoom);
+        order->price = num_of_people*escapeRoomGetPrice(*escapeRoom);
     }
     return order;
 }
@@ -60,13 +60,11 @@ Costumer orderGetCostumer(Order order){
     return *order->costumer;
 }
 OrderTime orderGetOrderTime(Order order){
-    if(order==NULL){
-        return NULL;
-    }
+    assert(order!=NULL);
     return order->orderTime;
 }
-int orderGetPrice(Order order){
-    if(order==NULL){
+int orderGetPrice(Order order) {
+    if (order == NULL) {
         return -1;
     }
     return order->price;
@@ -74,4 +72,8 @@ int orderGetPrice(Order order){
 bool orderCheckOrderToday(ListElement order,void* today){
     assert(order!=NULL);
     return ((Order)order)->orderTime.order_day==*(int*)today;
+}
+bool orderCheckOrderNotToday(ListElement order,void* today){
+    assert(order!=NULL);
+    return ((Order)order)->orderTime.order_day!=*(int*)today;
 }

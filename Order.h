@@ -60,6 +60,7 @@ OrderTime orderGetOrderTime(Order order);
  */
 int orderGetPrice(Order order);
 
+
 /**
  * check if the order is for today.
  * @param order - the order.
@@ -70,4 +71,5 @@ int orderGetPrice(Order order);
  *
  */
 bool orderCheckOrderToday(ListElement order,void* day);
+bool orderCheckOrderNotToday(ListElement order,void* today);
 #endif //HW3_ORDER_H

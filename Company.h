@@ -37,6 +37,8 @@ Company companyCreate(Email email,TechnionFaculty faculty);
  */
 void companyDestroy(Company company);
 
+
+Company companyCopy(Company company);
 /**
  * adds a new room to the company.
  * @param company - the company to add room to.

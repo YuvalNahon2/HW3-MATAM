@@ -2,6 +2,7 @@
 #include "Costumer.h"
 #include <stdlib.h>
 #include <assert.h>
+#include <mem.h>
 
 struct CostumerS{
     Email email;
@@ -15,7 +16,9 @@ Costumer costumerCreate(Email email, TechnionFaculty faculty, int skill_level){
     if(costumer==NULL){
         return NULL;
     }
-    costumer->email=email;
+    costumer->email.address=malloc(strlen(email.address)+1);
+    strcpy(costumer->email.address,email.address);
+    email.user_type=COSTUMER;
     costumer->faculty=faculty;
     if(skill_level<1 || skill_level>10)
         return NULL;
@@ -26,7 +29,12 @@ void costumerDestroy(Costumer costumer){
     free(costumer);
 }
 
+Costumer costumerCopy(Costumer costumer){
+    Costumer new_costumer=costumerCreate(costumer->email,costumer->faculty,
+                                         costumer->skill_level);
+    return new_costumer;
 
+}
 
 int costumerGetSkillLevel(Costumer costumer){
     return costumer->skill_level;

@@ -21,6 +21,11 @@ Costumer costumerCreate(Email email, TechnionFaculty faculty, int skill_level);
  */
 void costumerDestroy(Costumer costumer);
 
+
+Costumer costumerCopy(Costumer costumer);
+
+
+
 /**
  * returns the costumer's skill level
  * @param costumer - the costumer

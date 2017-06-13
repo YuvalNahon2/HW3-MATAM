@@ -35,7 +35,30 @@ static MtmErrorCode errorConverter(CompanyErrorCode company_error) {
 
     }
 }
+static SetElement escapeTechnionCopyCompany(SetElement company){
+    return (SetElement)companyCopy((Company)company);
+}
+static void escapeTechnionFreeCompany(SetElement company){
+    companyDestroy((Company)company);
+}
+static int escapeTechnionCompareCompanies(SetElement company1,
+                                          SetElement company2){
+    return strcmp(companyGetEmailAddress((Company)company1),
+                  companyGetEmailAddress((Company)company2));
+}
 
+static SetElement escapeTechnionCopyCostumer(SetElement costumer){
+    return costumerCopy((Costumer)costumer);
+}
+
+static void escapeTechnionFreeCostumer(SetElement costumer){
+    costumerDestroy((Costumer)costumer);
+}
+static int escapeTechnionCompareCostumers(SetElement costumer1,
+                                          SetElement costumer2){
+    return strcmp(costumerGetEmailAddress((Costumer)costumer1),
+                  costumerGetEmailAddress((Costumer)costumer2));
+}
 MtmErrorCode escapeTechnionCreate(EscapeTechnion escape_technion) {
     escape_technion = malloc(sizeof(*escape_technion));
     if (escape_technion == NULL) {
@@ -249,7 +272,16 @@ MtmErrorCode escapeTechnionDestroyCostumer(EscapeTechnion escape_technion,
     }
     return MTM_SUCCESS;
 }
-
+static Costumer escapeTechnionFindCostumer(EscapeTechnion escape_technion,
+                                           char* costumer_email){
+    Costumer costumer=NULL;
+    SET_FOREACH(Costumer,costumer_iterator,escape_technion->costumers){
+        if(strcmp(costumerGetEmailAddress(costumer_iterator),costumer_email)==0){
+            costumer=costumer_iterator;
+        }
+    }
+    return costumer;
+}
 MtmErrorCode escapeTechnionCreateOrder(EscapeTechnion escape_technion,char *costumer_email,
                                        TechnionFaculty room_faculty,int room_id,int day,
                                        int hour,int num_people,int today){
@@ -260,25 +292,75 @@ MtmErrorCode escapeTechnionCreateOrder(EscapeTechnion escape_technion,char *cost
         return MTM_INVALID_PARAMETER;
     }
 
-    Costumer costumer=NULL;
-    EscapeRoom escape_room=NULL;
-    SET_FOREACH(Costumer,costumer_iterator,escape_technion->costumers){
-        if(strcmp(costumerGetEmailAddress(costumer_iterator),costumer_email)==0){
-            costumer=costumer_iterator;
-        }
-    }
+    Costumer costumer=escapeTechnionFindCostumer(escape_technion,costumer_email);
     if(costumer==NULL){
         return MTM_CLIENT_EMAIL_DOES_NOT_EXIST;
     }
-    Company company_to_order;
+    EscapeRoom escape_room=NULL;
+    Company company_to_order=NULL;
     SET_FOREACH(Company,company_iterator,escape_technion->companies){
         if(companyGetFaculty(company_iterator)==room_faculty){
             if(companyHasRoom(company_iterator,room_id)){
-                =companyCreateOrder(company_iterator,costumer,room_id,day,hour,num_people,today);
+                company_to_order=company_iterator;
+                CompanyErrorCode company_result=companyCreateOrder(
+                        company_to_order,costumer,
+                        room_id,day,hour,num_people,today);
+                MtmErrorCode result=errorConverter(company_result);
+                return result;
             }
         }
     }
-
-
-    companyCreateOrder()
+    return MTM_ID_DOES_NOT_EXIST;
 }
+
+/*finish this*/
+MtmErrorCode escapeTechnionOrderRecommended(EscapeTechnion escape_technion,
+                                            char* costumer_email_address,
+                                            int num_people){
+    if(escape_technion==NULL || costumer_email_address==NULL){
+        return MTM_NULL_PARAMETER;
+    }
+    if(!checkEmailAddress(costumer_email_address)){
+        return MTM_INVALID_PARAMETER;
+    }
+    Costumer costumer=escapeTechnionFindCostumer(escape_technion,
+                                                 costumer_email_address);
+    if(costumer==NULL){
+        return MTM_CLIENT_EMAIL_DOES_NOT_EXIST;
+    }
+
+    int min_recommend_score=-1;
+    EscapeRoom min_recommend_room=NULL;
+    Company recommended_company=NULL;
+    SET_FOREACH(Company,company_iterator,escape_technion->companies) {
+        EscapeRoom curr_recommended=companyGetRecommendedRoom(company_iterator,
+                                                              costumer,num_people);
+        int curr_score=escapeRoomRecommendScore(curr_recommended,
+                                                costumerGetSkillLevel(costumer),
+                                                num_people);
+        if(curr_score<min_recommend_score || min_recommend_score==-1){
+            min_recommend_room=curr_recommended;
+            min_recommend_score=curr_score;
+            recommended_company=company_iterator;
+        }
+        if(curr_score==min_recommend_score){
+
+        }
+    }
+    if(recommended_company==NULL || min_recommend_room==NULL){
+        return MTM_NO_ROOMS_AVAILABLE;
+    }
+    bool discount=costumerGetFaculty(costumer)==companyGetFaculty(recommended_company);
+    if(escapeRoomOrderClosest(min_recommend_room,costumer,num_people,discount,
+                           escape_technion->current_day)==ROOM_OUT_OF_MEMORY){
+        return MTM_OUT_OF_MEMORY;
+    }
+    return MTM_SUCCESS;
+}
+
+/**MtmErrorCode escapeTechnionEndDay(EscapeTechnion escape_technion){
+    SET_FOREACH(Company,company_iterator,escape_technion->companies){
+        companyEndDay(company_iterator,escape_technion->current_day,)
+    }
+}
+ */

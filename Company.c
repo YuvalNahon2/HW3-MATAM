@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <mem.h>
 #include "Company.h"
 #include "stdlib.h"
 struct CompanyS{
@@ -53,7 +54,8 @@ Company companyCreate(Email email,TechnionFaculty faculty){
     if(company==NULL){
         return NULL;
     }
-    company->email=email;
+    strcpy(company->email.address,email.address);
+    company->email.user_type=COMPANY;
     company->faculty=faculty;
     company->EscapeRooms=setCreate(companyCopyRoom,companyDestroyRoom,companyCompareRooms);
     return company;
@@ -65,6 +67,10 @@ void companyDestroy(Company company){
     }
     setDestroy(company->EscapeRooms);
     free(company);
+}
+Company companyCopy(Company company){
+    Company new_company=malloc(sizeof(*new_company));
+    return new_company;
 }
 CompanyErrorCode companyAddRoom(Company company,int id,int price,
                                 int open_hour,int close_hour,int num_people,int difficulty){

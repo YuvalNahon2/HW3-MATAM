@@ -107,4 +107,6 @@ int escapeRoomGetPrice(EscapeRoom escapeRoom);
  */
 bool escapeRoomOrdersExist(EscapeRoom escape_room);
 void escapeRoomRemoveCostumerOrders(EscapeRoom escape_room,Costumer costumer);
+RoomErrorCode escapeRoomOrderClosest(EscapeRoom escape_room,Costumer costumer,
+                            int num_people,bool discount,int today);
 #endif //HW3_ESCAPEROOM_H

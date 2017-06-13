@@ -80,10 +80,11 @@ EscapeRoom escapeRoomCopy(EscapeRoom src){
         return NULL;
     }
     listDestroy(room_copy->Orders);
-    room_copy->Orders=listCopy(room_copy->Orders);
+    room_copy->Orders=listCopy(src->Orders);
+    assert(listGetSize(room_copy->Orders)==listGetSize(src->Orders));
     return room_copy;
 }
-
+//remove costumer..
 static RoomErrorCode checkRoomAvailable(EscapeRoom escapeRoom,Costumer costumer,
                                int day,int hour){
     assert(escapeRoom!=NULL && costumer!=NULL);
@@ -115,7 +116,8 @@ RoomErrorCode escapeRoomOrder(EscapeRoom escapeRoom,Costumer costumer,
     if(newOrder==NULL) {
         return ROOM_OUT_OF_MEMORY;
     }
-    listInsertLast(escapeRoom->Orders,newOrder);
+    listInsertLast(escapeRoom->Orders,(ListElement)newOrder);
+    orderDestroy(newOrder);
     return ROOM_SUCCESS;
 }
 
@@ -132,15 +134,16 @@ List escapeRoomEndDay(EscapeRoom escapeRoom,int *money_earned,int today){
     todays_orders=listFilter(escapeRoom->Orders,orderCheckOrderToday,&today);
     List temp = escapeRoom->Orders;
     int money_today=0;
-    LIST_FOREACH(Order,order_iterator,temp){
+    LIST_FOREACH(Order,order_iterator,todays_orders){
         money_today+=orderGetPrice(order_iterator);
     }
-    escapeRoom->Orders=listFilter(escapeRoom->Orders,orderCheckOrderToday,&today);
+    escapeRoom->Orders=listFilter(escapeRoom->Orders,orderCheckOrderNotToday,&today);
     listDestroy(temp);
     *money_earned=money_today;
     return todays_orders;
 }
 int escapeRoomGetId(EscapeRoom escapeRoom){
+    assert(escapeRoom!=NULL);
     return escapeRoom->id;
 }
 int escapeRoomGetPrice(EscapeRoom escapeRoom){
@@ -165,5 +168,22 @@ void escapeRoomRemoveCostumerOrders(EscapeRoom escape_room,Costumer costumer){
     List temp=escape_room->Orders;
     listFilter(escape_room->Orders,listFilterCostumerOrders, costumer);
     listDestroy(temp);
+
+}
+
+RoomErrorCode escapeRoomOrderClosest(EscapeRoom escape_room,Costumer costumer,
+                            int num_people,bool discount,int today){
+    int hour=escape_room->open_hour;
+    int day=today;
+    while(checkRoomAvailable(escape_room,costumer,day,hour)!=ROOM_SUCCESS){
+        if(hour==escape_room->close_hour-1){
+            hour=escape_room->open_hour;
+            day+=1;
+        }
+        else{
+            hour+=1;
+        }
+    }
+    return escapeRoomOrder(escape_room,costumer,day,hour,num_people,discount);
 
 }

@@ -113,7 +113,8 @@ MtmErrorCode escapeTechnionCreateOrder(EscapeTechnion escape_technion,char *cost
                                TechnionFaculty room_faculty,int room_id,int day,
                                int hour,int num_people,int today);
 
-MtmErrorCode escapeTechnionOrderRecommended(EscapeTechnion escape_technion,Email costumer_email,
+MtmErrorCode escapeTechnionOrderRecommended(EscapeTechnion escape_technion,
+                                            char *costumer_email_address,
                                             int num_people);
 
 

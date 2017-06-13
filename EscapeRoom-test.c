@@ -19,14 +19,6 @@ static bool testEscapeRoomOrder(){
     int diff2=5;
     EscapeRoom  escape_room2=escapeRoomCreate(id2,price2,num_people2,open_hour2, close_hour2, diff2);
 
-    int id3=36;
-    int price3=40;
-    int num_people3=55;
-    int open_hour3=5;
-    int close_hour3=17;
-    int diff3=8;
-    EscapeRoom  escape_room2=escapeRoomCreate(id3,price3,num_people3,open_hour3, close_hour3, diff3);
-
 
     Email yuval_email;
     yuval_email.address="yunahon@gmail.com";
@@ -42,11 +34,12 @@ static bool testEscapeRoomOrder(){
     eyal_email.address="eyal@gmail.com";
     eyal_email.user_type=COSTUMER;
     Costumer eyal = costumerCreate(eyal_email,MECHANICAL_ENGINEERING,3);
-
     ASSERT_TEST(escapeRoomOrder(escape_room1,yuval,4,9,5,false)==ROOM_SUCCESS);
-    ASSERT_TEST(escapeRoomOrder(escape_room2,omri,5,17,3,false)==ROOM_NOT_AVAILABLE);
-    ASSERT_TEST(escapeRoomOrder(escape_room1,yuval,4,9,5,false)==ROOM_NOT_AVAILABLE);
-    ASSERT_TEST(escapeRoomOrder(escape_room3,eyal,4,9,5,true)==ROOM_SUCCESS);
+    ASSERT_TEST(escapeRoomOrder(escape_room2,omri,5,19,3,false)==ROOM_NOT_AVAILABLE);
+    ASSERT_TEST(escapeRoomOrder(escape_room1,yuval,4,9,5,false)==ROOM_CLIENT_IN_ROOM);
+    EscapeRoom escape_room3=escapeRoomCopy(escape_room1);
+    ASSERT_TEST(escapeRoomOrder(escape_room3,eyal,4,9,5,true)==ROOM_CLIENT_IN_ROOM);
+    return true;
 }
 static bool testEscapeRoomCreate()
 {
@@ -73,7 +66,7 @@ static bool testEscapeRoomCreate()
     int open_hour3=5;
     int close_hour3=13;
     int diff3=10;
-    EscapeRoom  escape_room1=escapeRoomCreate(id3,price3,num_people3,open_hour3, close_hour3, diff3);
+    EscapeRoom  escape_room3=escapeRoomCreate(id3,price3,num_people3,open_hour3, close_hour3, diff3);
 
     int id4=69;
     int price4=65;
@@ -113,7 +106,7 @@ static bool testEscapeRoomCreate()
     int open_hour8=0;
     int close_hour8=13;
     int diff8=10;
-    EscapeRoom  escape_room6=escapeRoomCreate(id8,price8,num_people8,open_hour8, close_hour8, diff8);
+    EscapeRoom  escape_room8=escapeRoomCreate(id8,price8,num_people8,open_hour8, close_hour8, diff8);
 
     int id9=13;
     int price9=60;
@@ -129,7 +122,7 @@ static bool testEscapeRoomCreate()
     int open_hour10=-12;
     int close_hour10=13;
     int diff10=10;
-    EscapeRoom  escape_room6=escapeRoomCreate(id10,price10,num_people10,open_hour10, close_hour10, diff10);
+    EscapeRoom  escape_room10=escapeRoomCreate(id10,price10,num_people10,open_hour10, close_hour10, diff10);
 
     int id11=15;
     int price11=60;
@@ -204,8 +197,8 @@ static bool testEscapeRoomCreate()
     ASSERT_TEST(escapeRoomCreate(10, 60, 0, 5, 13, 10)==NULL);
     ASSERT_TEST(escapeRoomCreate(11, 60, -10, 5, 13, 10)==NULL);
     ASSERT_TEST(escapeRoomCreate(11, 60, -10, 5, 13, 10)==NULL);
-    ASSERT_TEST(escapeRoomCreate(12, 60, 10, 0, 13, 10)==NULL);
-    ASSERT_TEST(escapeRoomCreate(13, 60, 10, 24, 13, 10)!=NULL);
+    ASSERT_TEST(escapeRoomCreate(12, 60, 10, 0, 13, 10)!=NULL);
+    ASSERT_TEST(escapeRoomCreate(13, 60, 10, 24, 13, 10)==NULL);
     ASSERT_TEST(escapeRoomCreate(14, 60, 10, -12, 13, 10)==NULL);
     ASSERT_TEST(escapeRoomCreate(15, 60, 10, 5, 0, 10)==NULL);
     ASSERT_TEST(escapeRoomCreate(16, 60, 10, 5, 3, 10)==NULL);
@@ -218,7 +211,7 @@ static bool testEscapeRoomCreate()
 
 
 
-
+    return true;
 
 }
 static bool testEscapeRoomDestroy()
@@ -248,7 +241,7 @@ static bool testEscapeRoomDestroy()
 
     ASSERT_TEST(escapeRoomDestroy(escape_room1)==ROOM_ORDERS_EXIST);
     ASSERT_TEST(escapeRoomDestroy(escape_room2)==ROOM_SUCCESS);
-
+    return true;
 
 
 
@@ -274,6 +267,7 @@ static bool testEscapeRoomCopy()
     EscapeRoom  escape_room2=escapeRoomCreate(id2,price2,num_people2,open_hour2, close_hour2, diff2);
     ASSERT_TEST(escapeRoomCopy(escape_room1)!=NULL);
     ASSERT_TEST(escapeRoomCopy(escape_room2)==NULL);
+    return true;
 }
 
 static bool testEscapeRoomRecommendScore()
@@ -287,7 +281,7 @@ static bool testEscapeRoomRecommendScore()
     EscapeRoom  escape_room1=escapeRoomCreate(id1,price1,num_people1,open_hour1, close_hour1, diff1);
 
     int costumer_level1=4;
-    int num_people1=7;
+    num_people1=7;
 
     int id2=70;
     int price2=-20;
@@ -298,7 +292,7 @@ static bool testEscapeRoomRecommendScore()
     int costumer_level2=0;
     int costumer_level3=-3;
     int costumer_level4=12;
-    int num_people2=0;
+    num_people2=0;
     int num_people3=-4;
 
     EscapeRoom  escape_room2=escapeRoomCreate(id2,price2,num_people2,open_hour2, close_hour2, diff2);
@@ -310,7 +304,7 @@ static bool testEscapeRoomRecommendScore()
     ASSERT_TEST(escapeRoomRecommendScore(escape_room1,costumer_level1,num_people2)==-1);
     ASSERT_TEST(escapeRoomRecommendScore(escape_room1,costumer_level1,num_people3)==-1);
 
-
+    return true;
 }
 static bool testEscapeRoomEndDay()
 {
@@ -351,7 +345,7 @@ static bool testEscapeRoomEndDay()
     escapeRoomOrder(escape_room1,yuval,1, 8, 5, true);
     escapeRoomOrder(escape_room2,omri,1, 7, 10, true);
     escapeRoomOrder(escape_room1,omri,1, 7, 6, true);
-    escapeRoomOrder(escape_room2,yuval,2, 3, 3, false);
+    escapeRoomOrder(escape_room2,yuval,2, 4, 3, false);
     escapeRoomOrder(escape_room3,omri,3, 9, 1, false);
     int money_earned_room11;
     int money_earned_room12;
@@ -390,8 +384,8 @@ static bool testEscapeRoomEndDay()
     ASSERT_TEST(listGetSize(todays_orders_room31)==0);
     ASSERT_TEST(listGetSize(todays_orders_room32)==0);
     ASSERT_TEST(listGetSize(todays_orders_room33)==1);
-    ASSERT_TEST(money_earned_room11==660);
-    ASSERT_TEST(money_earned_room12==400);
+    ASSERT_TEST(money_earned_room11==495);
+    ASSERT_TEST(money_earned_room12==300);
     ASSERT_TEST(money_earned_room13==0);
     ASSERT_TEST(money_earned_room21==0);
     ASSERT_TEST(money_earned_room22==120);
@@ -403,7 +397,7 @@ static bool testEscapeRoomEndDay()
 
 
 
-
+    return true;
 
 
 
@@ -434,11 +428,8 @@ static bool testEscapeRoomGetId()
     EscapeRoom  escape_room2=escapeRoomCreate(id2,price2,num_people2,open_hour2, close_hour2, diff2);
 
     ASSERT_TEST(escapeRoomGetId(escape_room1)==69);
-    ASSERT_TEST(escapeRoomGetId(escape_room1)==NULL);
 
-}
-static bool escapeRoomGetPrice()
-{
+    return true;
 
 }
 

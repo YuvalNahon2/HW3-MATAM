@@ -82,18 +82,18 @@ static bool testOrderCreate()
     int num_of_people12=8;
     bool discount12=true;
 
-    ASSERT_TEST(orderCreate(order_day1,order_hour1,escape_room3,yuval,num_of_people1,discount1)!=NULL);
-    ASSERT_TEST(orderCreate(order_day2,order_hour2,escape_room3,yuval,num_of_people2,discount2)!=NULL);
-    ASSERT_TEST(orderCreate(order_day3,order_hour1,escape_room3,yuval,num_of_people3,discount3)==NULL);
-    ASSERT_TEST(orderCreate(order_day4,order_hour1,escape_room3,yuval,num_of_people4,discount4)!=NULL);
-    ASSERT_TEST(orderCreate(order_day5,order_hour1,escape_room3,yuval,num_of_people5,discount5)==NULL);
-    ASSERT_TEST(orderCreate(order_day6,order_hour1,escape_room3,yuval,num_of_people6,discount6)==NULL);
-    ASSERT_TEST(orderCreate(order_day7,order_hour1,escape_room3,yuval,num_of_people7,discount7)==NULL);
-    ASSERT_TEST(orderCreate(order_day8,order_hour1,escape_room3,yuval,num_of_people8,discount8)==NULL);
-    ASSERT_TEST(orderCreate(order_day9,order_hour1,escape_room3,yuval,num_of_people9,discount9)==NULL);
-    ASSERT_TEST(orderCreate(order_day10,order_hour1,escape_room3,yuval,num_of_people10,discount10)==NULL);
-    ASSERT_TEST(orderCreate(order_day11,order_hour1,escape_room3,yuval,num_of_people11,discount11)==NULL);
-    ASSERT_TEST(orderCreate(order_day12,order_hour1,escape_room3,yuval,num_of_people12,discount12)!=NULL);
+    ASSERT_TEST(orderCreate(order_day1,order_hour1,&escape_room3,&yuval,num_of_people1,discount1)!=NULL);
+    ASSERT_TEST(orderCreate(order_day2,order_hour2,&escape_room3,&yuval,num_of_people2,discount2)!=NULL);
+    ASSERT_TEST(orderCreate(order_day3,order_hour1,&escape_room3,&yuval,num_of_people3,discount3)==NULL);
+    ASSERT_TEST(orderCreate(order_day4,order_hour1,&escape_room3,&yuval,num_of_people4,discount4)!=NULL);
+    ASSERT_TEST(orderCreate(order_day5,order_hour1,&escape_room3,&yuval,num_of_people5,discount5)==NULL);
+    ASSERT_TEST(orderCreate(order_day6,order_hour1,&escape_room3,&yuval,num_of_people6,discount6)==NULL);
+    ASSERT_TEST(orderCreate(order_day7,order_hour1,&escape_room3,&yuval,num_of_people7,discount7)==NULL);
+    ASSERT_TEST(orderCreate(order_day8,order_hour1,&escape_room3,&yuval,num_of_people8,discount8)==NULL);
+    ASSERT_TEST(orderCreate(order_day9,order_hour1,&escape_room3,&yuval,num_of_people9,discount9)==NULL);
+    ASSERT_TEST(orderCreate(order_day10,order_hour1,&escape_room3,&yuval,num_of_people10,discount10)==NULL);
+    ASSERT_TEST(orderCreate(order_day11,order_hour1,&escape_room3,&yuval,num_of_people11,discount11)==NULL);
+    ASSERT_TEST(orderCreate(order_day12,order_hour1,&escape_room3,&yuval,num_of_people12,discount12)!=NULL);
 
 
 
@@ -135,8 +135,8 @@ static bool testOrderGetOrderTime()
     int order_hour2=25;
     int num_of_people2=8;
     bool discount2=false;
-    Order order1=orderCreate(order_day1,order_hour1,escape_room3,yuval,num_of_people1,discount1);
-    Order order2=orderCreate(order_day2,order_hour2,escape_room3,yuval,num_of_people2,discount2);
+    Order order1=orderCreate(order_day1,order_hour1,&escape_room3,&yuval,num_of_people1,discount1);
+    Order order2=orderCreate(order_day2,order_hour2,&escape_room3,&yuval,num_of_people2,discount2);
 
     ASSERT_TEST((orderGetOrderTime(order1)).order_hour==13);
     ASSERT_TEST((orderGetOrderTime(order1)).order_day==4);
@@ -176,9 +176,9 @@ static bool testOrderGetPrice()
     bool discount3=true;
 
 
-    Order order1=orderCreate(order_day1,order_hour1,escape_room3,yuval,num_of_people1,discount1);
-    Order order2=orderCreate(order_day2,order_hour2,escape_room3,yuval,num_of_people2,discount2);
-    Order order3=orderCreate(order_day3,order_hour3,escape_room3,yuval,num_of_people3,discount3);
+    Order order1=orderCreate(order_day1,order_hour1,&escape_room3,&yuval,num_of_people1,discount1);
+    Order order2=orderCreate(order_day2,order_hour2,&escape_room3,&yuval,num_of_people2,discount2);
+    Order order3=orderCreate(order_day3,order_hour3,&escape_room3,&yuval,num_of_people3,discount3);
 
     ASSERT_TEST(orderGetPrice(order1)==320);
     ASSERT_TEST(orderGetPrice(order2)==-1);
