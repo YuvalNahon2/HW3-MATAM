@@ -36,6 +36,7 @@ static MtmErrorCode errorConverter(CompanyErrorCode company_error) {
             return MTM_OUT_OF_MEMORY;
 
     }
+    return MTM_NULL_PARAMETER;
 }
 
 static SetElement escapeTechnionCopyCompany(SetElement company) {
@@ -141,10 +142,7 @@ MtmErrorCode escapeTechnionAddCompany(EscapeTechnion escape_technion,
     if (emailExists(escape_technion, email) == true) {
         return MTM_EMAIL_ALREADY_EXISTS;
     }
-    char *company_email=email;
-    company_email.address = email;
-    company_email.user_type = COMPANY;
-    Company company = companyCreate(company_email, faculty);
+    Company company = companyCreate(email, faculty);
     if (company == NULL) {
         return MTM_OUT_OF_MEMORY;
     }
@@ -189,13 +187,10 @@ MtmErrorCode escapeTechnionAddRoom(EscapeTechnion escape_technion,
         return MTM_NULL_PARAMETER;
     }
     CompanyErrorCode result;
-    Email company_email;
-    company_email.address = email_address;
-    company_email.user_type = COMPANY;
     Company company = NULL;
     SET_FOREACH(Company, company_finder, escape_technion->companies) {
-        if (company_email.address ==
-            companyGetEmailAddress(company_finder)) {
+        if (strcmp(email_address,
+            companyGetEmailAddress(company_finder))==0) {
             company = company_finder;
             break;
         }
@@ -243,10 +238,7 @@ MtmErrorCode escapeTechnionAddCostumer(EscapeTechnion escape_technion,
     if (!checkEmailAddress(email_address)) {
         return MTM_INVALID_PARAMETER;
     }
-    Email email;
-    email.address = email_address;
-    email.user_type = COSTUMER;
-    Costumer costumer = costumerCreate(email, faculty, skill_level);
+    Costumer costumer = costumerCreate(email_address, faculty, skill_level);
     if (costumer == NULL) {
         return MTM_OUT_OF_MEMORY;
     }
@@ -315,7 +307,6 @@ escapeTechnionCreateOrder(EscapeTechnion escape_technion, char *costumer_email,
     if (costumer == NULL) {
         return MTM_CLIENT_EMAIL_DOES_NOT_EXIST;
     }
-    EscapeRoom escape_room = NULL;
     Company company_to_order = NULL;
     SET_FOREACH(Company, company_iterator, escape_technion->companies) {
         if (companyGetFaculty(company_iterator) == room_faculty) {
@@ -393,7 +384,6 @@ static int compareOrdersByRooms(ListElement order1, ListElement order2) {
 }
 
 MtmErrorCode escapeTechnionEndDay(EscapeTechnion escape_technion) {
-    int counter = 0;
     List orders_faculties[UNKNOWN];
     for (int i = 0; i < (int) UNKNOWN; i++) {
         orders_faculties[i] = listCreate(escapeRoomOrderCopy,
