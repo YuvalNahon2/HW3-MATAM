@@ -1,12 +1,11 @@
 #include <assert.h>
-#include <mem.h>
+#include <string.h>
 #include "Company.h"
 #include "stdlib.h"
 struct CompanyS{
     TechnionFaculty faculty;
-    Email email;
+    char *email;
     Set EscapeRooms;
-    int earned_money;
 };
 static int companyCompareRooms(SetElement escapeRoom1,SetElement escapeRoom2){
     return escapeRoomGetId(escapeRoom1)-escapeRoomGetId(escapeRoom2);
@@ -45,7 +44,7 @@ static CompanyErrorCode roomErrorToCompanyError(RoomErrorCode room_error){
     }
 }
 
-Company companyCreate(Email email,TechnionFaculty faculty){
+Company companyCreate(char* email,TechnionFaculty faculty){
     if(faculty<0 || faculty>=UNKNOWN){
         return NULL;
     }
@@ -54,8 +53,7 @@ Company companyCreate(Email email,TechnionFaculty faculty){
     if(company==NULL){
         return NULL;
     }
-    strcpy(company->email.address,email.address);
-    company->email.user_type=COMPANY;
+    strcpy(company->email,email);
     company->faculty=faculty;
     company->EscapeRooms=setCreate(companyCopyRoom,companyDestroyRoom,companyCompareRooms);
     return company;
@@ -69,7 +67,10 @@ void companyDestroy(Company company){
     free(company);
 }
 Company companyCopy(Company company){
-    Company new_company=malloc(sizeof(*new_company));
+    char* copyEmail;
+    copyEmail=malloc(strlen(company->email)+1);
+    Company new_company=companyCreate(copyEmail,company->faculty);
+    new_company->EscapeRooms=setCopy(company->EscapeRooms);
     return new_company;
 }
 CompanyErrorCode companyAddRoom(Company company,int id,int price,
@@ -127,28 +128,21 @@ EscapeRoom companyGetRecommendedRoom(Company company,Costumer costumer,
     }
     return min_room;
 }
-List *companyEndDay(Company company,int day,int *size) {
+List companyEndDay(Company company,int day,int *money_earned) {
     assert(company!=NULL);
-    List *company_today_orders;
-    *size=setGetSize(company->EscapeRooms);
-    company_today_orders=malloc(*size *sizeof(List));
+    List company_today_orders=listCreate(escapeRoomOrderCopy,escapeRoomOrderDestroy);
     int money_earned_company=0;
-    int counter=0;
     List today_orders=NULL;
     SET_FOREACH(EscapeRoom,room_iterator,company->EscapeRooms){
         int money_earned_room=0;
         today_orders=escapeRoomEndDay(room_iterator,&money_earned_room,day);
         money_earned_company+=money_earned_room;
-        listInsertLast(company_today_orders[counter],today_orders);
+        listInsertLast(company_today_orders,today_orders);
     }
+    *money_earned=money_earned_company;
     return company_today_orders;
 }
 
-int companyGetMoney(Company company)
-{
-    assert(company!=NULL);
-    return company->earned_money;
-}
 TechnionFaculty companyGetFaculty(Company company)
 {
     assert(company!=NULL);
@@ -156,7 +150,7 @@ TechnionFaculty companyGetFaculty(Company company)
 }
 
 char* companyGetEmailAddress(Company company){
-    return company->email.address;
+    return company->email;
 }
 CompanyErrorCode companyDeleteRoom(Company company,int id){
     if(company==NULL) {

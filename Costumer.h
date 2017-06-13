@@ -2,7 +2,6 @@
 #define HW3_COSTUMER_H
 
 #include "mtm_ex3.h"
-#include "Email.h"
 typedef struct CostumerS* Costumer;
 
 /**
@@ -13,7 +12,7 @@ typedef struct CostumerS* Costumer;
  * @return the new costumer and in case of memory allocation error or
  * invalid skill level/email NULL.
  */
-Costumer costumerCreate(Email email, TechnionFaculty faculty, int skill_level);
+Costumer costumerCreate(char *email, TechnionFaculty faculty, int skill_level);
 
 /**
  * destroys a costumer

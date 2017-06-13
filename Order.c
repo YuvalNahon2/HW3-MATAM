@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "Order.h"
-#include "EscapeTechnion.h"
 struct OrderS{
     OrderTime orderTime;
     Costumer *costumer;
@@ -13,6 +12,9 @@ struct OrderS{
 Order orderCreate(int order_day, int order_hour, EscapeRoom *escapeRoom,
                   Costumer *costumer, int num_of_people,bool discount) {
     if(escapeRoom==NULL || costumer==NULL){
+        return NULL;
+    }
+    if(order_day<0 || order_hour<0 || order_hour>23){
         return NULL;
     }
     Order order;
@@ -68,6 +70,9 @@ int orderGetPrice(Order order) {
         return -1;
     }
     return order->price;
+}
+EscapeRoom orderGetRoom(Order order){
+    return *order->requested_room;
 }
 bool orderCheckOrderToday(ListElement order,void* today){
     assert(order!=NULL);

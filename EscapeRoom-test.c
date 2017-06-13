@@ -39,9 +39,14 @@ static bool testEscapeRoomOrder(){
     ASSERT_TEST(escapeRoomOrder(escape_room1,yuval,4,9,5,false)==ROOM_CLIENT_IN_ROOM);
     EscapeRoom escape_room3=escapeRoomCopy(escape_room1);
     ASSERT_TEST(escapeRoomOrder(escape_room3,eyal,4,9,5,true)==ROOM_CLIENT_IN_ROOM);
+    escapeRoomRemoveCostumerOrders(escape_room1,yuval);
+    escapeRoomRemoveCostumerOrders(escape_room3,yuval);
     escapeRoomDestroy(escape_room1);
     escapeRoomDestroy(escape_room2);
     escapeRoomDestroy(escape_room3);
+    costumerDestroy(yuval);
+    costumerDestroy(omri);
+    costumerDestroy(eyal);
     return true;
 }
 static bool testEscapeRoomCreate()
@@ -262,7 +267,8 @@ static bool testEscapeRoomDestroy()
     ASSERT_TEST(escapeRoomDestroy(escape_room1)==ROOM_ORDERS_EXIST);
     ASSERT_TEST(escapeRoomDestroy(escape_room2)==ROOM_SUCCESS);
     escapeRoomRemoveCostumerOrders(escape_room1,yuval);
-    escapeRoomDestroy(escape_room2);
+    escapeRoomDestroy(escape_room1);
+    costumerDestroy(yuval);
     return true;
 
 

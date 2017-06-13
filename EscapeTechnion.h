@@ -3,7 +3,6 @@
 
 #include "mtm_ex3.h"
 #include "set.h"
-#include "Email.h"
 #include "list.h"
 typedef struct EscapeTechnionS *EscapeTechnion;
 /**
@@ -120,6 +119,7 @@ MtmErrorCode escapeTechnionOrderRecommended(EscapeTechnion escape_technion,
 
 MtmErrorCode escapeTechnionEndDay(EscapeTechnion escape_technion);
 
-MtmErrorCode escapeTechnionPrintWinningFaculties(EscapeTechnion escape_technion);
+TechnionFaculty *escapeTechnionPrintWinningFaculties(EscapeTechnion escape_technion,
+                                                 int **money);
 
 #endif //HW3_ESCAPETECHNION_H

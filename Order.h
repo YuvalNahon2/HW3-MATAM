@@ -61,6 +61,8 @@ OrderTime orderGetOrderTime(Order order);
 int orderGetPrice(Order order);
 
 
+EscapeRoom orderGetRoom(Order order);
+
 /**
  * check if the order is for today.
  * @param order - the order.

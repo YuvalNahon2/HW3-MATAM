@@ -1,7 +1,6 @@
 #ifndef HW3_COMPANY_H
 #define HW3_COMPANY_H
 
-#include "Email.h"
 #include "mtm_ex3.h"
 #include "Costumer.h"
 #include "EscapeRoom.h"
@@ -27,7 +26,7 @@ typedef struct CompanyS *Company;
  * @return the created Company.in case of memory problem or an invalid faculty
  * NULL will be returned.
  */
-Company companyCreate(Email email,TechnionFaculty faculty);
+Company companyCreate(char *email,TechnionFaculty faculty);
 
 /**
  * a function that destroys a company.
@@ -106,9 +105,11 @@ EscapeRoom companyGetRecommendedRoom(Company company,Costumer costumer,
  * @param day - the current system day
  * @param size - a parameter used to return the size of the array returned from
  * the function
+ * @param money_earned - a parameter used to return the money the company earned
+ * today.
  * @return - an array of Lists of orders that were executed today.
  */
-List *companyEndDay(Company company,int day,int *size);
+List companyEndDay(Company company,int day,int *money_earned);
 
 /**
  * @param company - the company.

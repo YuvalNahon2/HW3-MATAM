@@ -22,14 +22,14 @@ struct EscapeRoomS{
  * @param order - the order to copy
  * @return the copy of the order (as a ListElement).
  */
-static ListElement escapeRoomOrderCopy(ListElement order){
+ListElement escapeRoomOrderCopy(ListElement order){
     return (ListElement)orderCopy((Order)order);
 }
 /**
  * destroys an order
  * @param order - the order to destroy.
  */
-static void escapeRoomOrderDestroy(ListElement order){
+void escapeRoomOrderDestroy(ListElement order){
     orderDestroy((Order)order);
 }
 
@@ -63,6 +63,9 @@ EscapeRoom escapeRoomCreate ( int id,
     }
 
 RoomErrorCode escapeRoomDestroy(EscapeRoom escapeRoom){
+    if(escapeRoom==NULL){
+        return ROOM_NULL_PARAMETER;
+    }
     if(listGetSize(escapeRoom->Orders)>0)
         return ROOM_ORDERS_EXIST;
     listDestroy(escapeRoom->Orders);
@@ -156,9 +159,15 @@ bool escapeRoomOrdersExist(EscapeRoom escape_room){
     }
     return false;
 }
+/**
+ *
+ * @param order
+ * @param costumer
+ * @return
+ */
 static bool listFilterCostumerOrders(ListElement order,
                                      ListFilterKey costumer){
-    if(orderGetCostumer((Order)order)==costumer){
+    if(orderGetCostumer((Order)order)!=costumer){
                 return false;
     }
     return true;
@@ -166,9 +175,9 @@ static bool listFilterCostumerOrders(ListElement order,
 }
 void escapeRoomRemoveCostumerOrders(EscapeRoom escape_room,Costumer costumer){
     List temp=escape_room->Orders;
-    listFilter(escape_room->Orders,listFilterCostumerOrders, costumer);
+    escape_room->Orders=listFilter(escape_room->Orders,
+                                   listFilterCostumerOrders, costumer);
     listDestroy(temp);
-
 }
 
 RoomErrorCode escapeRoomOrderClosest(EscapeRoom escape_room,Costumer costumer,

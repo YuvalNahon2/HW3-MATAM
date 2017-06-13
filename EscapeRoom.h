@@ -13,6 +13,12 @@ typedef enum RoomErrorCodeE{
     ROOM_INVALID_ARGUMENT
 }RoomErrorCode;
 typedef struct EscapeRoomS *EscapeRoom;
+
+ListElement escapeRoomOrderCopy(ListElement order);
+
+void escapeRoomOrderDestroy(ListElement order);
+
+
 /**
  * creates a new EscapeRoom.
  * @param id - the id of the new room
