@@ -74,9 +74,7 @@ void companyDestroy(Company company){
     free(company);
 }
 Company companyCopy(Company company){
-    char* copyEmail;
-    copyEmail=malloc(strlen(company->email)+1);
-    Company new_company=companyCreate(copyEmail,company->faculty);
+    Company new_company=companyCreate(company->email,company->faculty);
     new_company->EscapeRooms=setCopy(company->EscapeRooms);
     return new_company;
 }
@@ -85,7 +83,7 @@ CompanyErrorCode companyAddRoom(Company company,int id,int price,
     if(company==NULL){
         return COMPANY_NULL_PARAMETER;
     }
-    if(close_hour>23 || open_hour<0 || price<0 || price%4!=0 ||
+    if(close_hour>23 || open_hour<0 || price<=0 || price%4!=0 ||
        num_people<1 || difficulty<1 || difficulty > 10 || open_hour>=close_hour)
     {
         return COMPANY_INVALID_ARGUMENT;

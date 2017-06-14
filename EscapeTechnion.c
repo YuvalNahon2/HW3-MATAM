@@ -152,7 +152,7 @@ MtmErrorCode escapeTechnionAddCompany(EscapeTechnion escape_technion,
         return MTM_OUT_OF_MEMORY;
     }
     SetResult result;
-    result = setAdd(escape_technion->companies, (SetElement) company);
+    result = setAdd(escape_technion->companies, company);
     companyDestroy(company);
     if (result == SET_OUT_OF_MEMORY) {
         return MTM_OUT_OF_MEMORY;
@@ -205,7 +205,7 @@ MtmErrorCode escapeTechnionAddRoom(EscapeTechnion escape_technion,
     SET_FOREACH(Company, company_itreator, escape_technion->companies) {
         if (companyGetFaculty(company_itreator) ==
             companyGetFaculty(company)) {
-            if (companyCheckRoomExist(company_itreator)) {
+            if (companyHasRoom(company_itreator,id)) {
                 return MTM_ID_ALREADY_EXIST;
             }
         }
@@ -239,7 +239,8 @@ MtmErrorCode escapeTechnionAddCostumer(EscapeTechnion escape_technion,
     if (escape_technion == NULL || email_address == NULL) {
         return MTM_NULL_PARAMETER;
     }
-    if (!checkEmailAddress(email_address)) {
+    if (!checkEmailAddress(email_address) || faculty>=UNKNOWN || faculty<0
+        ||skill_level<1 || skill_level>10) {
         return MTM_INVALID_PARAMETER;
     }
     Costumer costumer = costumerCreate(email_address, faculty, skill_level);
@@ -303,7 +304,9 @@ MtmErrorCode escapeTechnionCreateOrder(EscapeTechnion escape_technion,
     if (escape_technion == NULL) {
         return MTM_NULL_PARAMETER;
     }
-    if (!checkEmailAddress(costumer_email)) {
+    if (!checkEmailAddress(costumer_email) || room_faculty<0 ||
+            room_faculty>UNKNOWN || day<escape_technion->current_day || day<0 ||
+            hour<0 || hour>23 || num_people<=0) {
         return MTM_INVALID_PARAMETER;
     }
 
