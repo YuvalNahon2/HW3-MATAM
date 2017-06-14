@@ -112,11 +112,6 @@ EscapeRoom companyGetRecommendedRoom(Company company,Costumer costumer,
 List companyEndDay(Company company,int day,int *money_earned);
 
 /**
- * @param company - the company.
- * @return the amount of money the company made.
- */
-int companyGetMoney(Company company);
-/**
  *
  * @param company - the company.
  * @return the faculty the company belongs to.

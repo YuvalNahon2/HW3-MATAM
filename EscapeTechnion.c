@@ -127,8 +127,7 @@ static bool emailExists(EscapeTechnion escape_technion, char *email) {
         }
     }
     SET_FOREACH(Costumer, costumer_iterator, escape_technion->costumers) {
-        if (strcmp(costumerGetEmailAddress(costumer_iterator), email) ==
-            0) {
+        if (strcmp(costumerGetEmailAddress(costumer_iterator), email) == 0) {
             return true;
         }
     }
@@ -192,7 +191,6 @@ MtmErrorCode escapeTechnionAddRoom(EscapeTechnion escape_technion,
     if (escape_technion == NULL || email_address == NULL) {
         return MTM_NULL_PARAMETER;
     }
-    CompanyErrorCode result;
     Company company = NULL;
     SET_FOREACH(Company, company_finder, escape_technion->companies) {
         if (strcmp(email_address,
