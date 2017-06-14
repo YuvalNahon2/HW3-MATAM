@@ -153,6 +153,9 @@ int escapeRoomGetPrice(EscapeRoom escapeRoom){
     return escapeRoom->price;
 }
 
+int escapeRoomGetDiff(EscapeRoom escape_room){
+    return escape_room->dificulty;
+}
 bool escapeRoomOrdersExist(EscapeRoom escape_room){
     if(listGetSize(escape_room->Orders)>0){
         return true;

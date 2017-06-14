@@ -195,4 +195,10 @@ bool companyHasRoom(Company company,int id){
     }
     return false;
 }
-
+bool companySearchRoom(Company company,EscapeRoom escape_room){
+    if(setAdd(company->EscapeRooms,escape_room)==SET_ITEM_ALREADY_EXISTS){
+        return true;
+    }
+    setRemove(company->EscapeRooms,escape_room);
+    return false;
+}

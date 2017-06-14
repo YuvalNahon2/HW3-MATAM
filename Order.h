@@ -60,6 +60,7 @@ OrderTime orderGetOrderTime(Order order);
  */
 int orderGetPrice(Order order);
 
+int orderGetNumPeople(Order order);
 
 EscapeRoom orderGetRoom(Order order);
 

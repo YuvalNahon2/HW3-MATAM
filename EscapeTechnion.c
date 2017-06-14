@@ -11,7 +11,9 @@ struct EscapeTechnionS {
     int current_day;
     int faculties_money[UNKNOWN];
 };
-
+int escapeTechnionGetDay(EscapeTechnion escape_technion){
+    return escape_technion->current_day;
+}
 static MtmErrorCode errorConverter(CompanyErrorCode company_error) {
     switch (company_error) {
         case COMPANY_INVALID_ARGUMENT:
@@ -384,7 +386,16 @@ static int compareOrdersByRooms(ListElement order1, ListElement order2) {
            escapeRoomGetId(orderGetRoom(order2));
 }
 
-MtmErrorCode escapeTechnionEndDay(EscapeTechnion escape_technion) {
+static Company escapeTechnionSearchCompany(EscapeTechnion escape_technion,
+                                           Order order){
+    EscapeRoom escape_room=orderGetRoom(order);
+    SET_FOREACH(Company,company_iterator,escape_technion->companies){
+        if(companySearchRoom(company_iterator,escape_room)){
+            return company_iterator;
+        }}
+    return NULL;
+}
+MtmErrorCode escapeTechnionEndDay(EscapeTechnion escape_technion,FILE *output) {
     List orders_faculties[UNKNOWN];
     for (int i = 0; i < (int) UNKNOWN; i++) {
         orders_faculties[i] = listCreate(escapeRoomOrderCopy,
@@ -418,9 +429,27 @@ MtmErrorCode escapeTechnionEndDay(EscapeTechnion escape_technion) {
     }
     listSort(all_today_orders, compareOrdersByHour);
     escape_technion->current_day++;
+    mtmPrintDayHeader(output,escape_technion->current_day,
+                      listGetSize(all_today_orders));
+    LIST_FOREACH(Order,order_iterator,all_today_orders) {
+        Costumer costumer=orderGetCostumer(order_iterator);
+        Company company=escapeTechnionSearchCompany(escape_technion,
+                                                    order_iterator);
+        EscapeRoom room=(orderGetRoom(order_iterator));
+        mtmPrintOrder(output, costumerGetEmailAddress(costumer),
+                      costumerGetSkillLevel(costumer),
+                      costumerGetFaculty(costumer),
+                      companyGetEmailAddress(company),
+                      companyGetFaculty(company),
+                      escapeRoomGetId(room),
+                      orderGetOrderTime(order_iterator).order_hour,
+                      escapeRoomGetDiff(room),
+                      orderGetNumPeople(order_iterator),
+                      orderGetPrice(order_iterator));
+    }
     return MTM_SUCCESS;
 }
-TechnionFaculty *escapeTechnionPrintWinningFaculties(EscapeTechnion escape_technion,int **company_earnings) {
+void escapeTechnionPrintWinningFaculties(EscapeTechnion escape_technion,FILE *output) {
     bool swapped;
     int temp;
     int money_array[UNKNOWN];
@@ -451,13 +480,13 @@ TechnionFaculty *escapeTechnionPrintWinningFaculties(EscapeTechnion escape_techn
             }
         }
     }
-    TechnionFaculty *winning_faculties=malloc(sizeof(int)*3);
-    for(int k=0;k<3;k++){
-        winning_faculties[k]=helperArray[k];
+    int sum_money=0;
+    for(int i=0;i<(int)UNKNOWN;i++){
+        sum_money+=money_array[i];
     }
-    int *money = malloc(sizeof(int)*3);
-    for(int k=0;k<3;k++){
-        money[k]=money_array[k];
+    mtmPrintFacultiesHeader(output,UNKNOWN,escape_technion->current_day,sum_money);
+    for(int i=0;i<3;i++) {
+        mtmPrintFaculty(output,helperArray[i],money_array[i]);
     }
-    return winning_faculties;
+    mtmPrintFacultiesFooter(output);
 }

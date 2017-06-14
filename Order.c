@@ -71,6 +71,9 @@ int orderGetPrice(Order order) {
     }
     return order->price;
 }
+int orderGetNumPeople(Order order){
+    return order->num_of_people;
+}
 EscapeRoom orderGetRoom(Order order){
     return *order->requested_room;
 }

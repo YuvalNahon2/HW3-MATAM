@@ -146,6 +146,7 @@ bool companyCheckRoomExist(Company company);
 
 void companyDeleteCostumerOrders(Company company,Costumer costumer);
 
-bool companyHasRoom(Company company,int id);
 
+bool companyHasRoom(Company company,int id);
+bool companySearchRoom(Company company,EscapeRoom escape_room);
 #endif //HW3_COMPANY_H

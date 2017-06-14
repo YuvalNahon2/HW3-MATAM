@@ -5,6 +5,8 @@
 #include "set.h"
 #include "list.h"
 typedef struct EscapeTechnionS *EscapeTechnion;
+
+int escapeTechnionGetDay(EscapeTechnion escape_technion);
 /**
  * creates a new EscapeTechnion.
  * @param escape_technion - parameter used to return the new EscapeTechnion.
@@ -117,9 +119,8 @@ MtmErrorCode escapeTechnionOrderRecommended(EscapeTechnion escape_technion,
                                             int num_people);
 
 
-MtmErrorCode escapeTechnionEndDay(EscapeTechnion escape_technion);
+MtmErrorCode escapeTechnionEndDay(EscapeTechnion escape_technion,FILE *output);
 
-TechnionFaculty *escapeTechnionPrintWinningFaculties(EscapeTechnion escape_technion,
-                                                 int **money);
+void escapeTechnionPrintWinningFaculties(EscapeTechnion escape_technion,FILE *output);
 
 #endif //HW3_ESCAPETECHNION_H

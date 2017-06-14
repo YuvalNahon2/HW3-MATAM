@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "EscapeTechnion.h"
+
 #define DELIMITER " \t"
 #define MAX_COMMAND_SIZE 250
 static MtmErrorCode companySubCommand(EscapeTechnion escape_technion){
@@ -69,11 +70,26 @@ static MtmErrorCode costumerSubCommand(EscapeTechnion escape_technion){
         return escapeTechnionCreateOrder(escape_technion,email,
                                          faculty,id,day,hour,num_people);
     }
+    if (strcmp(sub_command,"recommend")==0){
+        char *email=strtok(NULL,DELIMITER);
+        int num_people=atoi(strtok(NULL,DELIMITER));
+        escapeTechnionOrderRecommended(escape_technion,email,num_people);
+    }
     return MTM_INVALID_PARAMETER;
 }
 
-static MtmErrorCode reportSubCommand(EscapeTechnion escape_technion){
+static MtmErrorCode reportSubCommand(EscapeTechnion escape_technion,FILE *output){
+    char *sub_command=strtok(NULL," ");
+    if(strcmp(sub_command,"day")){
+        return escapeTechnionEndDay(escape_technion,output);
+    }
+    if(strcmp(sub_command,"best")){
+        int *company_earnings;
+        TechnionFaculty *faculty;
+        faculty=escapeTechnionPrintWinningFaculties(escape_technion,
+                                                    &company_earnings);
 
+    }
 }
 
 
@@ -106,7 +122,7 @@ void getCommands(FILE *input_file,FILE *output_file,
             mtmPrintErrorMessage(stderr,result);
         }
         else if(strcmp(command,"report")==0){
-            result=reportSubCommand(escape_technion);
+            result=reportSubCommand(escape_technion,output_file);
             mtmPrintErrorMessage(stderr,result);
         }
         else if(command[0]=='#'){

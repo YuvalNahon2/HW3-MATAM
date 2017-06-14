@@ -104,6 +104,7 @@ int escapeRoomGetId(EscapeRoom escapeRoom);
  */
 int escapeRoomGetPrice(EscapeRoom escapeRoom);
 
+int escapeRoomGetDiff(EscapeRoom escape_room);
 /**
  * checks if the room has orders.
  * @param escape_room - the EscapeRoom.
