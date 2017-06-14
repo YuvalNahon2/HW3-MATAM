@@ -138,7 +138,7 @@ List escapeRoomEndDay(EscapeRoom escapeRoom,int *money_earned,int today){
     List temp = escapeRoom->Orders;
     int money_today=0;
     LIST_FOREACH(Order,order_iterator,todays_orders){
-        money_today+=orderGetPrice(order_iterator);
+            money_today += orderGetPrice(order_iterator);
     }
     escapeRoom->Orders=listFilter(escapeRoom->Orders,orderCheckOrderNotToday,&today);
     listDestroy(temp);

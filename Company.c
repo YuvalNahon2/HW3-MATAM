@@ -2,6 +2,8 @@
 #include <string.h>
 #include "Company.h"
 #include "stdlib.h"
+#include "Order.h"
+
 struct CompanyS{
     TechnionFaculty faculty;
     char *email;
@@ -53,6 +55,7 @@ Company companyCreate(char* email,TechnionFaculty faculty){
     if(company==NULL){
         return NULL;
     }
+    company->email=malloc(strlen(email)+1);
     strcpy(company->email,email);
     company->faculty=faculty;
     company->EscapeRooms=setCreate(companyCopyRoom,companyDestroyRoom,companyCompareRooms);
@@ -60,16 +63,18 @@ Company companyCreate(char* email,TechnionFaculty faculty){
 }
 
 void companyDestroy(Company company){
+    if(company==NULL){
+        return;
+    }
     if(companyOrdersExist(company)){
         return;
     }
+    free(company->email);
     setDestroy(company->EscapeRooms);
     free(company);
 }
 Company companyCopy(Company company){
-    char* copyEmail;
-    copyEmail=malloc(strlen(company->email)+1);
-    Company new_company=companyCreate(copyEmail,company->faculty);
+    Company new_company=companyCreate(company->email,company->faculty);
     new_company->EscapeRooms=setCopy(company->EscapeRooms);
     return new_company;
 }
@@ -78,8 +83,9 @@ CompanyErrorCode companyAddRoom(Company company,int id,int price,
     if(company==NULL){
         return COMPANY_NULL_PARAMETER;
     }
-    if(close_hour>23 || open_hour<0 || price<0 || price%4!=0 ||
-       num_people<1 || difficulty<1 || difficulty > 10){
+    if(close_hour>23 || open_hour<0 || price<=0 || price%4!=0 ||
+       num_people<1 || difficulty<1 || difficulty > 10 || open_hour>=close_hour)
+    {
         return COMPANY_INVALID_ARGUMENT;
     }
     EscapeRoom new_room;
@@ -114,6 +120,9 @@ CompanyErrorCode companyCreateOrder(Company company,Costumer costumer,int room_i
 
 EscapeRoom companyGetRecommendedRoom(Company company,Costumer costumer,
                                      int num_people) {
+    if(costumer==NULL || company==NULL){
+        return NULL;
+    }
     int level=costumerGetSkillLevel(costumer);
     int min_score=-1;
     EscapeRoom min_room=NULL;
@@ -136,13 +145,14 @@ List companyEndDay(Company company,int day,int *money_earned) {
     SET_FOREACH(EscapeRoom,room_iterator,company->EscapeRooms){
         int money_earned_room=0;
         today_orders=escapeRoomEndDay(room_iterator,&money_earned_room,day);
-        money_earned_company+=money_earned_room;
-        listInsertLast(company_today_orders,today_orders);
+        LIST_FOREACH(Order,order_iterator,today_orders) {
+            money_earned_company += money_earned_room;
+            listInsertLast(company_today_orders, order_iterator);
+        }
     }
     *money_earned=money_earned_company;
     return company_today_orders;
 }
-
 TechnionFaculty companyGetFaculty(Company company)
 {
     assert(company!=NULL);
@@ -161,7 +171,7 @@ CompanyErrorCode companyDeleteRoom(Company company,int id){
             if(escapeRoomOrdersExist(room_iterator)){
                 return COMPANY_ROOM_ORDERS_EXIST;
             }
-            companyDestroyRoom(room_iterator);
+            setRemove(company->EscapeRooms,room_iterator);
             return COMPANY_SUCCESS;
         }
     }
@@ -169,6 +179,9 @@ CompanyErrorCode companyDeleteRoom(Company company,int id){
 }
 
 bool companyOrdersExist(Company company) {
+    if(setGetSize(company->EscapeRooms)==0){
+        return false;
+    }
     SET_FOREACH(EscapeRoom,room_iterator,company->EscapeRooms){
         if(escapeRoomOrdersExist(room_iterator)==true){
             return true;

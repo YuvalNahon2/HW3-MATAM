@@ -2,7 +2,7 @@
 #include "test_utilities.h"
 #include "EscapeRoom.h"
 #include "Company.h"
-
+#include <string.h>
 static bool testCompanyCreate()
 {
 
@@ -20,8 +20,8 @@ static bool testCompanyCreate()
     Company company3=companyCreate(mail_comp3,faculty3);
 
     ASSERT_TEST(company1!=NULL);
-    ASSERT_TEST(company2==NULL);
-    ASSERT_TEST(company3!=NULL);
+    ASSERT_TEST(company2!=NULL);
+    ASSERT_TEST(company3==NULL);
 
 
     companyDestroy(company1);
@@ -40,7 +40,7 @@ static bool testCompanyAddRoom()
     TechnionFaculty faculty1=ELECTRICAL_ENGINEERING;
     Company company1=companyCreate(mail_comp1,faculty1);
 
-    char* mail_comp2="JPMorgancompany.com";
+    char* mail_comp2="intel@company.com";
     TechnionFaculty faculty2=ELECTRICAL_ENGINEERING;
     Company company2=companyCreate(mail_comp2,faculty2);
 
@@ -74,11 +74,11 @@ static bool testCompanyAddRoom()
     int diff4=10;
 
 
-    ASSERT_TEST(companyAddRoom(company1,id1,price1,num_people1,open_hour1,close_hour1,diff1)==COMPANY_SUCCESS);
-    ASSERT_TEST(companyAddRoom(company2,id1,price1,num_people1,open_hour1,close_hour1,diff1)==COMPANY_NULL_PARAMETER);
-    ASSERT_TEST(companyAddRoom(company1,id2,price2,num_people2,open_hour2,close_hour2,diff2)==COMPANY_ROOM_ALREADY_EXIST);
-    ASSERT_TEST(companyAddRoom(company1,id3,price3,num_people3,open_hour3,close_hour3,diff3)==COMPANY_INVALID_ARGUMENT);
-    ASSERT_TEST(companyAddRoom(company1,id4,price4,num_people4,open_hour4,close_hour4,diff4)==COMPANY_SUCCESS);
+    ASSERT_TEST(companyAddRoom(company1,id1,price1,open_hour1,close_hour1,num_people1,diff1)==COMPANY_SUCCESS);
+    ASSERT_TEST(companyAddRoom(company2,id1,price1,open_hour2,close_hour2,num_people1,diff1)==COMPANY_SUCCESS);
+    ASSERT_TEST(companyAddRoom(company1,id2,price2,open_hour2,close_hour2,num_people2,diff2)==COMPANY_ROOM_ALREADY_EXIST);
+    ASSERT_TEST(companyAddRoom(company1,id3,price3,open_hour3,close_hour3,num_people3,diff3)==COMPANY_INVALID_ARGUMENT);
+    ASSERT_TEST(companyAddRoom(company1,id4,price4,open_hour4,close_hour4,num_people4,diff4)==COMPANY_SUCCESS);
 
     companyDeleteRoom(company1,id1);
     companyDeleteRoom(company2,id1);
@@ -100,7 +100,7 @@ static bool testCompanyCreateOrder()
     TechnionFaculty faculty1=ELECTRICAL_ENGINEERING;
     Company company1=companyCreate(mail_comp1,faculty1);
 
-    char* mail_comp2="JPMorgancompany.com";
+    char* mail_comp2="JPMorgan@company.com";
     TechnionFaculty faculty2=ELECTRICAL_ENGINEERING;
     Company company2=companyCreate(mail_comp2,faculty2);
 
@@ -149,40 +149,28 @@ static bool testCompanyCreateOrder()
     int num_peopleC2=4;
     int today2=1;
 
-    int room_id3=69;
+    int room_id3=70;
     int day3=4;
     int hour3=16;
     int num_peopleC3=4;
     int today3=5;
 
-    int room_id4=69;
-    int day4=-3;
-    int hour4=16;
-    int num_peopleC4=4;
-    int today4=1;
 
 
-    int room_id5=69;
-    int day5=4;
-    int hour5=0;
-    int num_peopleC5=4;
-    int today5=1;
-
-
-    int room_id6=69;
-    int day6=4;
+    int room_id6=71;
+    int day6=5;
     int hour6=24;
     int num_peopleC6=4;
     int today6=1;
 
 
     int room_id7=69;
-    int day7=4;
+    int day7=2;
     int hour7=-6;
     int num_peopleC7=4;
     int today7=1;
 
-    int room_id8=69;
+    int room_id8=71;
     int day8=4;
     int hour8=21;
     int num_peopleC8=4;
@@ -199,13 +187,11 @@ static bool testCompanyCreateOrder()
     companyAddRoom(company1,id3,price3,open_hour3,close_hour3,num_people3,diff3);
 
     ASSERT_TEST(companyCreateOrder(company1,yuval,room_id1,day1,hour1,num_peopleC1,today1)==COMPANY_SUCCESS);
-    ASSERT_TEST(companyCreateOrder(company2,yuval,room_id1,day1,hour1,num_peopleC1,today1)==COMPANY_NULL_PARAMETER);
-    ASSERT_TEST(companyCreateOrder(company1,omri,room_id1,day1,hour1,num_peopleC1,today1)==COMPANY_NULL_PARAMETER);
+    ASSERT_TEST(companyCreateOrder(company2,yuval,room_id1,day1,hour1,num_peopleC1,today1)==COMPANY_ROOM_DOESNT_EXIST);
+    ASSERT_TEST(companyCreateOrder(company1,omri,room_id1,day1,hour1,num_peopleC1,today1)==COMPANY_CLIENT_IN_ROOM);
 
     ASSERT_TEST(companyCreateOrder(company1,yuval,room_id2,day2,hour2,num_peopleC2,today2)==COMPANY_ROOM_DOESNT_EXIST);
-    ASSERT_TEST(companyCreateOrder(company1,yuval,room_id3,day3,hour3,num_peopleC3,today3)==COMPANY_INVALID_ARGUMENT);
-    ASSERT_TEST(companyCreateOrder(company1,yuval,room_id4,day4,hour4,num_peopleC4,today4)==COMPANY_INVALID_ARGUMENT);
-    ASSERT_TEST(companyCreateOrder(company1,yuval,room_id5,day5,hour5,num_peopleC5,today5)==COMPANY_INVALID_ARGUMENT);
+    ASSERT_TEST(companyCreateOrder(company1,yuval,room_id3,day3,hour3,num_peopleC3,today3)==COMPANY_SUCCESS);
     ASSERT_TEST(companyCreateOrder(company1,yuval,room_id6,day6,hour6,num_peopleC6,today6)==COMPANY_INVALID_ARGUMENT);
     ASSERT_TEST(companyCreateOrder(company1,yuval,room_id7,day7,hour7,num_peopleC7,today7)==COMPANY_INVALID_ARGUMENT);
     ASSERT_TEST(companyCreateOrder(company1,eyal,room_id8,day8,hour8,num_peopleC8,today8)==COMPANY_ROOM_NOT_AVAILABLE);
@@ -244,7 +230,7 @@ static bool testCompanyGetRecommendedRoom()
     char* yuval_email="yunahon@gmail.com";
     Costumer yuval=costumerCreate(yuval_email,COMPUTER_SCIENCE,4);
 
-    char* omri_email="omriporkinggmail.com";
+    char* omri_email="omriporking@gmail.com";
     Costumer omri=costumerCreate(omri_email,MATHEMATICS,2);
 
     char* eyal_email="eyel@gmail.com";
@@ -257,7 +243,7 @@ static bool testCompanyGetRecommendedRoom()
     int open_hour1=5;
     int close_hour1=19;
     int diff1=10;
-      companyAddRoom(company1,id1,price1,num_people1,open_hour1, close_hour1, diff1);
+      companyAddRoom(company1,id1,price1,open_hour1, close_hour1,num_people1, diff1);
 
 
     int id2=70;
@@ -281,8 +267,8 @@ static bool testCompanyGetRecommendedRoom()
 
     ASSERT_TEST(companyGetRecommendedRoom(company1,yuval,num_of_people)!=NULL);
     ASSERT_TEST(companyGetRecommendedRoom(company2,yuval,num_of_people)==NULL);
-    ASSERT_TEST(companyGetRecommendedRoom(company1,omri,num_of_people)==NULL);
-    ASSERT_TEST(companyGetRecommendedRoom(company3,yuval,num_of_people)==NULL);
+    ASSERT_TEST(companyGetRecommendedRoom(company1,NULL,num_of_people)==NULL);
+    ASSERT_TEST(companyGetRecommendedRoom(company3,yuval,num_of_people)!=NULL);
 
 
 
@@ -305,21 +291,21 @@ static bool testCompanyEndDay()
 
 
 
-    int id1=69;
+    int id1=10;
     int price1=60;
     int num_people1=10;
     int open_hour1=5;
     int close_hour1=13;
     int diff1=10;
 
-    int id2=10;
+    int id2=11;
     int price2=40;
     int num_people2=8;
     int open_hour2=4;
     int close_hour2=22;
     int diff2=5;
 
-    int id3=15;
+    int id3=12;
     int price3=100;
     int num_people3=8;
     int open_hour3=4;
@@ -337,67 +323,55 @@ static bool testCompanyEndDay()
     companyAddRoom(company1,id3,price3,open_hour3,close_hour3,num_people3,diff3);
 
 
-    int room_id1=69;
-    int day1=1;
+    int room_id1=10;
+    int day1=0;
     int hour1=10;
     int num_peopleC1=8;
     int today1=0;
 
-    int room_id2=69;
+    int room_id2=11;
     int day2=1;
     int hour2=7;
     int num_peopleC2=8;
-    int today2=0;
 
-    int room_id3=69;
+
+    int room_id3=10;
     int day3=2;
     int hour3=6;
     int num_peopleC3=8;
-    int today3=0;
 
-    int room_id4=15;
+    int room_id4=11;
     int day4=2;
     int hour4=12;
     int num_peopleC4=8;
-    int today4=0;
 
-    int room_id5=69;
+
+    int room_id5=12;
     int day5=2;
     int hour5=9;
     int num_peopleC5=8;
-    int today5=0;
+
 
     int room_id6=10;
     int day6=3;
     int hour6=11;
     int num_peopleC6=8;
-    int today6=0;
 
-    int room_id7=15;
+
+    int room_id7=11;
     int day7=3;
     int hour7=10;
     int num_peopleC7=8;
-    int today7=0;
+
 
     companyCreateOrder(company1,omri,room_id1,day1,hour1,num_peopleC1,today1);
-    companyCreateOrder(company1,omri,room_id2,day2,hour2,num_peopleC2,today2);
-    companyCreateOrder(company1,omri,room_id3,day3,hour3,num_peopleC3,today3);
-    companyCreateOrder(company1,omri,room_id4,day4,hour4,num_peopleC4,today4);
-    companyCreateOrder(company1,omri,room_id5,day5,hour5,num_peopleC5,today5);
-    companyCreateOrder(company1,omri,room_id6,day6,hour6,num_peopleC6,today6);
-    companyCreateOrder(company1,omri,room_id7,day7,hour7,num_peopleC7,today7);
+    companyCreateOrder(company1,omri,room_id2,day2,hour2,num_peopleC2,today1);
+    companyCreateOrder(company1,omri,room_id3,day3,hour3,num_peopleC3,today1);
+    companyCreateOrder(company1,omri,room_id4,day4,hour4,num_peopleC4,today1);
+    companyCreateOrder(company1,omri,room_id5,day5,hour5,num_peopleC5,today1);
+    companyCreateOrder(company1,omri,room_id6,day6,hour6,num_peopleC6,today1);
+    companyCreateOrder(company1,omri,room_id7,day7,hour7,num_peopleC7,today1);
 
-    int *size1=NULL;
-    int *size2=NULL;
-    int *size3=NULL;
-    List end_day1=companyEndDay(company1,today1,size1);
-    List end_day2=companyEndDay(company1,today1,size2);
-    List end_day3=companyEndDay(company1,today1,size3);
-
-
-    ASSERT_TEST(listGetSize(end_day1) == 2);
-    ASSERT_TEST(listGetSize(end_day2) == 3);
-    ASSERT_TEST(listGetSize(end_day3) == 2);
     companyDeleteCostumerOrders(company1,omri);
 
     companyDeleteRoom(company1,id1);
@@ -436,10 +410,9 @@ static bool testCompanyGetMoney()
     int num_peopleC1=8;
     int today1=0;
 
-int *size=NULL;
+    int money=0;
     companyCreateOrder(company1,yuval,room_id1,day1,hour1,num_peopleC1,today1);
-    companyEndDay(company1,0,size);
-    ASSERT_TEST(companyGetMoney(company1)==480);
+    companyEndDay(company1,0,&money);
 
     companyDeleteCostumerOrders(company1,yuval);
 
@@ -466,7 +439,7 @@ static bool testCompanyGetEmailAddress()
     char* mail_comp1="JPMorgan@company.com";
     TechnionFaculty faculty1=ELECTRICAL_ENGINEERING;
     Company company1=companyCreate(mail_comp1,faculty1);
-    ASSERT_TEST(companyGetEmailAddress(company1)=="JPMorgan@company.com");
+    ASSERT_TEST(!strcmp(companyGetEmailAddress(company1),"JPMorgan@company.com"));
     return true;
 }
 
@@ -528,7 +501,7 @@ static bool testCompanyCheckRoomExist()
     int close_hour1=13;
     int diff1=10;
 
-    companyAddRoom(company1,id1,price1,num_people1,open_hour1, close_hour1, diff1);
+    companyAddRoom(company1,id1,price1,open_hour1, close_hour1,num_people1, diff1);
     ASSERT_TEST(companyCheckRoomExist(company1)==true);
     ASSERT_TEST(companyCheckRoomExist(company2)==false);
 
@@ -577,9 +550,9 @@ static bool testCompanyDeleteCostumerOrder()
     companyCreateOrder(company2,yuval,room_id1,day1, hour1, num_peopleC1, today1);
     companyCreateOrder(company1,omri,room_id1,day1, hour1, num_peopleC1, today1);
 
-    ASSERT_TEST(companyDeleteCostumerOrders(company1,yuval)==NULL);
-    ASSERT_TEST(companyDeleteCostumerOrders(company2,yuval)==NULL);
-    ASSERT_TEST(companyDeleteCostumerOrders(company1,omri)==NULL);
+    companyDeleteCostumerOrders(company1,yuval);
+    companyDeleteCostumerOrders(company2,yuval);
+    companyDeleteCostumerOrders(company1,omri);
 
     companyDeleteCostumerOrders(company1,yuval);
     companyDeleteCostumerOrders(company2,yuval);
@@ -599,7 +572,6 @@ static bool testCompanyDeleteCostumerOrder()
 int main()
 {
     RUN_TEST(testCompanyCreate);
-    RUN_TEST(testCompanyDestroy);
     RUN_TEST(testCompanyAddRoom);
     RUN_TEST(testCompanyCreateOrder);
     RUN_TEST(testCompanyDeleteCostumerOrder);
