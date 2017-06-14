@@ -308,7 +308,8 @@ static bool testEscapeRoomRecommendScore()
     int open_hour1=5;
     int close_hour1=13;
     int diff1=10;
-    EscapeRoom  escape_room1=escapeRoomCreate(id1,price1,num_people1,open_hour1, close_hour1, diff1);
+    EscapeRoom  escape_room1=escapeRoomCreate(id1,price1,num_people1,open_hour1,
+                                              close_hour1, diff1);
 
     int costumer_level1=4;
     num_people1=7;
@@ -331,7 +332,7 @@ static bool testEscapeRoomRecommendScore()
     ASSERT_TEST(escapeRoomRecommendScore(escape_room1,costumer_level2,num_people1)==-1);
     ASSERT_TEST(escapeRoomRecommendScore(escape_room1,costumer_level3,num_people1)==-1);
     ASSERT_TEST(escapeRoomRecommendScore(escape_room1,costumer_level4,num_people1)==-1);
-    ASSERT_TEST(escapeRoomRecommendScore(escape_room1,costumer_level1,num_people2)==-1);
+    ASSERT_TEST(escapeRoomRecommendScore(escape_room1,costumer_level1,num_people2)==36);
     ASSERT_TEST(escapeRoomRecommendScore(escape_room1,costumer_level1,num_people3)==-1);
 
     escapeRoomDestroy(escape_room1);

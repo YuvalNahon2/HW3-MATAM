@@ -49,5 +49,6 @@ int main(int argc, char **argv){
         mtmPrintErrorMessage(stderr, MTM_OUT_OF_MEMORY);
     }
     getCommands(input_file,output_file);
-
+    escapeTechnionDestroy(system);
+    return 0;
 }

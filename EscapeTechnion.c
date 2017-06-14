@@ -291,10 +291,11 @@ static Costumer escapeTechnionFindCostumer(EscapeTechnion escape_technion,
     return costumer;
 }
 
-MtmErrorCode
-escapeTechnionCreateOrder(EscapeTechnion escape_technion, char *costumer_email,
-                          TechnionFaculty room_faculty, int room_id, int day,
-                          int hour, int num_people, int today) {
+MtmErrorCode escapeTechnionCreateOrder(EscapeTechnion escape_technion,
+                                       char *costumer_email,
+                                       TechnionFaculty room_faculty,
+                                       int room_id, int day,
+                                       int hour, int num_people) {
     if (escape_technion == NULL) {
         return MTM_NULL_PARAMETER;
     }
@@ -314,7 +315,7 @@ escapeTechnionCreateOrder(EscapeTechnion escape_technion, char *costumer_email,
                 company_to_order = company_iterator;
                 CompanyErrorCode company_result = companyCreateOrder(
                         company_to_order, costumer,
-                        room_id, day, hour, num_people, today);
+                        room_id, day, hour, num_people,escape_technion->current_day);
                 MtmErrorCode result = errorConverter(company_result);
                 return result;
             }
