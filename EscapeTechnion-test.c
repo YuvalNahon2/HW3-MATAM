@@ -331,32 +331,30 @@ static bool testEscapeTechnionDeleteRoom()
     int order_hour3=10;
     int num_of_people3=6;
     bool discount3=false;
-escapeTechnionCreateOrder(escapeTechnion,yuval_mail,)
+    int day=0;
+
     escapeTechnionAddRoom(escapeTechnion,mail_comp1,id1,price1,num_people1,open_hour1,close_hour1,diff1);
     escapeTechnionAddRoom(escapeTechnion,mail_comp1,id2,price2,num_people2,open_hour2,close_hour2,diff2);
     escapeTechnionAddRoom(escapeTechnion,mail_comp1,id3,price3,num_people3,open_hour3,close_hour3,diff3);
+    Order order1=escapeTechnionCreateOrder(escapeTechnion,yuval_mail,faculty1,id1,order_day3,order_hour3,num_of_people3,day);
 
 
 
-    ASSERT_TEST(escapeTechnionDeleteRoom(escapeTechnion,faculty1,id1)==))
+    ASSERT_TEST(escapeTechnionDeleteRoom(escapeTechnion,faculty1,id1)==MTM_RESERVATION_EXISTS);
+    ASSERT_TEST(escapeTechnionDeleteRoom(escapeTechnion,faculty2,id2)==MTM_NO_ROOMS_AVAILABLE);
+    ASSERT_TEST(escapeTechnionDeleteRoom(escapeTechnion,faculty3,id3)==MTM_SUCCESS);
 
+    orderDestroy(order1);
 
+    escapeTechnionDeleteRoom(escapeTechnion,faculty1,id1);
+    escapeTechnionDeleteRoom(escapeTechnion,faculty2,id2);
 
-
-
-
-
-
-
-
-
-
-
-
-
-    escapeTechnionDestroyCompany(escapeTechnion,mail_comp2);
+    escapeTechnionDestroyCostumer(escapeTechnion,yuval_mail);
     escapeTechnionDestroyCompany(escapeTechnion,mail_comp1);
+    escapeTechnionDestroyCompany(escapeTechnion,mail_comp2);
     escapeTechnionDestroy(escapeTechnion);
+
+
     return true;
 
 }
@@ -455,7 +453,95 @@ static bool testEscapeTechnionAddCostumer()
 }
 static bool testEscapeTechnionDestroyCostumer()
 {
+    EscapeTechnion escapeTechnion=NULL;
+    escapeTechnionCreate(escapeTechnion);
 
+    char* mail_comp1="JPMorgan@company.com";
+    TechnionFaculty faculty1=ELECTRICAL_ENGINEERING;
+    escapeTechnionAddCompany(escapeTechnion,mail_comp1,faculty1);
+
+
+
+    char* yuval_email="yunahon@gmail.com";
+    TechnionFaculty facultyC1=ELECTRICAL_ENGINEERING;
+    int skill_level1=3;
+
+
+    char *omri_email="omrigmail.com";
+    TechnionFaculty facultyC2=ELECTRICAL_ENGINEERING;
+    int skill_level2=3;
+
+    char* yoni_email="yoni@@gmail.com";
+    TechnionFaculty facultyC3=ELECTRICAL_ENGINEERING;
+    int skill_level3=3;
+
+
+    char *tal_email="tal@gmail.com";
+    TechnionFaculty facultyC4=UNKNOWN;
+    int skill_level4=3;
+
+
+    char* kobi_email ="kobi@gmail.com";
+    TechnionFaculty facultyC5=40;
+    int skill_level5=10;
+
+
+    char* nir_email="nir@gmail.com";
+    TechnionFaculty facultyC6=-3;
+    int skill_level6=10;
+
+    char* gal_email="gal@gmail.com";
+    TechnionFaculty facultyC7=ELECTRICAL_ENGINEERING;
+    int skill_level7=10;
+
+    char *jon_email="jon@gmail.com";
+    TechnionFaculty facultyC8=ELECTRICAL_ENGINEERING;
+    int skill_level8=0;
+
+
+    char *snow_email="snow@gmail.com";
+    TechnionFaculty facultyC9=ELECTRICAL_ENGINEERING;
+    int skill_level9=-4;
+
+
+    char *king_email="king@gmail.com";
+    TechnionFaculty facultyC10=ELECTRICAL_ENGINEERING;
+    int skill_level10=11;
+
+    char *north_email="yunahon@gmail.com";
+    TechnionFaculty facultyC11=ELECTRICAL_ENGINEERING;
+    int skill_level11=9;
+
+    escapeTechnionAddCostumer(escapeTechnion,yuval_email,facultyC1,skill_level1);
+    escapeTechnionAddCostumer(escapeTechnion,omri_email,facultyC2,skill_level2);
+    escapeTechnionAddCostumer(escapeTechnion,yoni_email,facultyC3,skill_level3);
+    escapeTechnionAddCostumer(escapeTechnion,tal_email,facultyC4,skill_level4);
+    escapeTechnionAddCostumer(escapeTechnion,kobi_email,facultyC5,skill_level5);
+    escapeTechnionAddCostumer(escapeTechnion,nir_email,facultyC6,skill_level6);
+    escapeTechnionAddCostumer(escapeTechnion,gal_email,facultyC7,skill_level7);
+    escapeTechnionAddCostumer(escapeTechnion,jon_email,facultyC8,skill_level8);
+    escapeTechnionAddCostumer(escapeTechnion,snow_email,facultyC9,skill_level9);
+    escapeTechnionAddCostumer(escapeTechnion,king_email,facultyC10,skill_level10);
+    escapeTechnionAddCostumer(escapeTechnion,north_email,facultyC11,skill_level11);
+
+
+    ASSERT_TEST(escapeTechnionDestroyCostumer(escapeTechnion,yuval_email)==MTM_SUCCESS);
+    ASSERT_TEST(escapeTechnionDestroyCostumer(escapeTechnion,omri_email)==MTM_INVALID_PARAMETER);
+    ASSERT_TEST(escapeTechnionDestroyCostumer(escapeTechnion,yoni_email)==MTM_INVALID_PARAMETER);
+    ASSERT_TEST(escapeTechnionDestroyCostumer(escapeTechnion,tal_email)==MTM_INVALID_PARAMETER);
+    ASSERT_TEST(escapeTechnionDestroyCostumer(escapeTechnion,kobi_email)==MTM_INVALID_PARAMETER);
+    ASSERT_TEST(escapeTechnionDestroyCostumer(escapeTechnion,nir_email)==MTM_INVALID_PARAMETER);
+    ASSERT_TEST(escapeTechnionDestroyCostumer(escapeTechnion,gal_email)==MTM_INVALID_PARAMETER);
+    ASSERT_TEST(escapeTechnionDestroyCostumer(escapeTechnion,jon_email)==MTM_INVALID_PARAMETER);
+    ASSERT_TEST(escapeTechnionDestroyCostumer(escapeTechnion,snow_email)==MTM_INVALID_PARAMETER);
+    ASSERT_TEST(escapeTechnionDestroyCostumer(escapeTechnion,king_email)==MTM_INVALID_PARAMETER);
+    ASSERT_TEST(escapeTechnionDestroyCostumer(escapeTechnion,north_email)==MTM_INVALID_PARAMETER);
+
+
+    escapeTechnionDestroyCompany(escapeTechnion,mail_comp1);
+
+    escapeRoomDestroy(escapeTechnion);
+    return true;
 }
 static bool testEscapeTechnionCreateOrder()
 {
@@ -582,14 +668,14 @@ static bool testEscapeTechnionCreateOrder()
     ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,tyrion_email,faculty1,id1,order_day2,order_hour2,num_of_people2,today)==MTM_INVALID_PARAMETER);
     ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty2,id1,order_day2,order_hour2,num_of_people2,today)==MTM_NULL_PARAMETER);
     ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id2,order_day2,order_hour2,num_of_people2,today)==MTM_NULL_PARAMETER);
-    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day3,order_hour3,num_of_people3,today)==MTM_);
-    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day4,order_hour4,num_of_people4,today)==);
-    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day5,order_hour5,num_of_people5,today)==);
-    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day6,order_hour6,num_of_people6,today)==);
-    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day7,order_hour7,num_of_people7,today)==);
-    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day8,order_hour8,num_of_people8,today)==);
-    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day9,order_hour9,num_of_people9,today)==);
-    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day10,order_hour10,num_of_people10,today)==);
+    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day3,order_hour3,num_of_people3,today)==MTM_INVALID_PARAMETER);
+    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day4,order_hour4,num_of_people4,today)==MTM_INVALID_PARAMETER);
+    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day5,order_hour5,num_of_people5,today)==MTM_INVALID_PARAMETER);
+    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day6,order_hour6,num_of_people6,today)==MTM_INVALID_PARAMETER);
+    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day7,order_hour7,num_of_people7,today)==MTM_INVALID_PARAMETER);
+    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day8,order_hour8,num_of_people8,today)==MTM_INVALID_PARAMETER);
+    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day9,order_hour9,num_of_people9,today)==MTM_INVALID_PARAMETER);
+    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day10,order_hour10,num_of_people10,today)==MTM_INVALID_PARAMETER);
     ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day2,order_hour2,num_of_people2,today)==MTM_RESERVATION_EXISTS);
 
     escapeTechnionDestroyCostumer(escapeTechnion,yuval_email);
@@ -636,24 +722,6 @@ static bool testEscapeTechnionOrderRecommended()
     TechnionFaculty facultyC2=ELECTRICAL_ENGINEERING;
     int skill_level2=3;
 
-    char *jon_email="jon@gmail.com";
-    TechnionFaculty facultyC3=UNKNOWN;
-    int skill_level3=3;
-
-
-
-    char *stark_email="stark@gmail.com";
-    TechnionFaculty facultyC6=ELECTRICAL_ENGINEERING;
-    int skill_level6=0;
-
-    char *tywin_email="tywin@gmail.com";
-    TechnionFaculty facultyC7=ELECTRICAL_ENGINEERING;
-    int skill_level7=11;
-
-    char *tyrion_email="tyrion@gmail.com";
-    TechnionFaculty facultyC8=ELECTRICAL_ENGINEERING;
-    int skill_level8=-5;
-
 
 
     int id1=69;
@@ -670,53 +738,7 @@ static bool testEscapeTechnionOrderRecommended()
     int close_hour2=13;
     int diff2=10;
 
-    int order_day2=4;
-    int order_hour2=10;
-    int num_of_people2=8;
-    bool discount2=false;
 
-    int order_day3=4;
-    int order_hour3=10;
-    int num_of_people3=6;
-    bool discount3=false;
-
-    int order_day4=-4;
-    int order_hour4=10;
-    int num_of_people4=8;
-    bool discount4=true;
-
-
-    int order_day5=0;
-    int order_hour5=10;
-    int num_of_people5=8;
-    bool discount5=false;
-
-    int order_day6=3;
-    int order_hour6=25;
-    int num_of_people6=8;
-    bool discount6=false;
-
-    int order_day7=3;
-    int order_hour7=18;
-    int num_of_people7=8;
-    bool discount7=false;
-
-    int order_day8=3;
-    int order_hour8=25;
-    int num_of_people8=8;
-    bool discount8=false;
-
-    int order_day9=3;
-    int order_hour9=12;
-    int num_of_people9=0;
-    bool discount9=false;
-
-    int order_day10=3;
-    int order_hour10=12;
-    int num_of_people10=-8;
-    bool discount10=false;
-
-    int today=0;
     escapeTechnionAddCompany(escapeTechnion,mail_comp1,faculty1);
     escapeTechnionAddCompany(escapeTechnion,mail_comp2,faculty2);
     escapeTechnionAddRoom(escapeTechnion,mail_comp1,id1,price1,num_people1,open_hour1,close_hour1,diff1);
@@ -730,7 +752,13 @@ static bool testEscapeTechnionOrderRecommended()
     escapeTechnionAddCostumer(escapeTechnion,tywin_email,facultyC7,skill_level7);
     escapeTechnionAddCostumer(escapeTechnion,tyrion_email,facultyC8,skill_level8);
 
-    ASSERT_TEST(escapeTechnionOrderRecommended(escapeTechnion,yuval_email,8);
+    ASSERT_TEST((escapeTechnionOrderRecommended(escapeTechnion,yuval_email,8))!=MTM_NULL_PARAMETER);
+    ASSERT_TEST(escapeTechnionOrderRecommended(escapeTechnion,omri_email,8)==MTM_NULL_PARAMETER);
+    ASSERT_TEST(escapeTechnionOrderRecommended(escapeTechnion,yuval_email,-5)==MTM_NULL_PARAMETER);
+    ASSERT_TEST(escapeTechnionOrderRecommended(escapeTechnion,yuval_email,0)==MTM_NULL_PARAMETER);
+
+
+
 
 
     escapeTechnionDestroyCostumer(escapeTechnion,yuval_email);
@@ -867,7 +895,12 @@ static bool testEscapeTechnionEndDay()
     escapeTechnionAddCostumer(escapeTechnion,tywin_email,facultyC7,skill_level7);
     escapeTechnionAddCostumer(escapeTechnion,tyrion_email,facultyC8,skill_level8);
 
-    ASSERT_TEST(escapeTechnionOrderRecommended(escapeTechnion,yuval_email,8);
+    escapeRoomOrder(escape_room1,yuval,1, 8, 5, true);
+    escapeRoomOrder(escape_room2,omri,1, 7, 10, true);
+    escapeRoomOrder(escape_room1,omri,1, 7, 6, true);
+    escapeRoomOrder(escape_room2,yuval,2, 4, 3, false);
+    escapeRoomOrder(escape_room3,omri,3, 9, 1, false);
+
 
 
     escapeTechnionDestroyCostumer(escapeTechnion,yuval_email);
@@ -890,6 +923,108 @@ static bool testEscapeTechnionEndDay()
 }
 static bool testEscapeTechnionPrintWinningFaculty()
 {
+    EscapeTechnion escapeTechnion=NULL;
+    escapeTechnionCreate(escapeTechnion);
+
+    char* mail_comp1="JPMorgan@company.com";
+    TechnionFaculty faculty1=ELECTRICAL_ENGINEERING;
+    escapeTechnionAddCompany(escapeTechnion,mail_comp1,faculty1);
+
+    char* mail_comp2="Mellanox@company.com";
+    TechnionFaculty faculty2=HUMANITIES_AND_ARTS;
+    escapeTechnionAddCompany(escapeTechnion,mail_comp2,faculty2);
+
+    char* mail_comp3="SHABAK@company.com";
+    TechnionFaculty faculty3=UNKNOWN;
+    escapeTechnionAddCompany(escapeTechnion,mail_comp3,faculty3);
+
+    int id1=69;
+    int price1=60;
+    int num_people1=10;
+    int open_hour1=5;
+    int close_hour1=13;
+    int diff1=10;
+
+    int id2=70;
+    int price2=100;
+    int num_people2=10;
+    int open_hour2=5;
+    int close_hour2=13;
+    int diff2=10;
+
+    int id3=71;
+    int price3=50;
+    int num_people3=10;
+    int open_hour3=5;
+    int close_hour3=13;
+    int diff3=10;
+
+    char* yuval_email="yunahon@gmail.com";
+    TechnionFaculty facultyC1=ELECTRICAL_ENGINEERING;
+    int skill_level1=3;
+
+
+    char *omri_email="omri@gmail.com";
+    TechnionFaculty facultyC2=ELECTRICAL_ENGINEERING;
+    int skill_level2=3;
+
+    int order_day1=1;
+    int order_hour1=6;
+    int num_of_people1=8;
+    bool discount1=false;
+
+    int order_day2=1;
+    int order_hour2=8;
+    int num_of_people2=8;
+    bool discount2=false;
+
+    int order_day3=1;
+    int order_hour3=10;
+    int num_of_people3=6;
+    bool discount3=false;
+
+    int order_day4=2;
+    int order_hour4=10;
+    int num_of_people4=8;
+    bool discount4=true;
+
+
+    int order_day5=2;
+    int order_hour5=10;
+    int num_of_people5=8;
+    bool discount5=false;
+
+    int order_day6=3;
+    int order_hour6=25;
+    int num_of_people6=8;
+    bool discount6=false;
+int day=0;
+    escapeTechnionAddCompany(escapeTechnion,mail_comp1,faculty1);
+    escapeTechnionAddCompany(escapeTechnion,mail_comp2,faculty2);
+    escapeTechnionAddCompany(escapeTechnion,mail_comp3,faculty3);
+    escapeTechnionAddRoom(escapeTechnion,mail_comp1,id1,price1,num_people1,open_hour1,close_hour1,diff1);
+    escapeTechnionAddRoom(escapeTechnion,mail_comp2,id2,price2,num_people2,open_hour2,close_hour2,diff2);
+    escapeTechnionAddRoom(escapeTechnion,mail_comp3,id3,price3,num_people3,open_hour3,close_hour3,diff3);
+    escapeTechnionAddCostumer(escapeTechnion,yuval_email,facultyC1,skill_level1);
+    escapeTechnionAddCostumer(escapeTechnion,omri_email,facultyC2,skill_level2);
+
+    escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day1,order_hour1,num_of_people1,today);
+    escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty2,id2,order_day2,order_hour2,num_of_people2,today);
+    escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty3,id3,order_day3,order_hour3,num_of_people3,today);
+    escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id4,order_day4,order_hour4,num_of_people4,today);
+    escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty2,id5,order_day5,order_hour5,num_of_people5,today);
+    escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty3,id4,order_day6,order_hour6,num_of_people6,today);
+
+    int **money=NULL;
+    escapeTechnionEndDay(escapeTechnion);
+    ASSERT_TEST(escapeTechnionPrintWinningFaculties(escapeTechnion,money));
+
+    
+
+
+
+
+
 
 }
 
@@ -905,7 +1040,7 @@ int main()
     RUN_TEST(testEscapeTechnionDestroyCompany);
     RUN_TEST(testEscapeTechnionDestroyCostumer);
     RUN_TEST(testEscapeTechnionEndDay);
-    RUN_TEST(testEscapeTechnionOrderRecommended);
+    //RUN_TEST(testEscapeTechnionOrderRecommended);
     RUN_TEST(testEscapeTechnionPrintWinningFaculty);
 
 
