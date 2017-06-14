@@ -15,9 +15,8 @@ static bool testOrderCreate()
     EscapeRoom  escape_room3=escapeRoomCreate(id3,price3,num_people3,open_hour3, close_hour3, diff3);
 
 
-    Email yuval_email;
-    yuval_email.address="yunahon@gmail.com";
-    yuval_email.user_type=COSTUMER;
+
+    char* yuval_email="yunahon@gmail.com";
     Costumer yuval=costumerCreate(yuval_email,COMPUTER_SCIENCE,4);
 
     int order_day1=4;
@@ -80,20 +79,46 @@ static bool testOrderCreate()
     int num_of_people12=8;
     bool discount12=true;
 
-    ASSERT_TEST(orderCreate(order_day1,order_hour1,&escape_room3,&yuval,num_of_people1,discount1)!=NULL);
-    ASSERT_TEST(orderCreate(order_day2,order_hour2,&escape_room3,&yuval,num_of_people2,discount2)!=NULL);
-    ASSERT_TEST(orderCreate(order_day3,order_hour3,&escape_room3,&yuval,num_of_people3,discount3)==NULL);
-    ASSERT_TEST(orderCreate(order_day4,order_hour4,&escape_room3,&yuval,num_of_people4,discount4)!=NULL);
-    ASSERT_TEST(orderCreate(order_day5,order_hour5,&escape_room3,&yuval,num_of_people5,discount5)!=NULL);
-    ASSERT_TEST(orderCreate(order_day6,order_hour6,&escape_room3,&yuval,num_of_people6,discount6)==NULL);
-    ASSERT_TEST(orderCreate(order_day7,order_hour7,&escape_room3,&yuval,num_of_people7,discount7)==NULL);
-    ASSERT_TEST(orderCreate(order_day8,order_hour8,&escape_room3,&yuval,num_of_people8,discount8)==NULL);
-    ASSERT_TEST(orderCreate(order_day9,order_hour9,&escape_room3,&yuval,num_of_people9,discount9)==NULL);
-    ASSERT_TEST(orderCreate(order_day10,order_hour10,&escape_room3,&yuval,num_of_people10,discount10)==NULL);
-    ASSERT_TEST(orderCreate(order_day11,order_hour11,&escape_room3,&yuval,num_of_people11,discount11)==NULL);
-    ASSERT_TEST(orderCreate(order_day12,order_hour12,&escape_room3,&yuval,num_of_people12,discount12)!=NULL);
+    Order order1=orderCreate(order_day1,order_hour1,&escape_room3,&yuval,num_of_people1,discount1);
+    Order order2=orderCreate(order_day2,order_hour2,&escape_room3,&yuval,num_of_people2,discount2);
+    Order order3=orderCreate(order_day3,order_hour3,&escape_room3,&yuval,num_of_people3,discount3);
+    Order order4=orderCreate(order_day4,order_hour4,&escape_room3,&yuval,num_of_people4,discount4);
+    Order order5=orderCreate(order_day5,order_hour5,&escape_room3,&yuval,num_of_people5,discount5);
+    Order order6=orderCreate(order_day6,order_hour6,&escape_room3,&yuval,num_of_people6,discount6);
+    Order order7=orderCreate(order_day7,order_hour7,&escape_room3,&yuval,num_of_people7,discount7);
+    Order order8=orderCreate(order_day8,order_hour8,&escape_room3,&yuval,num_of_people8,discount8);
+    Order order9=orderCreate(order_day9,order_hour9,&escape_room3,&yuval,num_of_people9,discount9);
+    Order order10=orderCreate(order_day10,order_hour10,&escape_room3,&yuval,num_of_people10,discount10);
+    Order order11=orderCreate(order_day11,order_hour11,&escape_room3,&yuval,num_of_people11,discount11);
+    Order order12=orderCreate(order_day12,order_hour12,&escape_room3,&yuval,num_of_people12,discount12);
+    ASSERT_TEST(order1!=NULL);
+    ASSERT_TEST(order2!=NULL);
+    ASSERT_TEST(order3==NULL);
+    ASSERT_TEST(order4!=NULL);
+    ASSERT_TEST(order5!=NULL);
+    ASSERT_TEST(order6==NULL);
+    ASSERT_TEST(order7==NULL);
+    ASSERT_TEST(order8==NULL);
+    ASSERT_TEST(order9==NULL);
+    ASSERT_TEST(order10==NULL);
+    ASSERT_TEST(order11==NULL);
+    ASSERT_TEST(order12!=NULL);
+
+    orderDestroy(order1);
+    orderDestroy(order2);
+    orderDestroy(order3);
+    orderDestroy(order4);
+    orderDestroy(order5);
+    orderDestroy(order6);
+    orderDestroy(order7);
+    orderDestroy(order8);
+    orderDestroy(order9);
+    orderDestroy(order10);
+    orderDestroy(order11);
+    orderDestroy(order12);
 
     escapeRoomDestroy(escape_room3);
+    costumerDestroy(yuval);
 
     return true;
 
@@ -111,9 +136,7 @@ static bool testOrderCopy()
     EscapeRoom  escape_room3=escapeRoomCreate(id3,price3,num_people3,open_hour3, close_hour3, diff3);
 
 
-    Email yuval_email;
-    yuval_email.address="yunahon@gmail.com";
-    yuval_email.user_type=COSTUMER;
+    char* yuval_email="yunahon@gmail.com";
     Costumer yuval=costumerCreate(yuval_email,COMPUTER_SCIENCE,4);
 
     int order_day1=4;
@@ -157,9 +180,7 @@ static bool testOrderGetCostumer()
     EscapeRoom  escape_room3=escapeRoomCreate(id3,price3,num_people3,open_hour3, close_hour3, diff3);
 
 
-    Email yuval_email;
-    yuval_email.address="yunahon@gmail.com";
-    yuval_email.user_type=COSTUMER;
+    char* yuval_email="yunahon@gmail.com";
     Costumer yuval=costumerCreate(yuval_email,COMPUTER_SCIENCE,4);
 
     int order_day1=4;
@@ -196,9 +217,7 @@ static bool testOrderGetOrderTime()
     EscapeRoom  escape_room3=escapeRoomCreate(id3,price3,num_people3,open_hour3, close_hour3, diff3);
 
 
-    Email yuval_email;
-    yuval_email.address="yunahon@gmail.com";
-    yuval_email.user_type=COSTUMER;
+    char* yuval_email="yunahon@gmail.com";
     Costumer yuval=costumerCreate(yuval_email,COMPUTER_SCIENCE,4);
 
     int order_day1=4;
@@ -237,9 +256,7 @@ static bool testOrderGetPrice()
     EscapeRoom  escape_room3=escapeRoomCreate(id3,price3,num_people3,open_hour3, close_hour3, diff3);
 
 
-    Email yuval_email;
-    yuval_email.address="yunahon@gmail.com";
-    yuval_email.user_type=COSTUMER;
+    char* yuval_email="yunahon@gmail.com";
     Costumer yuval=costumerCreate(yuval_email,COMPUTER_SCIENCE,4);
 
     int order_day1=4;
@@ -286,9 +303,7 @@ static bool testOrderCheckOrderToday()
     EscapeRoom  escape_room3=escapeRoomCreate(id3,price3,num_people3,open_hour3, close_hour3, diff3);
 
 
-    Email yuval_email;
-    yuval_email.address="yunahon@gmail.com";
-    yuval_email.user_type=COSTUMER;
+    char* yuval_email="yunahon@gmail.com";
     Costumer yuval=costumerCreate(yuval_email,COMPUTER_SCIENCE,4);
 
     int order_day1=0;
@@ -327,9 +342,7 @@ static bool testOrderCheckOrderNotToday()
     EscapeRoom  escape_room3=escapeRoomCreate(id3,price3,num_people3,open_hour3, close_hour3, diff3);
 
 
-    Email yuval_email;
-    yuval_email.address="yunahon@gmail.com";
-    yuval_email.user_type=COSTUMER;
+    char* yuval_email="yunahon@gmail.com";
     Costumer yuval=costumerCreate(yuval_email,COMPUTER_SCIENCE,4);
 
     int order_day1=0;

@@ -1,7 +1,8 @@
 
 #include "EscapeRoom.h"
 #include "test_utilities.h"
-#include <string.h>
+
+
 static bool testEscapeRoomOrder(){
     int id1=69;
     int price1=60;
@@ -20,20 +21,15 @@ static bool testEscapeRoomOrder(){
     EscapeRoom  escape_room2=escapeRoomCreate(id2,price2,num_people2,open_hour2, close_hour2, diff2);
 
 
-    Email yuval_email;
-    yuval_email.address="yunahon@gmail.com";
-    yuval_email.user_type=COSTUMER;
+    char* yuval_email="yunahon@gmail.com";
     Costumer yuval=costumerCreate(yuval_email,COMPUTER_SCIENCE,4);
 
-    Email omri_email;
-    omri_email.address="omriporking@gmail.com";
-    omri_email.user_type=COSTUMER;
-    Costumer omri=costumerCreate(omri_email,MATHEMATICS,2);
+    char* omri_email="omri@gmail.com";
+    Costumer omri=costumerCreate(omri_email,COMPUTER_SCIENCE,4);
 
-    Email eyal_email;
-    eyal_email.address="eyal@gmail.com";
-    eyal_email.user_type=COSTUMER;
-    Costumer eyal = costumerCreate(eyal_email,MECHANICAL_ENGINEERING,3);
+    char* eyal_email="eyal@gmail.com";
+    Costumer eyal=costumerCreate(eyal_email,MECHANICAL_ENGINEERING,4);
+
     ASSERT_TEST(escapeRoomOrder(escape_room1,yuval,4,9,5,false)==ROOM_SUCCESS);
     ASSERT_TEST(escapeRoomOrder(escape_room2,omri,5,19,3,false)==ROOM_NOT_AVAILABLE);
     ASSERT_TEST(escapeRoomOrder(escape_room1,yuval,4,9,5,false)==ROOM_CLIENT_IN_ROOM);
@@ -249,9 +245,7 @@ static bool testEscapeRoomDestroy()
     int diff1=10;
     EscapeRoom  escape_room1=escapeRoomCreate(id1,price1,num_people1,open_hour1, close_hour1, diff1);
 
-    Email yuval_email;
-    yuval_email.address="yunahon@gmail.com";
-    yuval_email.user_type=COSTUMER;
+    char* yuval_email="yunahon@gmail.com";
     Costumer yuval=costumerCreate(yuval_email,COMPUTER_SCIENCE,4);
 
     int id2=10;
@@ -325,11 +319,11 @@ static bool testEscapeRoomRecommendScore()
     int open_hour2=5;
     int close_hour2=13;
     int diff2=10;
+
     int costumer_level2=0;
     int costumer_level3=-3;
     int costumer_level4=12;
-    num_people2=0;
-    int num_people3=-4;
+    int num_people3=0;
 
     EscapeRoom  escape_room2=escapeRoomCreate(id2,price2,num_people2,open_hour2, close_hour2, diff2);
     ASSERT_TEST(escapeRoomRecommendScore(escape_room1,costumer_level1,num_people1)==45);
@@ -371,15 +365,11 @@ static bool testEscapeRoomEndDay()
     int diff3=5;
     EscapeRoom  escape_room3=escapeRoomCreate(id3,price3,num_people3,open_hour3, close_hour3, diff3);
 
-    Email yuval_email;
-    yuval_email.address="yunahon@gmail.com";
-    yuval_email.user_type=COSTUMER;
+    char* yuval_email="yunahon@gmail.com";
     Costumer yuval=costumerCreate(yuval_email,COMPUTER_SCIENCE,4);
 
-    Email omri_email;
-    omri_email.address="omriporking@gmail.com";
-    omri_email.user_type=COSTUMER;
-    Costumer omri=costumerCreate(omri_email,MATHEMATICS,2);
+    char* omri_email="omri@gmail.com";
+    Costumer omri=costumerCreate(omri_email,COMPUTER_SCIENCE,4);
 
     escapeRoomOrder(escape_room1,yuval,1, 8, 5, true);
     escapeRoomOrder(escape_room2,omri,1, 7, 10, true);
