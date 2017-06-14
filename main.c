@@ -43,12 +43,6 @@ int main(int argc, char **argv){
         mtmPrintErrorMessage(stderr,MTM_INVALID_COMMAND_LINE_PARAMETERS);
         return 0;
     }
-    EscapeTechnion system;
-    system=escapeTechnionCreate();
-    if(system==NULL) {
-        mtmPrintErrorMessage(stderr, MTM_OUT_OF_MEMORY);
-    }
-    getCommands(input_file,output_file,system);
-    escapeTechnionDestroy(system);
+    getCommands(input_file,output_file);
     return 0;
 }

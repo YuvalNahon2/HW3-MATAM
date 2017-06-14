@@ -3,14 +3,14 @@
 #include "Order.h"
 struct OrderS{
     OrderTime orderTime;
-    Costumer *costumer;
-    EscapeRoom *requested_room;
+    Costumer costumer;
+    EscapeRoom requested_room;
     int num_of_people;
     int price;
 };
 
-Order orderCreate(int order_day, int order_hour, EscapeRoom *escapeRoom,
-                  Costumer *costumer, int num_of_people,bool discount) {
+Order orderCreate(int order_day, int order_hour, EscapeRoom escapeRoom,
+                  Costumer costumer, int num_of_people,bool discount) {
     if(escapeRoom==NULL || costumer==NULL){
         return NULL;
     }
@@ -27,10 +27,10 @@ Order orderCreate(int order_day, int order_hour, EscapeRoom *escapeRoom,
     order->num_of_people=num_of_people;
     order->requested_room=escapeRoom;
     if(discount==true) {
-        order->price = (num_of_people*escapeRoomGetPrice(*escapeRoom) * 3) / 4;
+        order->price = (num_of_people*escapeRoomGetPrice(escapeRoom) * 3) / 4;
     }
     else {
-        order->price = num_of_people*escapeRoomGetPrice(*escapeRoom);
+        order->price = num_of_people*escapeRoomGetPrice(escapeRoom);
     }
     return order;
 }
@@ -59,7 +59,7 @@ Costumer orderGetCostumer(Order order){
     if(order==NULL){
         return NULL;
     }
-    return *order->costumer;
+    return order->costumer;
 }
 OrderTime orderGetOrderTime(Order order){
     assert(order!=NULL);
@@ -75,7 +75,7 @@ int orderGetNumPeople(Order order){
     return order->num_of_people;
 }
 EscapeRoom orderGetRoom(Order order){
-    return *order->requested_room;
+    return order->requested_room;
 }
 bool orderCheckOrderToday(ListElement order,void* today){
     assert(order!=NULL);

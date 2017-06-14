@@ -397,61 +397,61 @@ static Company escapeTechnionSearchCompany(EscapeTechnion escape_technion,
     SET_FOREACH(Company,company_iterator,escape_technion->companies){
         if(companySearchRoom(company_iterator,escape_room)){
             return company_iterator;
-        }}
+        }
+    }
     return NULL;
 }
 MtmErrorCode escapeTechnionEndDay(EscapeTechnion escape_technion,FILE *output) {
     List orders_faculties[UNKNOWN];
-    for (int i = 0; i < (int) UNKNOWN; i++) {
-        orders_faculties[i] = listCreate(escapeRoomOrderCopy,
-                                         escapeRoomOrderDestroy);
-        if (orders_faculties[i] == NULL) {
-            return MTM_OUT_OF_MEMORY;
-        }
+    for (int i = 0;  i < (int)UNKNOWN;i++) {
+        orders_faculties[i]=NULL;
+    }
+    int money_earned_company;
+    SET_FOREACH(Company,company_iterator,escape_technion->companies){
+        orders_faculties[companyGetFaculty(company_iterator)]=
+                companyEndDay(company_iterator,escape_technion->current_day,
+                              &money_earned_company);
     }
     List all_today_orders = listCreate(escapeRoomOrderCopy,
                                        escapeRoomOrderDestroy);
     if (all_today_orders == NULL) {
         return MTM_OUT_OF_MEMORY;
     }
-    SET_FOREACH(Company, company_iterator, escape_technion->companies) {
-        int money_company_earned = 0;
-        List companyOrders = companyEndDay(company_iterator,
-                                           escape_technion->current_day,
-                                           &money_company_earned);
-        listInsertLast(orders_faculties[companyGetFaculty(company_iterator)],
-                       companyOrders);
-        escape_technion->faculties_money[companyGetFaculty(company_iterator)] +=
-                money_company_earned;
-    }
-    for (int i = 0; i < UNKNOWN; i++) {
-        listSort(orders_faculties[i], compareOrdersByRooms);
-    }
-    for (int k = 0; k < UNKNOWN; k++) {
-        LIST_FOREACH(Order, order_iterator, orders_faculties[k]) {
-            listInsertLast(all_today_orders, order_iterator);
+    for(int i=0;i<(int)UNKNOWN;i++) {
+        if(orders_faculties==NULL){
+            continue;
+        }
+        LIST_FOREACH(Order, order_iterator,orders_faculties[i]){
+            listInsertLast(all_today_orders,order_iterator);
         }
     }
-    listSort(all_today_orders, compareOrdersByHour);
-    escape_technion->current_day++;
+    listSort(all_today_orders,compareOrdersByHour);
     mtmPrintDayHeader(output,escape_technion->current_day,
                       listGetSize(all_today_orders));
+    //runs through all orders.
     LIST_FOREACH(Order,order_iterator,all_today_orders) {
-        Costumer costumer=orderGetCostumer(order_iterator);
-        Company company=escapeTechnionSearchCompany(escape_technion,
-                                                    order_iterator);
-        EscapeRoom room=(orderGetRoom(order_iterator));
-        mtmPrintOrder(output, costumerGetEmailAddress(costumer),
-                      costumerGetSkillLevel(costumer),
-                      costumerGetFaculty(costumer),
-                      companyGetEmailAddress(company),
-                      companyGetFaculty(company),
-                      escapeRoomGetId(room),
-                      orderGetOrderTime(order_iterator).order_hour,
-                      escapeRoomGetDiff(room),
+        Costumer curr_costumer=orderGetCostumer(order_iterator);
+        int room_id=escapeRoomGetId(orderGetRoom(order_iterator));
+        TechnionFaculty faculty=costumerGetFaculty(curr_costumer);
+        Company curr_company=NULL;
+        //searches for the company.
+        SET_FOREACH(Company,company_finder,escape_technion->companies){
+            if(companyGetFaculty(company_finder)==faculty && companyHasRoom(company_finder,room_id)){
+                curr_company=company_finder;
+                break;
+            }
+        }
+        mtmPrintOrder(output,
+                      costumerGetEmailAddress(orderGetCostumer(order_iterator)),
+                      costumerGetSkillLevel(curr_costumer),faculty,
+                      companyGetEmailAddress(curr_company),
+                      companyGetFaculty(curr_company),
+                      room_id,orderGetOrderTime(order_iterator).order_hour,
+                      escapeRoomGetDiff(orderGetRoom(order_iterator)),
                       orderGetNumPeople(order_iterator),
                       orderGetPrice(order_iterator));
     }
+    escape_technion->current_day++;
     return MTM_SUCCESS;
 }
 void escapeTechnionPrintWinningFaculties(EscapeTechnion escape_technion,FILE *output) {

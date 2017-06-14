@@ -137,6 +137,11 @@ EscapeRoom companyGetRecommendedRoom(Company company,Costumer costumer,
     }
     return min_room;
 }
+
+static int orderCompare(ListElement order1,ListElement order2){
+    return escapeRoomGetId(orderGetRoom((Order)order1))-
+            escapeRoomGetId(orderGetRoom((Order)order2));
+}
 List companyEndDay(Company company,int day,int *money_earned) {
     assert(company!=NULL);
     List company_today_orders=listCreate(escapeRoomOrderCopy,escapeRoomOrderDestroy);
@@ -145,12 +150,13 @@ List companyEndDay(Company company,int day,int *money_earned) {
     SET_FOREACH(EscapeRoom,room_iterator,company->EscapeRooms){
         int money_earned_room=0;
         today_orders=escapeRoomEndDay(room_iterator,&money_earned_room,day);
+        money_earned_company += money_earned_room;
         LIST_FOREACH(Order,order_iterator,today_orders) {
-            money_earned_company += money_earned_room;
-            listInsertLast(company_today_orders, order_iterator);
+            listInsertLast(company_today_orders,order_iterator);
         }
     }
     *money_earned=money_earned_company;
+    listSort(company_today_orders,orderCompare);
     return company_today_orders;
 }
 TechnionFaculty companyGetFaculty(Company company)
@@ -196,9 +202,9 @@ bool companyCheckRoomExist(Company company){
     return false;
 }
 void companyDeleteCostumerOrders(Company company,Costumer costumer) {
-SET_FOREACH(EscapeRoom,room_iterator,company->EscapeRooms){
-    escapeRoomRemoveCostumerOrders(room_iterator,costumer);
-}
+    SET_FOREACH(EscapeRoom,room_iterator,company->EscapeRooms){
+        escapeRoomRemoveCostumerOrders(room_iterator,costumer);
+    }
 }
 bool companyHasRoom(Company company,int id){
     SET_FOREACH(EscapeRoom,room_iterator,company->EscapeRooms){
