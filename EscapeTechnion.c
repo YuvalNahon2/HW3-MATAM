@@ -69,17 +69,18 @@ static int escapeTechnionCompareCostumers(SetElement costumer1,
                   costumerGetEmailAddress((Costumer) costumer2));
 }
 
-MtmErrorCode escapeTechnionCreate(EscapeTechnion escape_technion) {
+EscapeTechnion escapeTechnionCreate() {
+    EscapeTechnion escape_technion;
     escape_technion = malloc(sizeof(*escape_technion));
     if (escape_technion == NULL) {
-        return MTM_OUT_OF_MEMORY;
+        return NULL;
     }
     escape_technion->companies = setCreate(escapeTechnionCopyCompany,
                                            escapeTechnionFreeCompany,
                                            escapeTechnionCompareCompanies);
     if (escape_technion->companies == NULL) {
         free(escape_technion);
-        return MTM_OUT_OF_MEMORY;
+        return NULL;
     }
     escape_technion->costumers = setCreate(escapeTechnionCopyCostumer,
                                            escapeTechnionFreeCostumer,
@@ -87,13 +88,13 @@ MtmErrorCode escapeTechnionCreate(EscapeTechnion escape_technion) {
     if (escape_technion->costumers == NULL) {
         setDestroy(escape_technion->companies);
         free(escape_technion);
-        return MTM_OUT_OF_MEMORY;
+        return NULL;
     }
     escape_technion->current_day = 0;
     for(int k=0;k<UNKNOWN;k++) {
         escape_technion->faculties_money[k]=0;
     }
-    return MTM_SUCCESS;
+    return escape_technion;
 }
 
 void escapeTechnionDestroy(EscapeTechnion escape_technion) {
@@ -117,6 +118,9 @@ static bool checkEmailAddress(char *email_address) {
 }
 
 static bool emailExists(EscapeTechnion escape_technion, char *email) {
+    if(setGetSize(escape_technion->companies)==0){
+        return false;
+    }
     SET_FOREACH(Company, company_iterator, escape_technion->companies) {
         if (strcmp(companyGetEmailAddress(company_iterator), email) == 0) {
             return true;

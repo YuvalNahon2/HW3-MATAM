@@ -15,7 +15,7 @@ int escapeTechnionGetDay(EscapeTechnion escape_technion);
  * MTM_SUCCESS - if everything went right and a new new EscapeTechnion was
  * created.
  */
-MtmErrorCode escapeTechnionCreate(EscapeTechnion escape_technion);
+EscapeTechnion escapeTechnionCreate();
 
 /**
  * destroys an EscapeTechnion.

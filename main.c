@@ -1,6 +1,6 @@
 
 #include <string.h>
-#include "stdlib.h"
+#include "parcer.h"
 #include <stdio.h>
 #include "mtm_ex3.h"
 #include "EscapeTechnion.h"
@@ -44,11 +44,11 @@ int main(int argc, char **argv){
         return 0;
     }
     EscapeTechnion system;
-    escapeTechnionCreate(system);
+    system=escapeTechnionCreate();
     if(system==NULL) {
         mtmPrintErrorMessage(stderr, MTM_OUT_OF_MEMORY);
     }
-    getCommands(input_file,output_file);
+    getCommands(input_file,output_file,system);
     escapeTechnionDestroy(system);
     return 0;
 }

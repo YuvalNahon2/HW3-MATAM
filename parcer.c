@@ -86,9 +86,7 @@ static MtmErrorCode reportSubCommand(EscapeTechnion escape_technion,FILE *output
     if(strcmp(sub_command,"best")){
         int *company_earnings;
         TechnionFaculty *faculty;
-        faculty=escapeTechnionPrintWinningFaculties(escape_technion,
-                                                    &company_earnings);
-
+        escapeTechnionPrintWinningFaculties(escape_technion,output);
     }
 }
 
@@ -100,7 +98,7 @@ static MtmErrorCode reportSubCommand(EscapeTechnion escape_technion,FILE *output
 void getCommands(FILE *input_file,FILE *output_file,
                  EscapeTechnion escape_technion){
     char* line;
-    char *command;
+    char *command=NULL;
     MtmErrorCode result;
     while(fgets(line, MAX_COMMAND_SIZE, input_file)) {
         if(line==NULL){
