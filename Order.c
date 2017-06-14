@@ -14,7 +14,7 @@ Order orderCreate(int order_day, int order_hour, EscapeRoom *escapeRoom,
     if(escapeRoom==NULL || costumer==NULL){
         return NULL;
     }
-    if(order_day<0 || order_hour<0 || order_hour>23){
+    if(order_day<0 || order_hour<0 || order_hour>23 ){
         return NULL;
     }
     Order order;
