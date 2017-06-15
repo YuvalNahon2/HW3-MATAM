@@ -1,7 +1,7 @@
 #include <assert.h>
-#include <mem.h>
+#include <string.h>
 #include "EscapeTechnion.h"
-#include "stdlib.h"
+#include <stdlib.h>
 #include "Company.h"
 #include "Order.h"
 
@@ -154,8 +154,8 @@ MtmErrorCode escapeTechnionAddCompany(EscapeTechnion escape_technion,
     SetResult result;
     result = setAdd(escape_technion->companies, company);
     companyDestroy(company);
-    if (result == SET_OUT_OF_MEMORY) {
-        return MTM_OUT_OF_MEMORY;
+    if (result == SET_ITEM_ALREADY_EXISTS) {
+        return MTM_EMAIL_ALREADY_EXISTS;
     }
     return MTM_SUCCESS;
 }
@@ -276,6 +276,7 @@ MtmErrorCode escapeTechnionDestroyCostumer(EscapeTechnion escape_technion,
                 companyDeleteCostumerOrders(company_iterator,
                                             costumer_iterator);
             }
+            setRemove(escape_technion->costumers,costumer_iterator);
         }
     }
     if (costumer_exists == false) {
@@ -316,6 +317,7 @@ MtmErrorCode escapeTechnionCreateOrder(EscapeTechnion escape_technion,
         return MTM_CLIENT_EMAIL_DOES_NOT_EXIST;
     }
     Company company_to_order = NULL;
+    
     SET_FOREACH(Company, company_iterator, escape_technion->companies) {
         if (companyGetFaculty(company_iterator) == room_faculty) {
             if (companyHasRoom(company_iterator, room_id)) {
@@ -331,7 +333,6 @@ MtmErrorCode escapeTechnionCreateOrder(EscapeTechnion escape_technion,
     return MTM_ID_DOES_NOT_EXIST;
 }
 
-/*finish this*/
 MtmErrorCode escapeTechnionOrderRecommended(EscapeTechnion escape_technion,
                                             char *costumer_email_address,
                                             int num_people) {
@@ -355,16 +356,28 @@ MtmErrorCode escapeTechnionOrderRecommended(EscapeTechnion escape_technion,
                 company_iterator,
                 costumer, num_people);
         int curr_score = escapeRoomRecommendScore(curr_recommended,
-                                                  costumerGetSkillLevel(
-                                                          costumer),
+                                                  costumerGetSkillLevel(costumer),
                                                   num_people);
         if (curr_score < min_recommend_score || min_recommend_score == -1) {
             min_recommend_room = curr_recommended;
             min_recommend_score = curr_score;
             recommended_company = company_iterator;
         }
-        if (curr_score == min_recommend_score) {
-
+        else if (curr_score == min_recommend_score) {
+            int check=abs(companyGetFaculty(company_iterator)-costumerGetFaculty(costumer))-
+                      abs(companyGetFaculty(recommended_company)-costumerGetFaculty(costumer));
+            if(check<0){
+                min_recommend_room = curr_recommended;
+                min_recommend_score = curr_score;
+                recommended_company = company_iterator;
+            }
+            else if(check==0){
+                if(escapeRoomGetId(curr_recommended)<escapeRoomGetId(min_recommend_room)){
+                    min_recommend_room = curr_recommended;
+                    min_recommend_score = curr_score;
+                    recommended_company = company_iterator;
+                }
+            }
         }
     }
     if (recommended_company == NULL || min_recommend_room == NULL) {
@@ -375,7 +388,7 @@ MtmErrorCode escapeTechnionOrderRecommended(EscapeTechnion escape_technion,
     if (escapeRoomOrderClosest(min_recommend_room, costumer, num_people,
                                discount,
                                escape_technion->current_day) ==
-        ROOM_OUT_OF_MEMORY) {
+                                                    ROOM_OUT_OF_MEMORY) {
         return MTM_OUT_OF_MEMORY;
     }
     return MTM_SUCCESS;
@@ -386,21 +399,7 @@ static int compareOrdersByHour(ListElement order1, ListElement order2) {
            orderGetOrderTime(order2).order_hour;
 }
 
-static int compareOrdersByRooms(ListElement order1, ListElement order2) {
-    return escapeRoomGetId(orderGetRoom(order1)) -
-           escapeRoomGetId(orderGetRoom(order2));
-}
 
-static Company escapeTechnionSearchCompany(EscapeTechnion escape_technion,
-                                           Order order){
-    EscapeRoom escape_room=orderGetRoom(order);
-    SET_FOREACH(Company,company_iterator,escape_technion->companies){
-        if(companySearchRoom(company_iterator,escape_room)){
-            return company_iterator;
-        }
-    }
-    return NULL;
-}
 MtmErrorCode escapeTechnionEndDay(EscapeTechnion escape_technion,FILE *output) {
     List orders_faculties[UNKNOWN];
     for (int i = 0;  i < (int)UNKNOWN;i++) {
@@ -408,9 +407,11 @@ MtmErrorCode escapeTechnionEndDay(EscapeTechnion escape_technion,FILE *output) {
     }
     int money_earned_company;
     SET_FOREACH(Company,company_iterator,escape_technion->companies){
-        orders_faculties[companyGetFaculty(company_iterator)]=
+        TechnionFaculty faculty=companyGetFaculty(company_iterator);
+        orders_faculties[faculty]=
                 companyEndDay(company_iterator,escape_technion->current_day,
                               &money_earned_company);
+        escape_technion->faculties_money[faculty]+=money_earned_company;
     }
     List all_today_orders = listCreate(escapeRoomOrderCopy,
                                        escapeRoomOrderDestroy);
@@ -429,12 +430,13 @@ MtmErrorCode escapeTechnionEndDay(EscapeTechnion escape_technion,FILE *output) {
     mtmPrintDayHeader(output,escape_technion->current_day,
                       listGetSize(all_today_orders));
     //runs through all orders.
+    Company curr_company=NULL;
     LIST_FOREACH(Order,order_iterator,all_today_orders) {
         Costumer curr_costumer=orderGetCostumer(order_iterator);
         int room_id=escapeRoomGetId(orderGetRoom(order_iterator));
         TechnionFaculty faculty=costumerGetFaculty(curr_costumer);
-        Company curr_company=NULL;
         //searches for the company.
+
         SET_FOREACH(Company,company_finder,escape_technion->companies){
             if(companyGetFaculty(company_finder)==faculty && companyHasRoom(company_finder,room_id)){
                 curr_company=company_finder;
@@ -451,47 +453,37 @@ MtmErrorCode escapeTechnionEndDay(EscapeTechnion escape_technion,FILE *output) {
                       orderGetNumPeople(order_iterator),
                       orderGetPrice(order_iterator));
     }
+    mtmPrintDayFooter(output,escape_technion->current_day);
+    for(int i=0;i<UNKNOWN;i++) {
+        listDestroy(orders_faculties[i]);
+    }
     escape_technion->current_day++;
     return MTM_SUCCESS;
 }
 void escapeTechnionPrintWinningFaculties(EscapeTechnion escape_technion,FILE *output) {
-    bool swapped;
-    int temp;
-    int money_array[UNKNOWN];
-    TechnionFaculty helperArray[UNKNOWN];
-    for(int i=0;i<(int)UNKNOWN;i++){
-        helperArray[i]=(TechnionFaculty)i;
+    //an array to store the results:
+    int max[3][2];
+    for(int i=0;i<3;i++) {
+        max[i][0] = escape_technion->faculties_money[i];
+        max[i][1] = i;
     }
-    for (int i = 0; i < UNKNOWN; i++) {
-        money_array[i] = escape_technion->faculties_money[i];
-    }
-    for (int i = 0; i < UNKNOWN - 1; i++) {
-        swapped = false;
-        for (int j = 0; j < UNKNOWN - 1 - i; j++) {
-            if (money_array[j] <
-                    money_array[j + 1]) {
-                temp = money_array[j];
-                money_array[j] = money_array[j + 1];
-                money_array[j + 1] = temp;
-
-                temp=(int)helperArray[j];
-                helperArray[j]=helperArray[j+1];
-                helperArray[j+1]=(TechnionFaculty)temp;
-                swapped = true;
-
-            }
-            if (!swapped) {
-                break;
+    int curr_max=0;
+    for(int k=0;k<3;k++) {
+        for (int i = k; i < UNKNOWN; i++) {
+            if (escape_technion->faculties_money[i] > curr_max) {
+                max[k][0] = escape_technion->faculties_money[i];
+                max[k][1]=i;
+                curr_max=escape_technion->faculties_money[i];
             }
         }
     }
     int sum_money=0;
     for(int i=0;i<(int)UNKNOWN;i++){
-        sum_money+=money_array[i];
+        sum_money+=escape_technion->faculties_money[i];
     }
     mtmPrintFacultiesHeader(output,UNKNOWN,escape_technion->current_day,sum_money);
     for(int i=0;i<3;i++) {
-        mtmPrintFaculty(output,helperArray[i],money_array[i]);
+        mtmPrintFaculty(output,(TechnionFaculty)max[i][1],max[i][0]);
     }
     mtmPrintFacultiesFooter(output);
 }

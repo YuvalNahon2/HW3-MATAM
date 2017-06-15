@@ -5,7 +5,6 @@
 #include "Order.h"
 #define POW2(x) ((x)*(x))
 
-#include "Order.h"
 struct EscapeRoomS{
     int id;
     List Orders;
@@ -100,7 +99,7 @@ static RoomErrorCode checkRoomAvailable(EscapeRoom escapeRoom,Costumer costumer,
     LIST_FOREACH(Order,iterator,escapeRoom->Orders){
         OrderTime order_time=orderGetOrderTime(iterator);
         if(order_time.order_day==day && order_time.order_hour==hour){
-            return ROOM_CLIENT_IN_ROOM;
+            return ROOM_NOT_AVAILABLE;
         }
     }
     return ROOM_SUCCESS;
@@ -115,7 +114,7 @@ RoomErrorCode escapeRoomOrder(EscapeRoom escapeRoom,Costumer costumer,
         return check_room_avaliable;
     }
     Order newOrder;
-    newOrder=orderCreate(day,hour,&escapeRoom,&costumer,num_people,discount);
+    newOrder=orderCreate(day,hour,escapeRoom,costumer,num_people,discount);
     if(newOrder==NULL) {
         return ROOM_OUT_OF_MEMORY;
     }

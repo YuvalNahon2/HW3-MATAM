@@ -11,6 +11,7 @@ int main(int argc, char **argv){
     FILE *output_file=stdout;
     bool recieved_input_file=false;
     bool recieved_output_file=false;
+    printf("%d",argc);
     if(argc!=1 && argc!=3 && argc!=5){
         mtmPrintErrorMessage(stderr,MTM_INVALID_COMMAND_LINE_PARAMETERS);
         return 0;
@@ -28,7 +29,7 @@ int main(int argc, char **argv){
             recieved_input_file=true;
             continue;
         }
-        if (strcmp(argv[k], "-o")) {
+        if (strcmp(argv[k], "-o")==0) {
             if(recieved_output_file){
                 mtmPrintErrorMessage(stderr,MTM_INVALID_COMMAND_LINE_PARAMETERS);
             }
@@ -43,6 +44,14 @@ int main(int argc, char **argv){
         mtmPrintErrorMessage(stderr,MTM_INVALID_COMMAND_LINE_PARAMETERS);
         return 0;
     }
-    getCommands(input_file,output_file);
+    EscapeTechnion escape_technion=escapeTechnionCreate();
+    getCommands(input_file,output_file,escape_technion);
+    escapeTechnionDestroy(escape_technion);
+    if(input_file!=stdin) {
+        fclose(input_file);
+    }
+    if(output_file!=stdout) {
+        fclose(output_file);
+    }
     return 0;
 }

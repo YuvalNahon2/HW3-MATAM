@@ -1,13 +1,14 @@
 
 #include "Costumer.h"
+#include "EscapeRoom.h"
 #include <stdlib.h>
-#include <assert.h>
 #include <string.h>
 
 struct CostumerS{
     char *email;
     TechnionFaculty faculty;
     int skill_level;
+
 };
 Costumer costumerCreate(char *email, TechnionFaculty faculty, int skill_level){
     Costumer costumer;

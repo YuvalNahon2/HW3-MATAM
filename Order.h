@@ -21,8 +21,8 @@ typedef struct OrderTimeS{
  * the new order if everything went right.
  * NULL if the arguments (escapeRoom or costumer) are NULL pointers.
  */
-Order orderCreate(int order_day, int order_hour, EscapeRoom *escapeRoom,
-                  Costumer *costumer, int num_of_people,bool discount);
+Order orderCreate(int order_day, int order_hour, EscapeRoom escapeRoom,
+                  Costumer costumer, int num_of_people,bool discount);
 /**
  * creates a copy of the order.
  * @param order - the order to create a copy of.

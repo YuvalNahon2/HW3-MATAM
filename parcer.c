@@ -1,14 +1,12 @@
 #include <stdio.h>
 #include "parcer.h"
-#include "mtm_ex3.h"
 #include <string.h>
 #include <stdlib.h>
-#include "EscapeTechnion.h"
 
 #define DELIMITER "- \t \n"
 #define MAX_COMMAND_SIZE 250
 static MtmErrorCode companySubCommand(EscapeTechnion escape_technion){
-    char *sub_command=strtok(NULL," ");
+    char *sub_command=strtok(NULL,DELIMITER);
     if(strcmp(sub_command,"add")==0){
         char *email=strtok(NULL,DELIMITER);
         TechnionFaculty faculty=(TechnionFaculty)atoi(strtok(NULL,DELIMITER));
@@ -22,7 +20,7 @@ static MtmErrorCode companySubCommand(EscapeTechnion escape_technion){
 }
 
 static MtmErrorCode roomSubCommand(EscapeTechnion escape_technion){
-    char *sub_command=strtok(NULL," ");
+    char *sub_command=strtok(NULL,DELIMITER);
     if(strcmp(sub_command,"add")==0){
         char *email=strtok(NULL,DELIMITER);
         int id=atoi(strtok(NULL,DELIMITER));
@@ -43,7 +41,7 @@ static MtmErrorCode roomSubCommand(EscapeTechnion escape_technion){
 }
 
 static MtmErrorCode costumerSubCommand(EscapeTechnion escape_technion){
-    char *sub_command=strtok(NULL," ");
+    char *sub_command=strtok(NULL,DELIMITER);
     if(strcmp(sub_command,"add")==0){
         char *email=strtok(NULL,DELIMITER);
         TechnionFaculty faculty=(TechnionFaculty)atoi(strtok(NULL,DELIMITER));
@@ -68,19 +66,18 @@ static MtmErrorCode costumerSubCommand(EscapeTechnion escape_technion){
     if (strcmp(sub_command,"recommend")==0){
         char *email=strtok(NULL,DELIMITER);
         int num_people=atoi(strtok(NULL,DELIMITER));
-        escapeTechnionOrderRecommended(escape_technion,email,num_people);
+        return escapeTechnionOrderRecommended(escape_technion,email,num_people);
     }
     return MTM_INVALID_PARAMETER;
 }
 
-static MtmErrorCode reportSubCommand(EscapeTechnion escape_technion,FILE *output){
-    char *sub_command=strtok(NULL," ");
-    if(strcmp(sub_command,"day")){
-        return escapeTechnionEndDay(escape_technion,output);
+static void reportSubCommand(EscapeTechnion escape_technion,FILE *output){
+    char *sub_command=strtok(NULL,DELIMITER);
+    MtmErrorCode result;
+    if(strcmp(sub_command,"day")==0){
+        result=escapeTechnionEndDay(escape_technion,output);
     }
-    if(strcmp(sub_command,"best")){
-        int *company_earnings;
-        TechnionFaculty *faculty;
+    if(strcmp(sub_command,"best")==0){
         escapeTechnionPrintWinningFaculties(escape_technion,output);
     }
 }
@@ -90,9 +87,8 @@ static MtmErrorCode reportSubCommand(EscapeTechnion escape_technion,FILE *output
 
 
 
-void getCommands(FILE *input_file,FILE *output_file){
-    EscapeTechnion escape_technion;
-    escape_technion=escapeTechnionCreate();
+void getCommands(FILE *input_file,FILE *output_file,
+                 EscapeTechnion escape_technion){
     if(system==NULL) {
         mtmPrintErrorMessage(stderr, MTM_OUT_OF_MEMORY);
     }
@@ -100,9 +96,6 @@ void getCommands(FILE *input_file,FILE *output_file){
     char *command=NULL;
     MtmErrorCode result;
     while(fgets(line, MAX_COMMAND_SIZE, input_file)) {
-        if(line==NULL){
-            break;
-        }
 
         command=strtok(line,DELIMITER);
         if(command==NULL ||command[0]=='\n' || command[0]=='#'){
@@ -128,15 +121,11 @@ void getCommands(FILE *input_file,FILE *output_file){
             }
         }
         else if(strcmp(command,"report")==0){
-            result=reportSubCommand(escape_technion,output_file);
-            if(result!=MTM_SUCCESS) {
-                mtmPrintErrorMessage(stderr, result);
-            }
+            reportSubCommand(escape_technion,output_file);
         }
         else{
             mtmPrintErrorMessage(stderr,MTM_INVALID_PARAMETER);
             return;
         }
     }
-    escapeTechnionDestroy(escape_technion);
 }

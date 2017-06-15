@@ -31,7 +31,7 @@ static bool testCostumerCreate()
 
     ASSERT_TEST(yuval!=NULL);
     ASSERT_TEST(omri!=NULL);
-    ASSERT_TEST(yoni==NULL);
+    ASSERT_TEST(yoni!=NULL);
     ASSERT_TEST(tal!=NULL);
     ASSERT_TEST(kobi==NULL);
     ASSERT_TEST(nir==NULL);
@@ -88,7 +88,7 @@ static bool testCostumerGetEmail()
 
 
     ASSERT_TEST(strcmp(costumerGetEmailAddress(yuval),"yunahon@gmail.com")==0);
-    ASSERT_TEST(costumerGetEmailAddress(omri)==NULL);
+    ASSERT_TEST(strcmp(costumerGetEmailAddress(omri),"omri@gmail.com")==0);
 
     costumerDestroy(yuval);
     costumerDestroy(omri);
@@ -108,8 +108,8 @@ static bool testCostumerCopy()
     Costumer copy1=costumerCopy(yuval);
     Costumer copy2=costumerCopy(omri);
 
-    ASSERT_TEST(copy1!=NULL);
-    ASSERT_TEST(copy2==NULL);
+    ASSERT_TEST(strcmp(costumerGetEmailAddress(copy1),"yunahon@gmail.com")==0);
+    ASSERT_TEST(strcmp(costumerGetEmailAddress(copy2),"omri@gmail.com")==0);
 
     costumerDestroy(copy1);
     costumerDestroy(copy2);
