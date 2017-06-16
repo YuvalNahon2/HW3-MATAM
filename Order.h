@@ -1,14 +1,10 @@
 #ifndef HW3_ORDER_H
 #define HW3_ORDER_H
-
+#include "list.h"
 #include "Costumer.h"
 #include "EscapeRoom.h"
-#include "list.h"
 typedef struct OrderS *Order;
-typedef struct OrderTimeS{
-    int order_day;
-    int order_hour;
-}OrderTime;
+
 /**
  * creates a new order.
  * @param order_day - the order's day.
@@ -50,7 +46,9 @@ Costumer orderGetCostumer(Order order);
  * @return the order's orderTime.
  * if the order given is NULL pointer the fuunction will return NULL.
  */
-OrderTime orderGetOrderTime(Order order);
+int orderGetOrderDay(Order order);
+
+int orderGetOrderHour(Order order);
 
 /**
  *
@@ -67,12 +65,21 @@ EscapeRoom orderGetRoom(Order order);
 /**
  * check if the order is for today.
  * @param order - the order.
- * @param day - today.
+ * @param today - today.
  * @return
  * true - the order is for today.
  * false - the order is not for today.
  *
  */
-bool orderCheckOrderToday(ListElement order,void* day);
+bool orderCheckOrderToday(ListElement order,void* today);
+/**
+ * check if the order is not for today.
+ * @param order - the order.
+ * @param today - today.
+ * @return
+ * true - the order is not for today.
+ * false - the order is for today.
+ *
+ */
 bool orderCheckOrderNotToday(ListElement order,void* today);
 #endif //HW3_ORDER_H

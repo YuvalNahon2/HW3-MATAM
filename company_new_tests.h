@@ -1,8 +1,0 @@
-//
-// Created by ZOHAR on 14/06/2017.
-//
-
-#ifndef HW3_COMPANY_NEW_TESTS_H
-#define HW3_COMPANY_NEW_TESTS_H
-
-#endif //HW3_COMPANY_NEW_TESTS_H

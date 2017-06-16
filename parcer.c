@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define DELIMITER "- \t \n"
+#define DELIMITER "- \t \n \r"
 #define MAX_COMMAND_SIZE 250
 static MtmErrorCode companySubCommand(EscapeTechnion escape_technion){
     char *sub_command=strtok(NULL,DELIMITER);
@@ -89,7 +89,7 @@ static void reportSubCommand(EscapeTechnion escape_technion,FILE *output){
 
 void getCommands(FILE *input_file,FILE *output_file,
                  EscapeTechnion escape_technion){
-    if(system==NULL) {
+    if(escape_technion==NULL) {
         mtmPrintErrorMessage(stderr, MTM_OUT_OF_MEMORY);
     }
     char line[MAX_COMMAND_SIZE];

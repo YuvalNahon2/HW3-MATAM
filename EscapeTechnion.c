@@ -310,14 +310,20 @@ MtmErrorCode escapeTechnionCreateOrder(EscapeTechnion escape_technion,
             hour<0 || hour>23 || num_people<=0) {
         return MTM_INVALID_PARAMETER;
     }
-
     Costumer costumer = escapeTechnionFindCostumer(escape_technion,
                                                    costumer_email);
+    SET_FOREACH(Company,company_iterator,escape_technion->companies) {
+        if(companyCostumerHasOrder(company_iterator,costumer,room_faculty,
+                                   room_id,day,hour)){
+            return MTM_CLIENT_IN_ROOM;
+        }
+
+    }
     if (costumer == NULL) {
         return MTM_CLIENT_EMAIL_DOES_NOT_EXIST;
     }
     Company company_to_order = NULL;
-    
+
     SET_FOREACH(Company, company_iterator, escape_technion->companies) {
         if (companyGetFaculty(company_iterator) == room_faculty) {
             if (companyHasRoom(company_iterator, room_id)) {
@@ -395,8 +401,8 @@ MtmErrorCode escapeTechnionOrderRecommended(EscapeTechnion escape_technion,
 }
 
 static int compareOrdersByHour(ListElement order1, ListElement order2) {
-    return orderGetOrderTime(order1).order_hour -
-           orderGetOrderTime(order2).order_hour;
+    return orderGetOrderHour(order1)-
+           orderGetOrderHour(order2);
 }
 
 
@@ -448,7 +454,7 @@ MtmErrorCode escapeTechnionEndDay(EscapeTechnion escape_technion,FILE *output) {
                       costumerGetSkillLevel(curr_costumer),faculty,
                       companyGetEmailAddress(curr_company),
                       companyGetFaculty(curr_company),
-                      room_id,orderGetOrderTime(order_iterator).order_hour,
+                      room_id,orderGetOrderHour(order_iterator),
                       escapeRoomGetDiff(orderGetRoom(order_iterator)),
                       orderGetNumPeople(order_iterator),
                       orderGetPrice(order_iterator));

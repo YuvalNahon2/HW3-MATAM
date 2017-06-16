@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include "company_new_tests.h"
+#include "test_utilities.h"
 #include "Order.h"
 #include "EscapeRoom.h"
 #include "company.h"
@@ -10,7 +10,7 @@ static bool testCompanyCreate()
 {
     char* mail_company="Intel@mail.com";
     TechnionFaculty company_faculty=ELECTRICAL_ENGINEERING;
-
+    Company company1;
     company1=companyCreate(mail_company,company_faculty);
     ASSERT_TEST(company1!=NULL);
     companyDestroy(company1);
@@ -21,7 +21,8 @@ static bool testCompanyAddRoom()
 {
     char* mail_company="Intel@mail.com";
     TechnionFaculty company_faculty=ELECTRICAL_ENGINEERING;
-    company=companyCreate(email,company_faculty);
+    Company company;
+    company=companyCreate(mail_company,company_faculty);
 
     int id=69;
     int price=60;
@@ -30,8 +31,7 @@ static bool testCompanyAddRoom()
     int num_people=10;
     int diff=6;
 
-    EscapeRoom room=companyAddRoom(company,id,price,open_hour,close_hour,num_people,diff);
-    ASSERT_TEST(room!=NULL);
+    companyAddRoom(company,id,price,open_hour,close_hour,num_people,diff);
     companyDeleteRoom(company,id);
     companyDestroy(company);
 
@@ -40,7 +40,8 @@ static bool testCompanyCopy()
 {
     char* mail_company="Intel@mail.com";
     TechnionFaculty company_faculty=ELECTRICAL_ENGINEERING;
-    company=companyCreate(email,company_faculty);
+    Company company;
+    company=companyCreate(mail_mail,company_faculty);
 
     Company copy=companyCopy(company);
     ASSERT_TEST(copy!=NULL);
@@ -52,7 +53,8 @@ static bool testCompanyDeleteRoom()
 {
     char* mail_company="Intel@mail.com";
     TechnionFaculty company_faculty=ELECTRICAL_ENGINEERING;
-    company=companyCreate(email,company_faculty);
+    Company company;
+    company=companyCreate(mail_company,company_faculty);
 
     int id=69;
     int price=60;
@@ -61,15 +63,16 @@ static bool testCompanyDeleteRoom()
     int num_people=10;
     int diff=6;
 
-    EscapeRoom room=companyAddRoom(company,id,price,open_hour,close_hour,num_people,diff);
-    ASSERT_TEST(companyDeleteRoom(company,room)==MTM_SUCCESS);
+    companyAddRoom(company,id,price,open_hour,close_hour,num_people,diff);
+    ASSERT_TEST(companyHasRoom(company,id)==true);
     companyDestroy(company);
+    return true;
 }
 static bool testCompanyCreateOrder()
 {
     char* mail_company="Intel@mail.com";
     TechnionFaculty company_faculty=ELECTRICAL_ENGINEERING;
-    company=companyCreate(email,company_faculty);
+    Company company=companyCreate(mail_company,company_faculty);
 
     int id=69;
     int price=60;

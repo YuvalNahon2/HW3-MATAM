@@ -12,7 +12,8 @@ static bool testOrderCreate()
     int open_hour3=5;
     int close_hour3=17;
     int diff3=8;
-    EscapeRoom  escape_room3=escapeRoomCreate(id3,price3,num_people3,open_hour3, close_hour3, diff3);
+    EscapeRoom  escape_room3=escapeRoomCreate(id3,price3,num_people3,open_hour3,
+                                              close_hour3, diff3);
 
 
 
@@ -55,13 +56,13 @@ static bool testOrderCreate()
     int num_of_people9=8;
     bool discount9=false;
 
-    Order order1=orderCreate(order_day1,order_hour1,&escape_room3,&yuval,num_of_people1,discount1);
-    Order order2=orderCreate(order_day2,order_hour2,&escape_room3,&yuval,num_of_people2,discount2);
-    Order order3=orderCreate(order_day3,order_hour3,&escape_room3,&yuval,num_of_people3,discount3);
-    Order order4=orderCreate(order_day4,order_hour4,&escape_room3,&yuval,num_of_people4,discount4);
-    Order order5=orderCreate(order_day5,order_hour5,&escape_room3,&yuval,num_of_people5,discount5);
-    Order order8=orderCreate(order_day8,order_hour8,&escape_room3,&yuval,num_of_people8,discount8);
-    Order order9=orderCreate(order_day9,order_hour9,&escape_room3,&yuval,num_of_people9,discount9);
+    Order order1=orderCreate(order_day1,order_hour1,escape_room3,yuval,num_of_people1,discount1);
+    Order order2=orderCreate(order_day2,order_hour2,escape_room3,yuval,num_of_people2,discount2);
+    Order order3=orderCreate(order_day3,order_hour3,escape_room3,yuval,num_of_people3,discount3);
+    Order order4=orderCreate(order_day4,order_hour4,escape_room3,yuval,num_of_people4,discount4);
+    Order order5=orderCreate(order_day5,order_hour5,escape_room3,yuval,num_of_people5,discount5);
+    Order order8=orderCreate(order_day8,order_hour8,escape_room3,yuval,num_of_people8,discount8);
+    Order order9=orderCreate(order_day9,order_hour9,escape_room3,yuval,num_of_people9,discount9);
     ASSERT_TEST(order1!=NULL);
     ASSERT_TEST(order2!=NULL);
     ASSERT_TEST(order3==NULL);
@@ -112,8 +113,8 @@ static bool testOrderCopy()
     int num_of_people3=8;
     bool discount3=false;
 
-    Order order1=orderCreate(order_day1,order_hour1,&escape_room3,&yuval,num_of_people1,discount1);
-    Order order2=orderCreate(order_day3,order_hour3,&escape_room3,&yuval,num_of_people3,discount3);
+    Order order1=orderCreate(order_day1,order_hour1,escape_room3,yuval,num_of_people1,discount1);
+    Order order2=orderCreate(order_day3,order_hour3,escape_room3,yuval,num_of_people3,discount3);
 
     Order copy1=orderCopy(order1);
     Order copy2=orderCopy(order2);
@@ -155,8 +156,8 @@ static bool testOrderGetCostumer()
     int order_hour2=25;
     int num_of_people2=8;
     bool discount2=false;
-    Order order1=orderCreate(order_day1,order_hour1,&escape_room3,&yuval,num_of_people1,discount1);
-    Order order2=orderCreate(order_day2,order_hour2,&escape_room3,&yuval,num_of_people2,discount2);
+    Order order1=orderCreate(order_day1,order_hour1,escape_room3,yuval,num_of_people1,discount1);
+    Order order2=orderCreate(order_day2,order_hour2,escape_room3,yuval,num_of_people2,discount2);
 
     ASSERT_TEST((orderGetCostumer(order1)!=NULL));
     ASSERT_TEST((orderGetCostumer(order2)==NULL));
@@ -192,11 +193,11 @@ static bool testOrderGetOrderTime()
     int order_hour2=25;
     int num_of_people2=8;
     bool discount2=false;
-    Order order1=orderCreate(order_day1,order_hour1,&escape_room3,&yuval,num_of_people1,discount1);
-    Order order2=orderCreate(order_day2,order_hour2,&escape_room3,&yuval,num_of_people2,discount2);
+    Order order1=orderCreate(order_day1,order_hour1,escape_room3,yuval,num_of_people1,discount1);
+    Order order2=orderCreate(order_day2,order_hour2,escape_room3,yuval,num_of_people2,discount2);
 
-    ASSERT_TEST((orderGetOrderTime(order1)).order_hour==13);
-    ASSERT_TEST((orderGetOrderTime(order1)).order_day==4);
+    ASSERT_TEST((orderGetOrderHour(order2)==-1));
+    ASSERT_TEST((orderGetOrderDay(order1)==4));
 
     orderDestroy(order1);
     orderDestroy(order2);
@@ -236,9 +237,9 @@ static bool testOrderGetPrice()
     bool discount3=true;
 
 
-    Order order1=orderCreate(order_day1,order_hour1,&escape_room3,&yuval,num_of_people1,discount1);
-    Order order2=orderCreate(order_day2,order_hour2,&escape_room3,&yuval,num_of_people2,discount2);
-    Order order3=orderCreate(order_day3,order_hour3,&escape_room3,&yuval,num_of_people3,discount3);
+    Order order1=orderCreate(order_day1,order_hour1,escape_room3,yuval,num_of_people1,discount1);
+    Order order2=orderCreate(order_day2,order_hour2,escape_room3,yuval,num_of_people2,discount2);
+    Order order3=orderCreate(order_day3,order_hour3,escape_room3,yuval,num_of_people3,discount3);
 
     ASSERT_TEST(orderGetPrice(order1)==320);
     ASSERT_TEST(orderGetPrice(order2)==-1);
@@ -276,8 +277,8 @@ static bool testOrderCheckOrderToday()
     int order_hour2=13;
     int num_of_people2=8;
     bool discount2=false;
-    Order order1=orderCreate(order_day1,order_hour1,&escape_room3,&yuval,num_of_people1,discount1);
-    Order order2=orderCreate(order_day2,order_hour2,&escape_room3,&yuval,num_of_people2,discount2);
+    Order order1=orderCreate(order_day1,order_hour1,escape_room3,yuval,num_of_people1,discount1);
+    Order order2=orderCreate(order_day2,order_hour2,escape_room3,yuval,num_of_people2,discount2);
     int day1=0;
     int day2=1;
     ASSERT_TEST(orderCheckOrderToday(order1,&day1)==true);
@@ -315,8 +316,8 @@ static bool testOrderCheckOrderNotToday()
     int order_hour2=13;
     int num_of_people2=8;
     bool discount2=false;
-    Order order1=orderCreate(order_day1,order_hour1,&escape_room3,&yuval,num_of_people1,discount1);
-    Order order2=orderCreate(order_day2,order_hour2,&escape_room3,&yuval,num_of_people2,discount2);
+    Order order1=orderCreate(order_day1,order_hour1,escape_room3,yuval,num_of_people1,discount1);
+    Order order2=orderCreate(order_day2,order_hour2,escape_room3,yuval,num_of_people2,discount2);
     int day1=0;
     int day2=20;
     ASSERT_TEST(orderCheckOrderNotToday(order1,&day1)==false);

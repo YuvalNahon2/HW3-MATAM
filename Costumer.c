@@ -1,6 +1,5 @@
 
 #include "Costumer.h"
-#include "EscapeRoom.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -8,9 +7,10 @@ struct CostumerS{
     char *email;
     TechnionFaculty faculty;
     int skill_level;
-
 };
 Costumer costumerCreate(char *email, TechnionFaculty faculty, int skill_level){
+    if(skill_level<1 || skill_level>10)
+        return NULL;
     Costumer costumer;
     costumer = malloc(sizeof(*costumer));
     if(costumer==NULL){
@@ -19,8 +19,6 @@ Costumer costumerCreate(char *email, TechnionFaculty faculty, int skill_level){
     costumer->email=malloc(strlen(email)+1);
     strcpy(costumer->email,email);
     costumer->faculty=faculty;
-    if(skill_level<1 || skill_level>10)
-        return NULL;
     costumer->skill_level=skill_level;
     return costumer;
 }

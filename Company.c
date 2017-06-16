@@ -35,8 +35,6 @@ static CompanyErrorCode roomErrorToCompanyError(RoomErrorCode room_error){
             return COMPANY_OUT_OF_MEMORY;
         case ROOM_SUCCESS:
             return COMPANY_SUCCESS;
-        case ROOM_CLIENT_IN_ROOM:
-            return COMPANY_CLIENT_IN_ROOM;
         case ROOM_NOT_AVAILABLE:
             return COMPANY_ROOM_NOT_AVAILABLE;
         case ROOM_INVALID_ARGUMENT:
@@ -61,7 +59,6 @@ Company companyCreate(char* email,TechnionFaculty faculty){
     company->EscapeRooms=setCreate(companyCopyRoom,companyDestroyRoom,companyCompareRooms);
     return company;
 }
-
 void companyDestroy(Company company){
     if(company==NULL){
         return;
@@ -75,6 +72,7 @@ void companyDestroy(Company company){
 }
 Company companyCopy(Company company){
     Company new_company=companyCreate(company->email,company->faculty);
+    setDestroy(new_company->EscapeRooms);
     new_company->EscapeRooms=setCopy(company->EscapeRooms);
     return new_company;
 }
@@ -96,6 +94,7 @@ CompanyErrorCode companyAddRoom(Company company,int id,int price,
     if(setAdd(company->EscapeRooms,new_room)==SET_ITEM_ALREADY_EXISTS){
         return COMPANY_ROOM_ALREADY_EXIST;
     }
+    escapeRoomDestroy(new_room);
     return COMPANY_SUCCESS;
 }
 CompanyErrorCode companyCreateOrder(Company company,Costumer costumer,int room_id,int day,
@@ -206,6 +205,18 @@ void companyDeleteCostumerOrders(Company company,Costumer costumer) {
 bool companyHasRoom(Company company,int id){
     SET_FOREACH(EscapeRoom,room_iterator,company->EscapeRooms){
         if(escapeRoomGetId(room_iterator)==id){
+            return true;
+        }
+    }
+    return false;
+}
+bool companyCostumerHasOrder(Company company,Costumer costumer,
+                             TechnionFaculty room_faculty, int room_id,
+                             int day,int hour){
+    SET_FOREACH(EscapeRoom,room_iterator,company->EscapeRooms){
+        if(escapeRoomGetId(room_iterator)==room_id &&
+                escapeRoomCostumerHasOrder(room_iterator,costumer,room_faculty,
+                                           day, hour)){
             return true;
         }
     }

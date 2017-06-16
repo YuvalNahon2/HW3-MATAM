@@ -661,13 +661,13 @@ static bool testEscapeTechnionCreateOrder()
 
     ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day2,order_hour2,num_of_people2)==MTM_SUCCESS);
     ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,omri_email,faculty1,id1,order_day2,order_hour2,num_of_people2)==MTM_INVALID_PARAMETER);
-    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,jon_email,faculty1,id1,order_day2,order_hour2,num_of_people2)==MTM_CLIENT_IN_ROOM);
+    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,jon_email,faculty1,id1,order_day2,order_hour2,num_of_people2)==MTM_ROOM_NOT_AVAILABLE);
     ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,stark_email,faculty1,id1,order_day2,order_hour2,num_of_people2)==MTM_CLIENT_EMAIL_DOES_NOT_EXIST);
     ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,tywin_email,faculty1,id1,order_day2,order_hour2,num_of_people2)==MTM_CLIENT_EMAIL_DOES_NOT_EXIST);
     ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,tyrion_email,faculty1,id1,order_day2,order_hour2,num_of_people2)==MTM_CLIENT_EMAIL_DOES_NOT_EXIST);
-    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty2,id1,order_day2,order_hour2,num_of_people2)==MTM_CLIENT_IN_ROOM);
+    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty2,id1,order_day2,order_hour2,num_of_people2)==MTM_SUCCESS);
     ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id2,order_day2,order_hour2,num_of_people2)==MTM_ID_DOES_NOT_EXIST);
-    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day3,order_hour3,num_of_people3)==MTM_CLIENT_IN_ROOM);
+    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day3,order_hour3,num_of_people3)==ROOM_NOT_AVAILABLE);
     ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day4,order_hour4,num_of_people4)==MTM_INVALID_PARAMETER);
     ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day5,order_hour5,num_of_people5)==MTM_SUCCESS);
     ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day6,order_hour6,num_of_people6)==MTM_INVALID_PARAMETER);
@@ -675,7 +675,7 @@ static bool testEscapeTechnionCreateOrder()
     ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day8,order_hour8,num_of_people8)==MTM_INVALID_PARAMETER);
     ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day9,order_hour9,num_of_people9)==MTM_INVALID_PARAMETER);
     ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day10,order_hour10,num_of_people10)==MTM_INVALID_PARAMETER);
-    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day2,order_hour2,num_of_people2)==MTM_CLIENT_IN_ROOM);
+    ASSERT_TEST(escapeTechnionCreateOrder(escapeTechnion,yuval_email,faculty1,id1,order_day2,order_hour2,num_of_people2)==MTM_ROOM_NOT_AVAILABLE);
 
     escapeTechnionDestroyCostumer(escapeTechnion,yuval_email);
     escapeTechnionDestroyCostumer(escapeTechnion,omri_email);

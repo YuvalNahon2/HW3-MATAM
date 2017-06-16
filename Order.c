@@ -3,7 +3,8 @@
 #include "Order.h"
 
 struct OrderS{
-    OrderTime orderTime;
+    int order_day;
+    int order_hour;
     Costumer costumer;
     EscapeRoom requested_room;
     int num_of_people;
@@ -22,8 +23,8 @@ Order orderCreate(int order_day, int order_hour, EscapeRoom escapeRoom,
     order=malloc(sizeof(*order));
     if(order==NULL)
         return order;
-    order->orderTime.order_day=order_day;
-    order->orderTime.order_hour=order_hour;
+    order->order_day=order_day;
+    order->order_hour=order_hour;
     order->costumer=costumer;
     order->num_of_people=num_of_people;
     order->requested_room=escapeRoom;
@@ -46,8 +47,8 @@ Order orderCopy(Order order){
         return NULL;
     newOrder->costumer=order->costumer;
     newOrder->num_of_people=order->num_of_people;
-    newOrder->orderTime.order_day=order->orderTime.order_day;
-    newOrder->orderTime.order_hour=order->orderTime.order_hour;
+    newOrder->order_day=order->order_day;
+    newOrder->order_hour=order->order_hour;
     newOrder->requested_room=order->requested_room;
     newOrder->price=order->price;
     return newOrder;
@@ -62,9 +63,15 @@ Costumer orderGetCostumer(Order order){
     }
     return order->costumer;
 }
-OrderTime orderGetOrderTime(Order order){
+int orderGetOrderDay(Order order){
     assert(order!=NULL);
-    return order->orderTime;
+    return order->order_day;
+}
+int orderGetOrderHour(Order order){
+    if(order==NULL){
+        return -1;
+    }
+    return order->order_hour;
 }
 int orderGetPrice(Order order) {
     if (order == NULL) {
@@ -80,9 +87,9 @@ EscapeRoom orderGetRoom(Order order){
 }
 bool orderCheckOrderToday(ListElement order,void* today){
     assert(order!=NULL);
-    return ((Order)order)->orderTime.order_day==*(int*)today;
+    return ((Order)order)->order_day==*(int*)today;
 }
 bool orderCheckOrderNotToday(ListElement order,void* today){
     assert(order!=NULL);
-    return ((Order)order)->orderTime.order_day!=*(int*)today;
+    return ((Order)order)->order_day!=*(int*)today;
 }

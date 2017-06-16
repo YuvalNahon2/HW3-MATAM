@@ -60,7 +60,10 @@ EscapeRoom escapeRoomCreate ( int id,
     escapeRoom->Orders=ordersList;
     return escapeRoom;
     }
-
+void escapeRoomDestroyNoPer(EscapeRoom escape_room){
+    listDestroy(escape_room->Orders);
+    free(escape_room);
+}
 RoomErrorCode escapeRoomDestroy(EscapeRoom escapeRoom){
     if(escapeRoom==NULL){
         return ROOM_NULL_PARAMETER;
@@ -89,7 +92,9 @@ EscapeRoom escapeRoomCopy(EscapeRoom src){
 //remove costumer..
 static RoomErrorCode checkRoomAvailable(EscapeRoom escapeRoom,Costumer costumer,
                                int day,int hour){
-    assert(escapeRoom!=NULL && costumer!=NULL);
+    if(escapeRoom==NULL || costumer==NULL){
+        return ROOM_NULL_PARAMETER;
+    }
     if(hour>23 || hour<0) {
         return ROOM_INVALID_ARGUMENT;
     }
@@ -97,8 +102,9 @@ static RoomErrorCode checkRoomAvailable(EscapeRoom escapeRoom,Costumer costumer,
         return ROOM_NOT_AVAILABLE;
     }
     LIST_FOREACH(Order,iterator,escapeRoom->Orders){
-        OrderTime order_time=orderGetOrderTime(iterator);
-        if(order_time.order_day==day && order_time.order_hour==hour){
+        int order_day=orderGetOrderDay(iterator);
+        int order_hour=orderGetOrderHour(iterator);
+        if(order_day==day && order_hour==hour){
             return ROOM_NOT_AVAILABLE;
         }
     }
@@ -118,7 +124,7 @@ RoomErrorCode escapeRoomOrder(EscapeRoom escapeRoom,Costumer costumer,
     if(newOrder==NULL) {
         return ROOM_OUT_OF_MEMORY;
     }
-    listInsertLast(escapeRoom->Orders,(ListElement)newOrder);
+    listInsertLast(escapeRoom->Orders,newOrder);
     orderDestroy(newOrder);
     return ROOM_SUCCESS;
 }
@@ -197,4 +203,17 @@ RoomErrorCode escapeRoomOrderClosest(EscapeRoom escape_room,Costumer costumer,
     }
     return escapeRoomOrder(escape_room,costumer,day,hour,num_people,discount);
 
+}
+
+bool escapeRoomCostumerHasOrder(EscapeRoom room,Costumer costumer,
+                        TechnionFaculty room_faculty,int day,int hour){
+    LIST_FOREACH(Order,order_iterator,room->Orders){
+        int order_day=orderGetOrderDay(order_iterator);
+        int order_hour=orderGetOrderHour(order_iterator);
+        if(orderGetCostumer(order_iterator)==costumer && order_day==day &&
+                order_hour==hour){
+            return true;
+        }
+    }
+    return false;
 }

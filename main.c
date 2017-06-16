@@ -11,7 +11,6 @@ int main(int argc, char **argv){
     FILE *output_file=stdout;
     bool recieved_input_file=false;
     bool recieved_output_file=false;
-    printf("%d",argc);
     if(argc!=1 && argc!=3 && argc!=5){
         mtmPrintErrorMessage(stderr,MTM_INVALID_COMMAND_LINE_PARAMETERS);
         return 0;

@@ -143,5 +143,6 @@ void companyDeleteCostumerOrders(Company company,Costumer costumer);
 
 
 bool companyHasRoom(Company company,int id);
-bool companySearchRoom(Company company,EscapeRoom escape_room);
+bool companyCostumerHasOrder(Company company,Costumer costumer,TechnionFaculty room_faculty,
+                             int room_id,int day,int hour);
 #endif //HW3_COMPANY_H

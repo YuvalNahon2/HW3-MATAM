@@ -111,7 +111,7 @@ static bool testCompanyCreateOrder()
     char* omri_email="omriporkinggmail.com";
     Costumer omri=costumerCreate(omri_email,MATHEMATICS,2);
 
-    char* eyal_email="eyel@gmail.com";
+    char* eyal_email="eyal@gmail.com";
     Costumer eyal = costumerCreate(eyal_email,MECHANICAL_ENGINEERING,3);
 
 
@@ -188,14 +188,14 @@ static bool testCompanyCreateOrder()
 
     ASSERT_TEST(companyCreateOrder(company1,yuval,room_id1,day1,hour1,num_peopleC1,today1)==COMPANY_SUCCESS);
     ASSERT_TEST(companyCreateOrder(company2,yuval,room_id1,day1,hour1,num_peopleC1,today1)==COMPANY_ROOM_DOESNT_EXIST);
-    ASSERT_TEST(companyCreateOrder(company1,omri,room_id1,day1,hour1,num_peopleC1,today1)==COMPANY_CLIENT_IN_ROOM);
+    ASSERT_TEST(companyCreateOrder(company1,omri,room_id1,day1,hour1,num_peopleC1,today1)==COMPANY_ROOM_NOT_AVAILABLE);
 
     ASSERT_TEST(companyCreateOrder(company1,yuval,room_id2,day2,hour2,num_peopleC2,today2)==COMPANY_ROOM_DOESNT_EXIST);
     ASSERT_TEST(companyCreateOrder(company1,yuval,room_id3,day3,hour3,num_peopleC3,today3)==COMPANY_SUCCESS);
     ASSERT_TEST(companyCreateOrder(company1,yuval,room_id6,day6,hour6,num_peopleC6,today6)==COMPANY_INVALID_ARGUMENT);
     ASSERT_TEST(companyCreateOrder(company1,yuval,room_id7,day7,hour7,num_peopleC7,today7)==COMPANY_INVALID_ARGUMENT);
     ASSERT_TEST(companyCreateOrder(company1,eyal,room_id8,day8,hour8,num_peopleC8,today8)==COMPANY_ROOM_NOT_AVAILABLE);
-    ASSERT_TEST(companyCreateOrder(company1,yuval,room_id9,day9,hour9,num_peopleC9,today9)==COMPANY_CLIENT_IN_ROOM);
+    ASSERT_TEST(companyCreateOrder(company1,yuval,room_id9,day9,hour9,num_peopleC9,today9)==COMPANY_ROOM_NOT_AVAILABLE);
 
     companyDeleteCostumerOrders(company1,yuval);
     companyDeleteCostumerOrders(company1,omri);
@@ -484,36 +484,6 @@ static bool testCompanyOrderExists()
 }
 
 
-static bool testCompanyCheckRoomExist()
-{
-    char* mail_comp1="JPMorgan@company.com";
-    TechnionFaculty faculty1=ELECTRICAL_ENGINEERING;
-    Company company1=companyCreate(mail_comp1,faculty1);
-
-    char* mail_comp2="Elbit@company.com";
-    TechnionFaculty faculty2=ELECTRICAL_ENGINEERING;
-    Company company2=companyCreate(mail_comp2,faculty2);
-
-    int id1=69;
-    int price1=60;
-    int num_people1=10;
-    int open_hour1=5;
-    int close_hour1=13;
-    int diff1=10;
-
-    companyAddRoom(company1,id1,price1,open_hour1, close_hour1,num_people1, diff1);
-    ASSERT_TEST(companyCheckRoomExist(company1)==true);
-    ASSERT_TEST(companyCheckRoomExist(company2)==false);
-
-    companyDeleteRoom(company1,id1);
-    companyDeleteRoom(company2,id1);
-    companyDestroy(company1);
-    companyDestroy(company2);
-
-
-
-    return true;
-}
 static bool testCompanyDeleteCostumerOrder()
 {
     char* mail_comp1="JPMorgan@company.com";
@@ -581,7 +551,6 @@ int main()
     RUN_TEST(testCompanyGetMoney);
     RUN_TEST(testCompanyGetRecommendedRoom);
     RUN_TEST(testCompanyOrderExists);
-    RUN_TEST(testCompanyCheckRoomExist);
 }
 
 
